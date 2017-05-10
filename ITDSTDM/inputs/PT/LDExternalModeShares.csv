@@ -1,0 +1,4 @@
+Mode,Auto,Air,TransitDrive,TransitWalk,HsrDrive,HsrWalk
+HOUSEHOLD,0.765,0.235,0,0,0,0
+WORKRELATED,0.1996,0.8004,0,0,0,0
+OTHER,0.5497,0.4503,0,0,0,0

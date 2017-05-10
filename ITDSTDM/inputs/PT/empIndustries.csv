@@ -1,0 +1,47 @@
+empIndustry,description
+No_Industry,No industry
+AgforF,"Agriculture, Forestry, Fishing and Hunting"
+MiningF,"Mining, Quarrying, and Oil and Gas Extraction "
+UtilF,Utilities
+ConstrF,Construction
+ManufF,Manufacturing
+WhlsaleF,Wholesale Trade 
+RetailF,Retail Trade 
+TrawhseF,Transportation and Warehousing
+InfoF,Information
+FininsF,Finance and Insurance
+EduK12,K - 12 Education
+EduHigh,Higher Education
+EduOthers,Other Educational Services
+RealestF,"Real Estate, Rental and Leasing "
+ProftechF,"Professional, Scientific, and Technical Services"
+MgmtF,Management of Companies and Enterprises
+WastadmnF,"Administrative and Support, Waste Management and Remediation Services"
+HealthF,Health Care and Social Assistance
+ArtsentF,"Arts, Entertainment and Recreation"
+FoodlodgF,Accommodation and Food Services
+OtherF,Other Services (except Public Administration)
+PublicF,Public Administration
+TotEmp,Total Employment
+sdtRetail,Retail
+sdtOtherServ,Other Services
+sdtHealth,Health
+sdtTransportation,Transportation and Handling
+sdtK12Ed,K-12 Education
+sdtHigherEd,Higher Education
+sdtOtherEd,Other Educational Services
+sdtPublicAdmin,Public Administration
+sdtOther,Other
+ldtAgriMining,Agriculture and Mining
+ldtConst,Construction
+ldtManu,Manufacturing
+ldtTransportation,Transportation/Communications/Utilities
+ldtWholesale,Wholesale
+ldtRetail,Retail
+ldtOtherService,Other Services
+ldtHealth,Health
+ldtEducation,Education
+ldFinance,"Finance, Insurance & Real Estate (FIRE)"
+ldtPublicAdmin,Public Administration
+ldtHotel,Hotel
+ldtOther,Other

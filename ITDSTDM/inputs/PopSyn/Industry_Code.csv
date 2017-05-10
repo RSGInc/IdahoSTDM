@@ -1,0 +1,273 @@
+Census2007CategoryTitle,IndustryCode,2007CensusCode,CatInd
+Crop production  ,11,170,1
+Animal production  ,11,180,1
+Forestry except logging ,11,190,1
+Logging ,11,270,1
+"Fishing, hunting and trapping ",11,280,1
+Support activities for agriculture and forestry ,11,290,1
+Oil and gas extraction ,21,370,2
+Coal mining ,21,380,2
+Metal ore mining ,21,390,2
+Nonmetallic mineral mining and quarrying ,21,470,2
+Not specified type of mining,21,480,2
+Support activities for mining ,21,490,2
+"Electric power generation, transmission and distribution",22,570,3
+Natural gas distribution ,22,580,3
+"Electric and gas, and other combinations ",22,590,3
+"Water, steam, air-conditioning, and irrigation systems ",22,670,3
+Sewage treatment facilities ,22,680,3
+Not specified utilities ,22,690,3
+Construction (the cleaning of buildings and dwellings is incidental during construction and immediately after construction),23,770,4
+"Animal food, grain and oilseed milling ",31,1070,5
+Sugar and confectionery products ,31,1080,5
+Fruit and vegetable preserving and specialty food manufacturing              ,31,1090,5
+Dairy product manufacturing,31,1170,5
+Animal slaughtering and processing ,31,1180,5
+Retail bakeries ,31,1190,5
+"Bakeries, except retail  ",31,1270,5
+"Seafood and other miscellaneous foods, n.e.c. ",31,1280,5
+Not specified food industries,31,1290,5
+Beverage manufacturing,31,1370,5
+Tobacco manufacturing,31,1390,5
+"Fiber, yarn, and thread mills ",31,1470,5
+"Fabric mills, except knitting mills",31,1480,5
+Textile and fabric finishing and fabric coating mills ,31,1490,5
+Carpet and rug mills,31,1570,5
+"Textile product mills, except carpet and rug",31,1590,5
+"Knitting fabric mills, and apparel knitting mills ",31,1670,5
+Cut and sew apparel manufacturing,31,1680,5
+Apparel accessories and other apparel manufacturing,31,1690,5
+Footwear manufacturing,31,1770,5
+Leather tanning and finishing and other allied products manufacturing,31,1790,5
+"Pulp, paper, and paperboard mills ",32,1870,5
+Paperboard containers and boxes ,32,1880,5
+Miscellaneous paper and pulp products  ,32,1890,5
+Printing and related support activities ,32,1990,5
+Petroleum refining ,32,2070,5
+Miscellaneous petroleum and coal products,32,2090,5
+"Resin, synthetic rubber, and fibers and filaments manufacturing   ",32,2170,5
+Agricultural chemical manufacturing  ,32,2180,5
+Pharmaceutical and medicine manufacturing,32,2190,5
+"Paint, coating, and adhesive manufacturing ",32,2270,5
+"Soap, cleaning compound, and cosmetics manufacturing ",32,2280,5
+Industrial and miscellaneous chemicals ,32,2290,5
+Plastics product manufacturing ,32,2370,5
+Tire manufacturing ,32,2380,5
+"Rubber products, except tires, manufacturing ",32,2390,5
+"Pottery, ceramics, and plumbing fixture manufacturing  ",32,2470,5
+Structural clay product manufacturing ,32,2480,5
+Glass and glass product manufacturing ,32,2490,5
+"Cement, concrete, lime, and gypsum product manufacturing ",32,2570,5
+Miscellaneous nonmetallic mineral product manufacturing ,32,2590,5
+Iron and steel mills and steel product manufacturing  ,33,2670,5
+Aluminum production and processing  ,33,2680,5
+Nonferrous metal (except aluminum) production and processing ,33,2690,5
+Foundries ,33,2770,5
+Metal forgings and stampings ,33,2780,5
+Cutlery and hand tool manufacturing  ,33,2790,5
+"Structural metals, and boiler, tank, and shipping container manufacturing ",33,2870,5
+"Machine shops; turned product; screw, nut, and bolt manufacturing  ",33,2880,5
+"Coating, engraving, heat treating, and allied activities ",33,2890,5
+Ordnance ,33,2970,5
+Miscellaneous fabricated metal products manufacturing             ,33,2980,5
+Not specified metal industries,33,2990,5
+Agricultural implement manufacturing ,33,3070,5
+"Construction, and mining and oil and gas field machinery manufacturing ",33,3080,5
+Commercial and service industry machinery manufacturing,33,3090,5
+Metalworking machinery manufacturing,33,3170,5
+"Engines, turbines, and power transmission equipment manufacturing ",33,3180,5
+"Machinery manufacturing, n.e.c. ",33,3190,5
+Not specified machinery manufacturing,33,3290,5
+Computer and peripheral equipment manufacturing,33,3360,5
+"Communications, and audio and video equipment manufacturing",33,3370,5
+"Navigational, measuring, electromedical, and control instruments manufacturing",33,3380,5
+"Electronic component and product manufacturing, n.e.c. ",33,3390,5
+Household appliance manufacturing ,33,3470,5
+"Electric lighting and electrical equipment manufacturing, and other electrical component manufacturing, n.e.c.",33,3490,5
+Motor vehicles and motor vehicle equipment manufacturing ,33,3570,5
+Aircraft and parts manufacturing,33,3580,5
+Aerospace products and parts manufacturing ,33,3590,5
+Railroad rolling stock manufacturing,33,3670,5
+Ship and boat building ,33,3680,5
+Other transportation equipment manufacturing,33,3690,5
+Sawmills and wood preservation ,32,3770,5
+"Veneer, plywood, and engineered wood products ",32,3780,5
+Prefabricated wood buildings and mobile homes manufacturing,32,3790,5
+Miscellaneous wood product manufacturing,32,3870,5
+Furniture and related product manufacturing ,33,3890,5
+Medical equipment and supplies manufacturing,33,3960,5
+"Sporting and athletic goods, and doll, toy and game manufacturing",33,3970,5
+"Miscellaneous manufacturing, n.e.c.  ",33,3980,5
+Not specified manufacturing industries,33,3990,5
+"Motor vehicles, parts and supplies merchant wholesalers       ",42,4070,6
+Furniture and home furnishing merchant wholesalers   ,42,4080,6
+Lumber and other construction materials merchant wholesalers ,42,4090,6
+Professional and commercial equipment and supplies merchant wholesalers,42,4170,6
+"Metals and minerals, except petroleum, merchant wholesalers                         ",42,4180,6
+Electrical and electronic goods merchant wholesalers ,42,4190,6
+"Hardware, plumbing and heating equipment, and supplies merchant wholesalers",42,4260,6
+"Machinery, equipment, and supplies merchant wholesalers     ",42,4270,6
+Recyclable material merchant wholesalers ,42,4280,6
+Miscellaneous durable goods merchant wholesalers    ,42,4290,6
+Paper and paper products merchant wholesalers ,42,4370,6
+"Drugs, sundries, and chemical and allied products merchant  wholesalers ",42,4380,6
+"Apparel, fabrics, and notions merchant wholesalers ",42,4390,6
+Groceries and related products merchant wholesalers ,42,4470,6
+Farm product raw materials merchant wholesalers ,42,4480,6
+Petroleum and petroleum products merchant wholesalers ,42,4490,6
+Alcoholic beverages merchant wholesalers ,42,4560,6
+Farm supplies merchant wholesalers ,42,4570,6
+Miscellaneous  nondurable goods merchant wholesalers ,42,4580,6
+Wholesale electronic markets and agents and brokers ,42,4585,6
+Not specified wholesale trade,42,4590,6
+Automobile dealers ,44,4670,7
+Other motor vehicle dealers ,44,4680,7
+"Auto parts, accessories, and tire stores  ",44,4690,7
+Furniture and home furnishings stores ,44,4770,7
+Household appliance stores ,44,4780,7
+"Radio, TV, and computer stores",44,4790,7
+Building material and supplies dealers  ,44,4870,7
+Hardware stores ,44,4880,7
+Lawn and garden equipment and supplies stores ,44,4890,7
+Grocery stores ,44,4970,7
+Specialty food stores,44,4980,7
+"Beer, wine, and liquor stores ",44,4990,7
+Pharmacies and drug stores ,44,5070,7
+"Health and personal care, except drug, stores ",44,5080,7
+Gasoline stations ,44,5090,7
+Clothing stores ,44,5170,7
+Shoe stores ,44,5180,7
+"Jewelry, luggage, and leather goods stores ",44,5190,7
+"Sporting goods, camera, and hobby and toy stores ",44,5270,7
+"Sewing, needlework, and piece goods stores ",45,5280,7
+Music stores ,45,5290,7
+Book stores and news dealers ,45,5370,7
+Department stores and discount stores                                    ,45,5380,7
+Miscellaneous general merchandise stores,45,5390,7
+Retail florists,45,5470,7
+Office supplies and stationery stores,45,5480,7
+Used merchandise stores ,45,5490,7
+"Gift, novelty, and souvenir shops ",45,5570,7
+Miscellaneous retail stores ,45,5580,7
+Electronic shopping   ,45,5590,7
+Electronic auctions   ,45,5591,7
+Mail order houses,45,5592,7
+Vending machine operators ,45,5670,7
+Fuel dealers ,45,5680,7
+Other direct selling establishments,45,5690,7
+Not specified retail trade,45,5790,7
+Air transportation ,48,6070,8
+Rail transportation ,48,6080,8
+Water transportation ,48,6090,8
+Truck transportation ,48,6170,8
+Bus service and urban transit ,48,6180,8
+Taxi and limousine service ,48,6190,8
+Pipeline transportation ,48,6270,8
+Scenic and sightseeing transportation ,48,6280,8
+Services incidental to transportation ,48,6290,8
+Postal Service ,49,6370,8
+Couriers and messengers ,49,6380,8
+Warehousing and storage ,49,6390,8
+Newspaper publishers,51,6470,9
+"Periodical, book, and directory publishers",51,6480,9
+Software publishers,51,6490,9
+Motion pictures and video industries,51,6570,9
+Sound recording industries,51,6590,9
+Radio and television broadcasting and cable subscription programming,51,6670,9
+Internet publishing and broadcasting and web search portals,51,6672,9
+Internet publishing and broadcasting and web search portals,51,6675,9
+Wired telecommunications carriers ,51,6680,9
+Other telecommunications services ,51,6690,9
+Internet Service Providers,51,6692,9
+Libraries and archives,51,6770,9
+Other information services,51,6780,9
+"Data processing, hosting, and related services",51,6695,9
+Banking and related activities,52,6870,10
+"Savings institutions, including credit unions ",52,6880,10
+Non-depository credit and related activities,52,6890,10
+"Securities, commodities, funds, trusts, and other financial investments",52,6970,10
+Insurance carriers and related activities ,52,6990,10
+Real estate ,53,7070,11
+Automotive equipment rental and leasing ,53,7080,11
+Video tape and disk rental ,53,7170,11
+Other consumer goods rental,53,7180,11
+"Commercial, industrial, and other intangible assets rental and leasing",53,7190,11
+Legal services ,54,7270,12
+"Accounting, tax preparation, bookkeeping, and payroll services",54,7280,12
+"Architectural, engineering, and related services ",54,7290,12
+Specialized design services ,54,7370,12
+Computer systems design and related services ,54,7380,12
+"Management, scientific, and technical consulting services",54,7390,12
+Scientific research and development services ,54,7460,12
+Advertising and related services ,54,7470,12
+Veterinary services ,54,7480,12
+"Other professional, scientific, and technical services ",54,7490,12
+Management of companies and enterprises ,55,7570,13
+Employment services ,56,7580,14
+Business support services ,56,7590,14
+Travel arrangements and reservation services ,56,7670,14
+Investigation and security services ,56,7680,14
+Services to buildings and dwellings (except cleaning during construction and immediately after construction) ,56,7690,14
+Landscaping services,56,7770,14
+Other administrative and other support services ,56,7780,14
+Waste management and remediation services ,56,7790,14
+Elementary and secondary schools ,61,7860,15
+"Colleges and universities, including junior colleges ",61,7870,15
+"Business, technical, and trade schools and training ",61,7880,15
+"Other schools and instruction, and educational support services ",61,7890,15
+Offices of physicians ,62,7970,16
+Offices of dentists ,62,7980,16
+Offices of chiropractors ,62,7990,16
+Offices of optometrists ,62,8070,16
+Offices of other health practitioners  ,62,8080,16
+Outpatient care centers ,62,8090,16
+Home health care services ,62,8170,16
+Other health care services ,62,8180,16
+Hospitals ,62,8190,16
+Nursing care facilities ,62,8270,16
+"Residential care facilities, without nursing ",62,8290,16
+Individual and family services ,62,8370,16
+"Community food and housing, and emergency services ",62,8380,16
+Vocational rehabilitation services ,62,8390,16
+Child day care services ,62,8470,16
+"Independent artists, performing arts, spectator sports, and related industries",71,8560,17
+"Museums, art galleries, historical sites, and similar institutions",71,8570,17
+Bowling centers ,71,8580,17
+"Other amusement, gambling, and recreation industries   ",71,8590,17
+Traveler accommodation ,72,8660,18
+"Recreational vehicle parks and camps, and rooming and boarding houses",72,8670,18
+Restaurants and other food services ,72,8680,18
+"Drinking places, alcoholic beverages ",72,8690,18
+Automotive repair and maintenance ,81,8770,19
+Car washes,81,8780,19
+Electronic and precision equipment repair and maintenance,81,8790,19
+Commercial and industrial machinery and equipment repair and maintenance,81,8870,19
+Personal and household goods repair and maintenance ,81,8880,19
+Footwear and leather goods repair ,81,8890,19
+Barber shops ,81,8970,19
+Beauty salons ,81,8980,19
+Nail salons and other personal care services  ,81,8990,19
+Drycleaning and laundry services ,81,9070,19
+"Funeral homes, and cemeteries and crematories ",81,9080,19
+Other personal services ,81,9090,19
+Religious organizations ,81,9160,19
+"Civic, social, advocacy organizations, and grantmaking and giving services",81,9170,19
+Labor unions,81,9180,19
+"Business, professional, political, and similar organizations",81,9190,19
+Private households ,81,9290,19
+Executive offices and legislative bodies ,92,9370,20
+Public finance activities ,92,9380,20
+Other general government and support ,92,9390,20
+"Justice, public order, and safety activities ",92,9470,20
+Administration of human resource programs  ,92,9480,20
+Administration of environmental quality and housing programs ,92,9490,20
+Administration of economic programs and space research,92,9570,20
+National security and international affairs ,92,9590,20
+U. S. Army,92,9670,20
+U. S. Air Force,92,9680,20
+U. S. Navy,92,9690,20
+U. S. Marines,92,9770,20
+U. S. Coast Guard,92,9780,20
+"Armed Forces, Branch not specified",92,9790,20
+Military Reserves or National Guard,92,9870,20
+Unemployed and last worked five years ago or earlier or never worked ,92,9920,20
