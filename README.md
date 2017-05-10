@@ -1,8 +1,8 @@
-# IdahoSTDM
-Idaho Statewide Travel Demand Model
+# Idaho Statewide Travel Demand Model
 
+### Model Setup
 The ITDSTDM folder contains the complete base year template model setup
 
-The PT source code is maintained [here](https://github.com/pbsag/pt_idaho) and 
-is compiled into `ITDSTDM\programs\pt\pt_idaho.jar`.  The CT source code is maintained [here]()
-and is copied to `IdahoSTDM\ITDSTDM\programs\ct`.
+### Other Source Code
+  - The PT source code is maintained [here](https://github.com/pbsag/pt_idaho) and is compiled into `ITDSTDM\programs\pt\pt_idaho.jar`
+  - The CT source code is maintained ? and is copied to `IdahoSTDM\ITDSTDM\programs\ct`
