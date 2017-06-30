@@ -2,6 +2,7 @@
 ; Sujan Sikder, sikders@pbworld.com, 09/22/2014
 ; Ben Stabler, ben.stabler@rsginc.com, 02/24/15
 ; Revised 09/22/15 for four time periods
+; Revised 06/30/17 bts for select link for ii, ie, ei, ee summaries
 
 ; Step 1: Aggregate trip matrices by user class and time-of-day
 ; Step 2:(a) Tag links based on facility and area type
@@ -75,7 +76,9 @@ amHourFactor = 1.42 ; AM two hour capacity factor
 mdHourFactor = 4.00 ; MD period capacity factor
 pmHourFactor = 1.42 ; PM two hour capacity factor
 ntHourFactor = 4.00 ; NT period capacity factor
- 
+
+selectLink ='10776-10784' ; select link A-B node in quotes
+
 ;----------------------------------------------------------------------------------------------
 ; Aggregate trip matrices by mode and time-of-day
 
@@ -304,6 +307,7 @@ RUN PGM=HIGHWAY MSG = "AM peak highway assignment"
    NETI = "outputs\itdcap.net"
    MATI = "outputs\ampeaktrips.mat"
    NETO = "outputs\itdamassign.net"
+   MATO = "outputs\selectlinkam.mat",MO=1-9,DEC=2
    ZONES=@nZones@
 
    DistributeIntrastep processid='ITD', processlist=1-8
@@ -332,15 +336,15 @@ RUN PGM=HIGHWAY MSG = "AM peak highway assignment"
   ; Load Auto and Truck trips to their appropriate paths
 
   PHASE = ILOOP
-    PATHLOAD VOL[1] = MI.1.SOVS, PATH = LW.IMPEDA
-    PATHLOAD VOL[2] = MI.1.HOV2S, PATH = LW.IMPEDA
-    PATHLOAD VOL[3] = MI.1.HOV3PS, PATH = LW.IMPEDA
-    PATHLOAD VOL[4] = MI.1.SUT, PATH = LW.IMPEDT
-    PATHLOAD VOL[5] = MI.1.MUT, PATH = LW.IMPEDT
-    PATHLOAD VOL[6] = MI.1.EXT, PATH = LW.IMPEDA
-    PATHLOAD VOL[7] = MI.1.SOVL, PATH = LW.IMPEDA
-    PATHLOAD VOL[8] = MI.1.HOV2L, PATH = LW.IMPEDA
-    PATHLOAD VOL[9] = MI.1.HOV3PL, PATH = LW.IMPEDA
+    PATHLOAD VOL[1] = MI.1.SOVS, PATH = LW.IMPEDA, MW[1] = MI.1.SOVS, SELECTLINK = (L=@selectLink@)
+    PATHLOAD VOL[2] = MI.1.HOV2S, PATH = LW.IMPEDA, MW[2] = MI.1.HOV2S, SELECTLINK = (L=@selectLink@)
+    PATHLOAD VOL[3] = MI.1.HOV3PS, PATH = LW.IMPEDA, MW[3] = MI.1.HOV3PS, SELECTLINK = (L=@selectLink@)
+    PATHLOAD VOL[4] = MI.1.SUT, PATH = LW.IMPEDT, MW[4] = MI.1.SUT, SELECTLINK = (L=@selectLink@)
+    PATHLOAD VOL[5] = MI.1.MUT, PATH = LW.IMPEDT, MW[5] = MI.1.MUT, SELECTLINK = (L=@selectLink@)
+    PATHLOAD VOL[6] = MI.1.EXT, PATH = LW.IMPEDA, MW[6] = MI.1.EXT, SELECTLINK = (L=@selectLink@)
+    PATHLOAD VOL[7] = MI.1.SOVL, PATH = LW.IMPEDA, MW[7] = MI.1.SOVL, SELECTLINK = (L=@selectLink@)
+    PATHLOAD VOL[8] = MI.1.HOV2L, PATH = LW.IMPEDA, MW[8] = MI.1.HOV2L, SELECTLINK = (L=@selectLink@)
+    PATHLOAD VOL[9] = MI.1.HOV3PL, PATH = LW.IMPEDA, MW[9] = MI.1.HOV3PL, SELECTLINK = (L=@selectLink@)
     ; Bi-conjugate equilibrium assignment
     PARAMETERS ZONEMSG=100,  MAXITERS=@maxIterns@, COMBINE=EQUI, ENHANCE=2, GAP=@gap@
   ENDPHASE 
@@ -380,6 +384,7 @@ RUN PGM=HIGHWAY MSG = "MD offpeak highway assignment"
    NETI = "outputs\itdcap.net"
    MATI = "outputs\mdpeaktrips.mat"
    NETO = "outputs\itdmdassign.net"
+   MATO = "outputs\selectlinkmd.mat",MO=1-9,DEC=2
    ZONES=@nZones@
 
   PHASE = LINKREAD
@@ -406,15 +411,15 @@ RUN PGM=HIGHWAY MSG = "MD offpeak highway assignment"
   ENDPHASE
     
   PHASE = ILOOP
-    PATHLOAD VOL[1] = MI.1.SOVS, PATH = LW.IMPEDA
-    PATHLOAD VOL[2] = MI.1.HOV2S, PATH = LW.IMPEDA
-    PATHLOAD VOL[3] = MI.1.HOV3PS, PATH = LW.IMPEDA
-    PATHLOAD VOL[4] = MI.1.SUT, PATH = LW.IMPEDT
-    PATHLOAD VOL[5] = MI.1.MUT, PATH = LW.IMPEDT
-    PATHLOAD VOL[6] = MI.1.EXT, PATH = LW.IMPEDA
-    PATHLOAD VOL[7] = MI.1.SOVL, PATH = LW.IMPEDA
-    PATHLOAD VOL[8] = MI.1.HOV2L, PATH = LW.IMPEDA
-    PATHLOAD VOL[9] = MI.1.HOV3PL, PATH = LW.IMPEDA
+    PATHLOAD VOL[1] = MI.1.SOVS, PATH = LW.IMPEDA, MW[1] = MI.1.SOVS, SELECTLINK = (L=@selectLink@)
+    PATHLOAD VOL[2] = MI.1.HOV2S, PATH = LW.IMPEDA, MW[2] = MI.1.HOV2S, SELECTLINK = (L=@selectLink@)
+    PATHLOAD VOL[3] = MI.1.HOV3PS, PATH = LW.IMPEDA, MW[3] = MI.1.HOV3PS, SELECTLINK = (L=@selectLink@)
+    PATHLOAD VOL[4] = MI.1.SUT, PATH = LW.IMPEDT, MW[4] = MI.1.SUT, SELECTLINK = (L=@selectLink@)
+    PATHLOAD VOL[5] = MI.1.MUT, PATH = LW.IMPEDT, MW[5] = MI.1.MUT, SELECTLINK = (L=@selectLink@)
+    PATHLOAD VOL[6] = MI.1.EXT, PATH = LW.IMPEDA, MW[6] = MI.1.EXT, SELECTLINK = (L=@selectLink@)
+    PATHLOAD VOL[7] = MI.1.SOVL, PATH = LW.IMPEDA, MW[7] = MI.1.SOVL, SELECTLINK = (L=@selectLink@)
+    PATHLOAD VOL[8] = MI.1.HOV2L, PATH = LW.IMPEDA, MW[8] = MI.1.HOV2L, SELECTLINK = (L=@selectLink@)
+    PATHLOAD VOL[9] = MI.1.HOV3PL, PATH = LW.IMPEDA, MW[9] = MI.1.HOV3PL, SELECTLINK = (L=@selectLink@)
 	
     ; Bi-conjugate equilibrium assignment
     PARAMETERS ZONEMSG=100,  MAXITERS=@maxIterns@, COMBINE=EQUI, ENHANCE=2, GAP= 0.0001
@@ -455,6 +460,7 @@ RUN PGM=HIGHWAY MSG = "PM peak highway assignment"
    NETI = "outputs\itdcap.net"
    MATI = "outputs\pmpeaktrips.mat"
    NETO = "outputs\itdpmassign.net"
+   MATO = "outputs\selectlinkpm.mat",MO=1-9,DEC=2
    ZONES=@nZones@
 
    DistributeIntrastep processid='ITD', processlist=1-8
@@ -483,15 +489,15 @@ RUN PGM=HIGHWAY MSG = "PM peak highway assignment"
   ; Load Auto and Truck trips to their appropriate paths
 
   PHASE = ILOOP
-    PATHLOAD VOL[1] = MI.1.SOVS, PATH = LW.IMPEDA
-    PATHLOAD VOL[2] = MI.1.HOV2S, PATH = LW.IMPEDA
-    PATHLOAD VOL[3] = MI.1.HOV3PS, PATH = LW.IMPEDA
-    PATHLOAD VOL[4] = MI.1.SUT, PATH = LW.IMPEDT
-    PATHLOAD VOL[5] = MI.1.MUT, PATH = LW.IMPEDT
-    PATHLOAD VOL[6] = MI.1.EXT, PATH = LW.IMPEDA
-    PATHLOAD VOL[7] = MI.1.SOVL, PATH = LW.IMPEDA
-    PATHLOAD VOL[8] = MI.1.HOV2L, PATH = LW.IMPEDA
-    PATHLOAD VOL[9] = MI.1.HOV3PL, PATH = LW.IMPEDA
+    PATHLOAD VOL[1] = MI.1.SOVS, PATH = LW.IMPEDA, MW[1] = MI.1.SOVS, SELECTLINK = (L=@selectLink@)
+    PATHLOAD VOL[2] = MI.1.HOV2S, PATH = LW.IMPEDA, MW[2] = MI.1.HOV2S, SELECTLINK = (L=@selectLink@)
+    PATHLOAD VOL[3] = MI.1.HOV3PS, PATH = LW.IMPEDA, MW[3] = MI.1.HOV3PS, SELECTLINK = (L=@selectLink@)
+    PATHLOAD VOL[4] = MI.1.SUT, PATH = LW.IMPEDT, MW[4] = MI.1.SUT, SELECTLINK = (L=@selectLink@)
+    PATHLOAD VOL[5] = MI.1.MUT, PATH = LW.IMPEDT, MW[5] = MI.1.MUT, SELECTLINK = (L=@selectLink@)
+    PATHLOAD VOL[6] = MI.1.EXT, PATH = LW.IMPEDA, MW[6] = MI.1.EXT, SELECTLINK = (L=@selectLink@)
+    PATHLOAD VOL[7] = MI.1.SOVL, PATH = LW.IMPEDA, MW[7] = MI.1.SOVL, SELECTLINK = (L=@selectLink@)
+    PATHLOAD VOL[8] = MI.1.HOV2L, PATH = LW.IMPEDA, MW[8] = MI.1.HOV2L, SELECTLINK = (L=@selectLink@)
+    PATHLOAD VOL[9] = MI.1.HOV3PL, PATH = LW.IMPEDA, MW[9] = MI.1.HOV3PL, SELECTLINK = (L=@selectLink@)
     ; Bi-conjugate equilibrium assignment
     PARAMETERS ZONEMSG=100,  MAXITERS=@maxIterns@, COMBINE=EQUI, ENHANCE=2, GAP=@gap@
   ENDPHASE 
@@ -531,6 +537,7 @@ RUN PGM=HIGHWAY MSG = "NT offpeak highway assignment"
    NETI = "outputs\itdcap.net"
    MATI = "outputs\ntpeaktrips.mat"
    NETO = "outputs\itdntassign.net"
+   MATO = "outputs\selectlinknt.mat",MO=1-9,DEC=2
    ZONES=@nZones@
 
   PHASE = LINKREAD
@@ -557,15 +564,15 @@ RUN PGM=HIGHWAY MSG = "NT offpeak highway assignment"
   ENDPHASE
     
   PHASE = ILOOP
-    PATHLOAD VOL[1] = MI.1.SOVS, PATH = LW.IMPEDA
-    PATHLOAD VOL[2] = MI.1.HOV2S, PATH = LW.IMPEDA
-    PATHLOAD VOL[3] = MI.1.HOV3PS, PATH = LW.IMPEDA
-    PATHLOAD VOL[4] = MI.1.SUT, PATH = LW.IMPEDT
-    PATHLOAD VOL[5] = MI.1.MUT, PATH = LW.IMPEDT
-    PATHLOAD VOL[6] = MI.1.EXT, PATH = LW.IMPEDA
-    PATHLOAD VOL[7] = MI.1.SOVL, PATH = LW.IMPEDA
-    PATHLOAD VOL[8] = MI.1.HOV2L, PATH = LW.IMPEDA
-    PATHLOAD VOL[9] = MI.1.HOV3PL, PATH = LW.IMPEDA
+    PATHLOAD VOL[1] = MI.1.SOVS, PATH = LW.IMPEDA, MW[1] = MI.1.SOVS, SELECTLINK = (L=@selectLink@)
+    PATHLOAD VOL[2] = MI.1.HOV2S, PATH = LW.IMPEDA, MW[2] = MI.1.HOV2S, SELECTLINK = (L=@selectLink@)
+    PATHLOAD VOL[3] = MI.1.HOV3PS, PATH = LW.IMPEDA, MW[3] = MI.1.HOV3PS, SELECTLINK = (L=@selectLink@)
+    PATHLOAD VOL[4] = MI.1.SUT, PATH = LW.IMPEDT, MW[4] = MI.1.SUT, SELECTLINK = (L=@selectLink@)
+    PATHLOAD VOL[5] = MI.1.MUT, PATH = LW.IMPEDT, MW[5] = MI.1.MUT, SELECTLINK = (L=@selectLink@)
+    PATHLOAD VOL[6] = MI.1.EXT, PATH = LW.IMPEDA, MW[6] = MI.1.EXT, SELECTLINK = (L=@selectLink@)
+    PATHLOAD VOL[7] = MI.1.SOVL, PATH = LW.IMPEDA, MW[7] = MI.1.SOVL, SELECTLINK = (L=@selectLink@)
+    PATHLOAD VOL[8] = MI.1.HOV2L, PATH = LW.IMPEDA, MW[8] = MI.1.HOV2L, SELECTLINK = (L=@selectLink@)
+    PATHLOAD VOL[9] = MI.1.HOV3PL, PATH = LW.IMPEDA, MW[9] = MI.1.HOV3PL, SELECTLINK = (L=@selectLink@)
 	
     ; Bi-conjugate equilibrium assignment
     PARAMETERS ZONEMSG=100,  MAXITERS=@maxIterns@, COMBINE=EQUI, ENHANCE=2, GAP= 0.0001
@@ -602,6 +609,51 @@ RUN PGM=HIGHWAY MSG = "NT offpeak highway assignment"
 ENDRUN 
 
 *Cluster.exe ITD 1-@numthreads@ close exit
+
+;----------------------------------------------------------------------------------------------
+; Merge select link matrices
+RUN PGM = MATRIX MSG = "Merge select link matrices by time period"
+  
+  MATI[1] = "outputs\selectlinkam.mat"
+  MATI[2] = "outputs\selectlinkmd.mat"
+  MATI[3] = "outputs\selectlinkpm.mat"
+  MATI[4] = "outputs\selectlinknt.mat"
+  FILEO MATO[1]= "outputs\selectlink.mat", MO=1, DEC=2, Name=ALL
+
+  MW[1]=mi.1.1 + mi.1.2 + mi.1.3 + mi.1.4 + mi.1.5 + mi.1.6 + mi.1.7 + mi.1.8 + mi.1.9 + 
+        mi.2.1 + mi.2.2 + mi.2.3 + mi.2.4 + mi.2.5 + mi.2.6 + mi.2.7 + mi.2.8 + mi.2.9 + 
+        mi.3.1 + mi.3.2 + mi.3.3 + mi.3.4 + mi.3.5 + mi.3.6 + mi.3.7 + mi.3.8 + mi.3.9 + 
+        mi.4.1 + mi.4.2 + mi.4.3 + mi.4.4 + mi.4.5 + mi.4.6 + mi.4.7 + mi.4.8 + mi.4.9
+       
+ENDRUN  
+
+;----------------------------------------------------------------------------------------------
+; Report select link results
+RUN PGM = MATRIX MSG = "Report select link results"
+  
+  MATI[1] = "outputs\selectlink.mat"
+  
+  JLOOP
+    
+      IF(I <= @GAPEND@ & J <= @GAPEND@) 
+        IISUM = IISUM + mi.1.1[J]
+      ENDIF
+      
+      IF(I <= @GAPEND@ & J > @GAPEND@) 
+        IESUM = IESUM + mi.1.1[J]
+      ENDIF
+      
+      IF(I > @GAPEND@ & J <= @GAPEND@) 
+        EISUM = EISUM + mi.1.1[J]
+      ENDIF
+      
+      IF(I > @GAPEND@ & J > @GAPEND@) 
+        EESUM = EESUM + mi.1.1[J]
+      ENDIF
+  
+  ENDJLOOP
+   
+ENDRUN  
 
 ;----------------------------------------------------------------------------------------------
 ; Calculate congested speed by time-of-day
