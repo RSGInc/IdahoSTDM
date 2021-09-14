@@ -7,7 +7,7 @@
 --	County (COUNTYGEOID)
 --	State (STATEFIPS)
 --------------------------------------------------------------------
-USE ITDPopSyn
+USE ITDPopSynIII
 GO
 
 SET NOCOUNT ON;	

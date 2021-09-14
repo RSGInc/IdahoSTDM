@@ -8,6 +8,6 @@ fileName = "inputs/popsyn/settings.xml"
 outFileName = "outputs/settings.xml"
 
 settings = scan(fileName,what="", sep="\n")
-settings = gsub("%SQLSERVER%",Sys.getenv("SQLSERVER"), settings, fixed=T)
+settings = gsub("%SQLSERVER%",Sys.getenv("SQLSERVERJAVA"), settings, fixed=T)
 settings = gsub("%DATABASE%",Sys.getenv("DATABASE"), settings)
 writeLines(settings, outFileName)

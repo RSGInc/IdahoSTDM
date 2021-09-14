@@ -1,0 +1,635 @@
+dms_orig,dms_dest,description,state
+#------------------------------------------------------+
+# Alaska (20) to and from...                           |
+#------------------------------------------------------+
+20,41,Phoenix-Mesa-Glendale,AZ
+20,42,Tucson-Nogales,AZ
+20,49,Remainder of Arizona,AZ
+20,321,Las Vegas-Henderson,NV
+20,350,New Mexico,NM
+20,491,Salt Lake City-Provo-Orem,UT
+20,499,Remainder of Utah,UT 
+#------------------------------------------------------+
+# Montana (300) to and from...                         |
+#------------------------------------------------------+
+300,41,Phoenix-Mesa-Glendale,AZ
+300,42,Tucson-Nogales,AZ
+300,49,Remainder of Arizona,AZ
+300,61,Los Angeles-Long Beach,CA
+300,62,Sacramento-Roseville,CA
+300,63,San Diego-Carlsbad-San Marcos,CA
+300,64,San Jose-San Francisco-Oakland,CA
+300,65,Fresno-Madera,CA
+300,69,Remainder of California,CA
+300,321,Las Vegas-Henderson,NV
+300,329,Remainder of Nevada,NV
+300,350,New Mexico,NM
+300,491,Salt Lake City-Provo-Orem,UT
+300,499,Remainder of Utah,UT 
+#------------------------------------------------------+
+# Portland, OR (411) to and from                       |
+#------------------------------------------------------+
+411,11,Birmingham-Hoover-Talladega,AL
+411,12,Mobile-Daphne-Fairhope,AL
+411,19,Remainder of Alabama,AL
+411,50,Arkansas,AR
+411,81,Denver-Aurora,CO
+411,89,Remainder of Colorado,CO
+411,91,Hartford-West Hartford-East Hartford,CT
+411,92,New York-Newark,CT
+411,99,Remainder of Connecticut,CT
+411,101,Philadelphia-Reading-Camden,DE
+411,109,Remainder of Delaware,DE
+411,111,Washington,DC
+411,121,Jacksonville-Palatka,FL
+411,122,Miami-Fort Lauderdale-Port St. Lucie,FL
+411,123,Orlando-Deltona-Daytona Beach,FL
+411,124,Tampa-St. Petersburg-Clearwater,FL
+411,129,Remainder of Florida,FL
+411,131,Atlanta-Athens-Clarke County-Sandy Springs,GA
+411,132,Savannah-Hinesville-Statesboro,GA
+411,139,Remainder of Georgia,GA
+411,151,Honolulu,HI
+411,159,Remainder of Hawaii,HI
+411,160,Idaho,ID
+411,171,Chicago-Naperville,IL
+411,172,St. Louis-St. Charles-Farmington,IL
+411,179,Remainder of Illinois,IL
+411,181,Chicago-Naperville,IN
+411,182,Indianapolis-Carmel-Muncie,IN
+411,183,Fort Wayne-Huntington-Auburn,IN
+411,189,Remainder of Indiana,IN
+411,190,Iowa,IA
+411,201,Kansas City-Overland Park,KS
+411,202,Wichita-Arkansas City-Winfield,KS
+411,209,Remainder of Kansas,KS
+411,211,Cincinnati-Wilmington-Maysville,KY
+411,212,Louisville/Jefferson County-Elizabethtown-Madison,KY
+411,219,Remainder of Kentucky,KY
+411,221,Baton Rouge,LA
+411,222,Lake Charles,LA
+411,223,New Orleans-Metairie-Hammond,LA
+411,229,Remainder of Louisiana,LA
+411,230,Maine,ME
+411,241,Baltimore-Columbia-Towson,MD
+411,242,Washington-Arlington-Alexandria,MD
+411,249,Remainder of Maryland,MD
+411,251,Boston-Worcester-Providence,MA
+411,259,Remainder of Massachusetts,MA
+411,261,Detroit-Warren-Ann Arbor,MI
+411,262,Grand Rapids-Wyoming-Muskegon,MI
+411,269,Remainder of Michigan,MI 
+411,271,Minneapolis-St. Paul,MN
+411,279,Remainder of Minnesota,MN
+411,280,Mississippi,MS
+411,291,Kansas City,MO
+411,292,St. Louis-St. Charles-Farmington,MO
+411,299,Remainder of Missouri,MO
+411,300,Montana,MT
+411,311,Omaha-Council Bluffs-Fremont,NE
+411,319,Remainder of Nebraska,NE
+411,331,Providence,NH
+411,339,Remainder of New Hampshire,NH
+411,341,Newark,NJ
+411,342,Camden,NJ
+411,350,New Mexico,NM
+411,361,Albany-Schenectady,NY
+411,362,Buffalo-Cheektowaga,NY
+411,363,New York,NY
+411,364,Rochester-Batavia-Seneca Falls,NY
+411,369,Remainder of New York,NY
+411,371,Charlotte-Concord,NC
+411,372,Greensboro-Winston-Salem-High Point,NC
+411,373,Raleigh-Durham-Chapel Hill,NC
+411,379,Remainder of North Carolina,NC
+411,380,North Dakota,ND
+411,391,Cincinnati-Wilmington,OH
+411,392,Cleveland-Akron-Canton,OH
+411,393,Columbus-Marion-Zanesville,OH
+411,394,Dayton-Springfield-Sidney,OH
+411,399,Remainder of Ohio,OH
+411,401,Oklahoma City-Shawnee,OK
+411,402,Tulsa-Muskogee-Bartlesville,OK
+411,409,Remainder of Oklahoma,OK
+411,421,Philadelphia-Reading,PA
+411,422,Pittsburgh-New Castle-Weirton,PA
+411,423,New York-Newark,PA
+411,429,Remainder of Pennsylvania,PA
+411,441,Rhode Island,RI
+411,451,Charleston-North Charleston-Summerville,SC
+411,452,Greenville-Spartanburg-Anderson,SC
+411,459,Remainder of South Carolina,SC
+411,460,South Dakota,SD
+411,471,Memphis,TN
+411,472,Nashville-Davidson-Murfreesboro,TN
+411,473,Knoxville-Morristown-Sevierville,TN
+411,479,Remainder of Tennessee,TN
+411,481,Austin-Round Rock,TX
+411,482,Beaumont-Port Arthur,TX
+411,483,Corpus Christi-Kingsville-Alice,TX
+411,484,Dallas-Fort Worth,TX
+411,485,El Paso,TX 
+411,486,Houston-The Woodlands,TX
+411,487,Laredo,TX
+411,488,San Antonio-New Braunfels,TX
+411,489,Remainder of Texas,TX
+411,491,Salt Lake City-Provo-Orem,UT
+411,499,Remainder of Utah,UT 
+411,500,Vermont,VT 
+411,511,Richmond,VA
+411,512,Virginia Beach-Norfolk,VA
+411,513,Arlington-Alexandria,VA
+411,519,Remainder of Virginia,VA
+411,540,West Virginia,WV
+411,551,Milwaukee-Racine-Waukesha,WI
+411,559,Remainder of Wisconsin,WI
+411,560,Wyoming,WY
+#------------------------------------------------------+
+# Remainder of Oregon (419) to and from                |
+#------------------------------------------------------+
+419,11,Birmingham-Hoover-Talladega,AL
+419,12,Mobile-Daphne-Fairhope,AL
+419,19,Remainder of Alabama,AL
+419,50,Arkansas,AR
+419,81,Denver-Aurora,CO
+419,89,Remainder of Colorado,CO
+419,91,Hartford-West Hartford-East Hartford,CT
+419,92,New York-Newark,CT
+419,99,Remainder of Connecticut,CT
+419,101,Philadelphia-Reading-Camden,DE
+419,109,Remainder of Delaware,DE
+419,111,Washington,DC
+419,121,Jacksonville-Palatka,FL
+419,122,Miami-Fort Lauderdale-Port St. Lucie,FL
+419,123,Orlando-Deltona-Daytona Beach,FL
+419,124,Tampa-St. Petersburg-Clearwater,FL
+419,129,Remainder of Florida,FL
+419,131,Atlanta-Athens-Clarke County-Sandy Springs,GA
+419,132,Savannah-Hinesville-Statesboro,GA
+419,139,Remainder of Georgia,GA
+419,151,Honolulu,HI
+419,159,Remainder of Hawaii,HI
+419,160,Idaho,ID
+419,171,Chicago-Naperville,IL
+419,172,St. Louis-St. Charles-Farmington,IL
+419,179,Remainder of Illinois,IL
+419,181,Chicago-Naperville,IN
+419,182,Indianapolis-Carmel-Muncie,IN
+419,183,Fort Wayne-Huntington-Auburn,IN
+419,189,Remainder of Indiana,IN
+419,190,Iowa,IA
+419,201,Kansas City-Overland Park,KS
+419,202,Wichita-Arkansas City-Winfield,KS
+419,209,Remainder of Kansas,KS
+419,211,Cincinnati-Wilmington-Maysville,KY
+419,212,Louisville/Jefferson County-Elizabethtown-Madison,KY
+419,219,Remainder of Kentucky,KY
+419,221,Baton Rouge,LA
+419,222,Lake Charles,LA
+419,223,New Orleans-Metairie-Hammond,LA
+419,229,Remainder of Louisiana,LA
+419,230,Maine,ME
+419,241,Baltimore-Columbia-Towson,MD
+419,242,Washington-Arlington-Alexandria,MD
+419,249,Remainder of Maryland,MD
+419,251,Boston-Worcester-Providence,MA
+419,259,Remainder of Massachusetts,MA
+419,261,Detroit-Warren-Ann Arbor,MI
+419,262,Grand Rapids-Wyoming-Muskegon,MI
+419,269,Remainder of Michigan,MI 
+419,271,Minneapolis-St. Paul,MN
+419,279,Remainder of Minnesota,MN
+419,280,Mississippi,MS
+419,291,Kansas City,MO
+419,292,St. Louis-St. Charles-Farmington,MO
+419,299,Remainder of Missouri,MO
+419,300,Montana,MT
+419,311,Omaha-Council Bluffs-Fremont,NE
+419,319,Remainder of Nebraska,NE
+419,331,Providence,NH
+419,339,Remainder of New Hampshire,NH
+419,341,Newark,NJ
+419,342,Camden,NJ
+419,350,New Mexico,NM
+419,361,Albany-Schenectady,NY
+419,362,Buffalo-Cheektowaga,NY
+419,363,New York,NY
+419,364,Rochester-Batavia-Seneca Falls,NY
+419,369,Remainder of New York,NY
+419,371,Charlotte-Concord,NC
+419,372,Greensboro-Winston-Salem-High Point,NC
+419,373,Raleigh-Durham-Chapel Hill,NC
+419,379,Remainder of North Carolina,NC
+419,380,North Dakota,ND
+419,391,Cincinnati-Wilmington,OH
+419,392,Cleveland-Akron-Canton,OH
+419,393,Columbus-Marion-Zanesville,OH
+419,394,Dayton-Springfield-Sidney,OH
+419,399,Remainder of Ohio,OH
+419,401,Oklahoma City-Shawnee,OK
+419,402,Tulsa-Muskogee-Bartlesville,OK
+419,409,Remainder of Oklahoma,OK
+419,421,Philadelphia-Reading,PA
+419,422,Pittsburgh-New Castle-Weirton,PA
+419,423,New York-Newark,PA
+419,429,Remainder of Pennsylvania,PA
+419,441,Rhode Island,RI
+419,451,Charleston-North Charleston-Summerville,SC
+419,452,Greenville-Spartanburg-Anderson,SC
+419,459,Remainder of South Carolina,SC
+419,460,South Dakota,SD
+419,471,Memphis,TN
+419,472,Nashville-Davidson-Murfreesboro,TN
+419,473,Knoxville-Morristown-Sevierville,TN
+419,479,Remainder of Tennessee,TN
+419,481,Austin-Round Rock,TX
+419,482,Beaumont-Port Arthur,TX
+419,483,Corpus Christi-Kingsville-Alice,TX
+419,484,Dallas-Fort Worth,TX
+419,485,El Paso,TX 
+419,486,Houston-The Woodlands,TX
+419,487,Laredo,TX
+419,488,San Antonio-New Braunfels,TX
+419,489,Remainder of Texas,TX
+419,491,Salt Lake City-Provo-Orem,UT
+419,499,Remainder of Utah,UT 
+419,500,Vermont,VT 
+419,511,Richmond,VA
+419,512,Virginia Beach-Norfolk,VA
+419,513,Arlington-Alexandria,VA
+419,519,Remainder of Virginia,VA
+419,540,West Virginia,WV
+419,551,Milwaukee-Racine-Waukesha,WI
+419,559,Remainder of Wisconsin,WI
+419,560,Wyoming,WY
+#------------------------------------------------------+
+# Seattle WA (531) to and from                         |
+#------------------------------------------------------+
+531,11,Birmingham-Hoover-Talladega,AL
+531,12,Mobile-Daphne-Fairhope,AL
+531,19,Remainder of Alabama,AL
+531,41,Phoenix-Mesa-Glendale,AZ
+531,42,Tucson-Nogales,AZ
+531,49,Remainder of Arizona,AZ
+531,50,Arkansas,AR
+531,81,Denver-Aurora,CO
+531,89,Remainder of Colorado,CO
+531,91,Hartford-West Hartford-East Hartford,CT
+531,92,New York-Newark,CT
+531,99,Remainder of Connecticut,CT
+531,101,Philadelphia-Reading-Camden,DE
+531,109,Remainder of Delaware,DE
+531,111,Washington,DC
+531,121,Jacksonville-Palatka,FL
+531,122,Miami-Fort Lauderdale-Port St. Lucie,FL
+531,123,Orlando-Deltona-Daytona Beach,FL
+531,124,Tampa-St. Petersburg-Clearwater,FL
+531,129,Remainder of Florida,FL
+531,131,Atlanta-Athens-Clarke County-Sandy Springs,GA
+531,132,Savannah-Hinesville-Statesboro,GA
+531,139,Remainder of Georgia,GA
+531,151,Honolulu,HI
+531,159,Remainder of Hawaii,HI
+531,160,Idaho,ID
+531,171,Chicago-Naperville,IL
+531,172,St. Louis-St. Charles-Farmington,IL
+531,179,Remainder of Illinois,IL
+531,181,Chicago-Naperville,IN
+531,182,Indianapolis-Carmel-Muncie,IN
+531,183,Fort Wayne-Huntington-Auburn,IN
+531,189,Remainder of Indiana,IN
+531,190,Iowa,IA
+531,201,Kansas City-Overland Park,KS
+531,202,Wichita-Arkansas City-Winfield,KS
+531,209,Remainder of Kansas,KS
+531,211,Cincinnati-Wilmington-Maysville,KY
+531,212,Louisville/Jefferson County-Elizabethtown-Madison,KY
+531,219,Remainder of Kentucky,KY
+531,221,Baton Rouge,LA
+531,222,Lake Charles,LA
+531,223,New Orleans-Metairie-Hammond,LA
+531,229,Remainder of Louisiana,LA
+531,230,Maine,ME
+531,241,Baltimore-Columbia-Towson,MD
+531,242,Washington-Arlington-Alexandria,MD
+531,249,Remainder of Maryland,MD
+531,251,Boston-Worcester-Providence,MA
+531,259,Remainder of Massachusetts,MA
+531,261,Detroit-Warren-Ann Arbor,MI
+531,262,Grand Rapids-Wyoming-Muskegon,MI
+531,269,Remainder of Michigan,MI 
+531,271,Minneapolis-St. Paul,MN
+531,279,Remainder of Minnesota,MN
+531,280,Mississippi,MS
+531,291,Kansas City,MO
+531,292,St. Louis-St. Charles-Farmington,MO
+531,299,Remainder of Missouri,MO
+531,300,Montana,MT
+531,311,Omaha-Council Bluffs-Fremont,NE
+531,319,Remainder of Nebraska,NE
+531,321,Las Vegas-Henderson,NV
+531,331,Providence,NH
+531,339,Remainder of New Hampshire,NH
+531,341,Newark,NJ
+531,342,Camden,NJ
+531,350,New Mexico,NM
+531,361,Albany-Schenectady,NY
+531,362,Buffalo-Cheektowaga,NY
+531,363,New York,NY
+531,364,Rochester-Batavia-Seneca Falls,NY
+531,369,Remainder of New York,NY
+531,371,Charlotte-Concord,NC
+531,372,Greensboro-Winston-Salem-High Point,NC
+531,373,Raleigh-Durham-Chapel Hill,NC
+531,379,Remainder of North Carolina,NC
+531,380,North Dakota,ND
+531,391,Cincinnati-Wilmington,OH
+531,392,Cleveland-Akron-Canton,OH
+531,393,Columbus-Marion-Zanesville,OH
+531,394,Dayton-Springfield-Sidney,OH
+531,399,Remainder of Ohio,OH
+531,401,Oklahoma City-Shawnee,OK
+531,402,Tulsa-Muskogee-Bartlesville,OK
+531,409,Remainder of Oklahoma,OK
+531,421,Philadelphia-Reading,PA
+531,422,Pittsburgh-New Castle-Weirton,PA
+531,423,New York-Newark,PA
+531,429,Remainder of Pennsylvania,PA
+531,441,Rhode Island,RI
+531,451,Charleston-North Charleston-Summerville,SC
+531,452,Greenville-Spartanburg-Anderson,SC
+531,459,Remainder of South Carolina,SC
+531,460,South Dakota,SD
+531,471,Memphis,TN
+531,472,Nashville-Davidson-Murfreesboro,TN
+531,473,Knoxville-Morristown-Sevierville,TN
+531,479,Remainder of Tennessee,TN
+531,481,Austin-Round Rock,TX
+531,482,Beaumont-Port Arthur,TX
+531,483,Corpus Christi-Kingsville-Alice,TX
+531,484,Dallas-Fort Worth,TX
+531,485,El Paso,TX 
+531,486,Houston-The Woodlands,TX
+531,487,Laredo,TX
+531,488,San Antonio-New Braunfels,TX
+531,489,Remainder of Texas,TX
+531,491,Salt Lake City-Provo-Orem,UT
+531,499,Remainder of Utah,UT 
+531,500,Vermont,VT 
+531,511,Richmond,VA
+531,512,Virginia Beach-Norfolk,VA
+531,513,Arlington-Alexandria,VA
+531,519,Remainder of Virginia,VA
+531,540,West Virginia,WV
+531,551,Milwaukee-Racine-Waukesha,WI
+531,559,Remainder of Wisconsin,WI
+531,560,Wyoming,WY
+#------------------------------------------------------+
+# Vancouver WA (532) to and from                       |
+#------------------------------------------------------+
+532,11,Birmingham-Hoover-Talladega,AL
+532,12,Mobile-Daphne-Fairhope,AL
+532,19,Remainder of Alabama,AL
+532,41,Phoenix-Mesa-Glendale,AZ
+532,42,Tucson-Nogales,AZ
+532,49,Remainder of Arizona,AZ
+532,50,Arkansas,AR
+532,81,Denver-Aurora,CO
+532,89,Remainder of Colorado,CO
+532,91,Hartford-West Hartford-East Hartford,CT
+532,92,New York-Newark,CT
+532,99,Remainder of Connecticut,CT
+532,101,Philadelphia-Reading-Camden,DE
+532,109,Remainder of Delaware,DE
+532,111,Washington,DC
+532,121,Jacksonville-Palatka,FL
+532,122,Miami-Fort Lauderdale-Port St. Lucie,FL
+532,123,Orlando-Deltona-Daytona Beach,FL
+532,124,Tampa-St. Petersburg-Clearwater,FL
+532,129,Remainder of Florida,FL
+532,131,Atlanta-Athens-Clarke County-Sandy Springs,GA
+532,132,Savannah-Hinesville-Statesboro,GA
+532,139,Remainder of Georgia,GA
+532,151,Honolulu,HI
+532,159,Remainder of Hawaii,HI
+532,160,Idaho,ID
+532,171,Chicago-Naperville,IL
+532,172,St. Louis-St. Charles-Farmington,IL
+532,179,Remainder of Illinois,IL
+532,181,Chicago-Naperville,IN
+532,182,Indianapolis-Carmel-Muncie,IN
+532,183,Fort Wayne-Huntington-Auburn,IN
+532,189,Remainder of Indiana,IN
+532,190,Iowa,IA
+532,201,Kansas City-Overland Park,KS
+532,202,Wichita-Arkansas City-Winfield,KS
+532,209,Remainder of Kansas,KS
+532,211,Cincinnati-Wilmington-Maysville,KY
+532,212,Louisville/Jefferson County-Elizabethtown-Madison,KY
+532,219,Remainder of Kentucky,KY
+532,221,Baton Rouge,LA
+532,222,Lake Charles,LA
+532,223,New Orleans-Metairie-Hammond,LA
+532,229,Remainder of Louisiana,LA
+532,230,Maine,ME
+532,241,Baltimore-Columbia-Towson,MD
+532,242,Washington-Arlington-Alexandria,MD
+532,249,Remainder of Maryland,MD
+532,251,Boston-Worcester-Providence,MA
+532,259,Remainder of Massachusetts,MA
+532,261,Detroit-Warren-Ann Arbor,MI
+532,262,Grand Rapids-Wyoming-Muskegon,MI
+532,269,Remainder of Michigan,MI 
+532,271,Minneapolis-St. Paul,MN
+532,279,Remainder of Minnesota,MN
+532,280,Mississippi,MS
+532,291,Kansas City,MO
+532,292,St. Louis-St. Charles-Farmington,MO
+532,299,Remainder of Missouri,MO
+532,300,Montana,MT
+532,311,Omaha-Council Bluffs-Fremont,NE
+532,319,Remainder of Nebraska,NE
+532,321,Las Vegas-Henderson,NV
+532,331,Providence,NH
+532,339,Remainder of New Hampshire,NH
+532,341,Newark,NJ
+532,342,Camden,NJ
+532,350,New Mexico,NM
+532,361,Albany-Schenectady,NY
+532,362,Buffalo-Cheektowaga,NY
+532,363,New York,NY
+532,364,Rochester-Batavia-Seneca Falls,NY
+532,369,Remainder of New York,NY
+532,371,Charlotte-Concord,NC
+532,372,Greensboro-Winston-Salem-High Point,NC
+532,373,Raleigh-Durham-Chapel Hill,NC
+532,379,Remainder of North Carolina,NC
+532,380,North Dakota,ND
+532,391,Cincinnati-Wilmington,OH
+532,392,Cleveland-Akron-Canton,OH
+532,393,Columbus-Marion-Zanesville,OH
+532,394,Dayton-Springfield-Sidney,OH
+532,399,Remainder of Ohio,OH
+532,401,Oklahoma City-Shawnee,OK
+532,402,Tulsa-Muskogee-Bartlesville,OK
+532,409,Remainder of Oklahoma,OK
+532,421,Philadelphia-Reading,PA
+532,422,Pittsburgh-New Castle-Weirton,PA
+532,423,New York-Newark,PA
+532,429,Remainder of Pennsylvania,PA
+532,441,Rhode Island,RI
+532,451,Charleston-North Charleston-Summerville,SC
+532,452,Greenville-Spartanburg-Anderson,SC
+532,459,Remainder of South Carolina,SC
+532,460,South Dakota,SD
+532,471,Memphis,TN
+532,472,Nashville-Davidson-Murfreesboro,TN
+532,473,Knoxville-Morristown-Sevierville,TN
+532,479,Remainder of Tennessee,TN
+532,481,Austin-Round Rock,TX
+532,482,Beaumont-Port Arthur,TX
+532,483,Corpus Christi-Kingsville-Alice,TX
+532,484,Dallas-Fort Worth,TX
+532,485,El Paso,TX 
+532,486,Houston-The Woodlands,TX
+532,487,Laredo,TX
+532,488,San Antonio-New Braunfels,TX
+532,489,Remainder of Texas,TX
+532,491,Salt Lake City-Provo-Orem,UT
+532,499,Remainder of Utah,UT 
+532,500,Vermont,VT 
+532,511,Richmond,VA
+532,512,Virginia Beach-Norfolk,VA
+532,513,Arlington-Alexandria,VA
+532,519,Remainder of Virginia,VA
+532,540,West Virginia,WV
+532,551,Milwaukee-Racine-Waukesha,WI
+532,559,Remainder of Wisconsin,WI
+532,560,Wyoming,WY
+#------------------------------------------------------+
+# Remainder of Washington (539) to and from            |
+#------------------------------------------------------+
+539,11,Birmingham-Hoover-Talladega,AL
+539,12,Mobile-Daphne-Fairhope,AL
+539,19,Remainder of Alabama,AL
+539,41,Phoenix-Mesa-Glendale,AZ
+539,42,Tucson-Nogales,AZ
+539,49,Remainder of Arizona,AZ
+539,50,Arkansas,AR
+539,81,Denver-Aurora,CO
+539,89,Remainder of Colorado,CO
+539,91,Hartford-West Hartford-East Hartford,CT
+539,92,New York-Newark,CT
+539,99,Remainder of Connecticut,CT
+539,101,Philadelphia-Reading-Camden,DE
+539,109,Remainder of Delaware,DE
+539,111,Washington,DC
+539,121,Jacksonville-Palatka,FL
+539,122,Miami-Fort Lauderdale-Port St. Lucie,FL
+539,123,Orlando-Deltona-Daytona Beach,FL
+539,124,Tampa-St. Petersburg-Clearwater,FL
+539,129,Remainder of Florida,FL
+539,131,Atlanta-Athens-Clarke County-Sandy Springs,GA
+539,132,Savannah-Hinesville-Statesboro,GA
+539,139,Remainder of Georgia,GA
+539,151,Honolulu,HI
+539,159,Remainder of Hawaii,HI
+539,160,Idaho,ID
+539,171,Chicago-Naperville,IL
+539,172,St. Louis-St. Charles-Farmington,IL
+539,179,Remainder of Illinois,IL
+539,181,Chicago-Naperville,IN
+539,182,Indianapolis-Carmel-Muncie,IN
+539,183,Fort Wayne-Huntington-Auburn,IN
+539,189,Remainder of Indiana,IN
+539,190,Iowa,IA
+539,201,Kansas City-Overland Park,KS
+539,202,Wichita-Arkansas City-Winfield,KS
+539,209,Remainder of Kansas,KS
+539,211,Cincinnati-Wilmington-Maysville,KY
+539,212,Louisville/Jefferson County-Elizabethtown-Madison,KY
+539,219,Remainder of Kentucky,KY
+539,221,Baton Rouge,LA
+539,222,Lake Charles,LA
+539,223,New Orleans-Metairie-Hammond,LA
+539,229,Remainder of Louisiana,LA
+539,230,Maine,ME
+539,241,Baltimore-Columbia-Towson,MD
+539,242,Washington-Arlington-Alexandria,MD
+539,249,Remainder of Maryland,MD
+539,251,Boston-Worcester-Providence,MA
+539,259,Remainder of Massachusetts,MA
+539,261,Detroit-Warren-Ann Arbor,MI
+539,262,Grand Rapids-Wyoming-Muskegon,MI
+539,269,Remainder of Michigan,MI 
+539,271,Minneapolis-St. Paul,MN
+539,279,Remainder of Minnesota,MN
+539,280,Mississippi,MS
+539,291,Kansas City,MO
+539,292,St. Louis-St. Charles-Farmington,MO
+539,299,Remainder of Missouri,MO
+539,300,Montana,MT
+539,311,Omaha-Council Bluffs-Fremont,NE
+539,319,Remainder of Nebraska,NE
+539,321,Las Vegas-Henderson,NV
+539,331,Providence,NH
+539,339,Remainder of New Hampshire,NH
+539,341,Newark,NJ
+539,342,Camden,NJ
+539,350,New Mexico,NM
+539,361,Albany-Schenectady,NY
+539,362,Buffalo-Cheektowaga,NY
+539,363,New York,NY
+539,364,Rochester-Batavia-Seneca Falls,NY
+539,369,Remainder of New York,NY
+539,371,Charlotte-Concord,NC
+539,372,Greensboro-Winston-Salem-High Point,NC
+539,373,Raleigh-Durham-Chapel Hill,NC
+539,379,Remainder of North Carolina,NC
+539,380,North Dakota,ND
+539,391,Cincinnati-Wilmington,OH
+539,392,Cleveland-Akron-Canton,OH
+539,393,Columbus-Marion-Zanesville,OH
+539,394,Dayton-Springfield-Sidney,OH
+539,399,Remainder of Ohio,OH
+539,401,Oklahoma City-Shawnee,OK
+539,402,Tulsa-Muskogee-Bartlesville,OK
+539,409,Remainder of Oklahoma,OK
+539,421,Philadelphia-Reading,PA
+539,422,Pittsburgh-New Castle-Weirton,PA
+539,423,New York-Newark,PA
+539,429,Remainder of Pennsylvania,PA
+539,441,Rhode Island,RI
+539,451,Charleston-North Charleston-Summerville,SC
+539,452,Greenville-Spartanburg-Anderson,SC
+539,459,Remainder of South Carolina,SC
+539,460,South Dakota,SD
+539,471,Memphis,TN
+539,472,Nashville-Davidson-Murfreesboro,TN
+539,473,Knoxville-Morristown-Sevierville,TN
+539,479,Remainder of Tennessee,TN
+539,481,Austin-Round Rock,TX
+539,482,Beaumont-Port Arthur,TX
+539,483,Corpus Christi-Kingsville-Alice,TX
+539,484,Dallas-Fort Worth,TX
+539,485,El Paso,TX 
+539,486,Houston-The Woodlands,TX
+539,487,Laredo,TX
+539,488,San Antonio-New Braunfels,TX
+539,489,Remainder of Texas,TX
+539,491,Salt Lake City-Provo-Orem,UT
+539,499,Remainder of Utah,UT 
+539,500,Vermont,VT 
+539,511,Richmond,VA
+539,512,Virginia Beach-Norfolk,VA
+539,513,Arlington-Alexandria,VA
+539,519,Remainder of Virginia,VA
+539,540,West Virginia,WV
+539,551,Milwaukee-Racine-Waukesha,WI
+539,559,Remainder of Wisconsin,WI
+539,560,Wyoming,WY
+#------------------------------------------------------+
+# Wyoming (560) to and from                            |
+#------------------------------------------------------+
+560,491,Salt Lake City-Provo-Orem,UT
+560,499,Remainder of Utah,UT 

@@ -3,7 +3,7 @@
 --Sujan  Sikder, sikders@pbworld.com, 08/13/2014
 ------------------------------------------------------------------------------------
 
-USE [ITDPopSyn]
+USE [ITDPopSynIII]
 GO
 
 SET NOCOUNT ON;

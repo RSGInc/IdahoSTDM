@@ -30,6 +30,7 @@ RUN PGM=NETWORK
     _VolEXT_AM   = EXTAM  
     _Miles_AM    = MILES 
     _Mph_AM      = CSPEEDAM
+    _VC_AM       = VCAM      ; David added this noticing it was missing 2/29/2016
     
     ;Sum origin connector volume to get trips
     IF (A <= @NZONES@) 

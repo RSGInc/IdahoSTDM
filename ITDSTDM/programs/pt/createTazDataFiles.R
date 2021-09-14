@@ -17,7 +17,7 @@ popSynFileName = "outputs/zonalData.csv"
 synpopSummaryFields = c("STDM_TAZ","TotalHHs")
 synpopSummaryFileName = "outputs/SynPop_Taz_Summary.csv"
 
-ptTazFields = c("STDM_TAZ","State","County","MPO",
+ptTazFields = c("STDM_TAZ","State","County","COUNTYFPS","MPO",
   "IsMPO","ITDDist","Area","DayPark","HourPark","destinationChoiceDistrict")
 ptTazFileName = "outputs/Taz_Data.csv"
 

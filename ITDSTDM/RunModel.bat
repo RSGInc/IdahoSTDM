@@ -21,19 +21,19 @@
 :: 
 :: -----------------------------------------------------------------------------
 
-:: Run PopSyn? TRUE or FALSE
+:: Run PopSyn? TRUE or FALSE if FALSE, make sure you have the base or future person/hh info in the output file
 SET POPSYN=FALSE
 
 :: The model year for TREDIS and externals
 SET MODEL_YEAR=2010
 
-:: The HIGHEST TAZ ID
+:: The number of tazs, FALSE!  It is the HIGHEST TAZ ID, not the number of them !!
 SET NZONES=6035
 
 :: The location of 64-bit java, RunTpp (Cube), and R
-SET JAVA_PATH=C:\Program Files\Java\jre1.8.0_31\bin
+SET JAVA_PATH=C:\Program Files\Java\jre1.8.0_201\bin
 SET TPP_PATH=C:\Program Files (x86)\Citilabs\CubeVoyager
-SET R_PATH=C:\Program Files\R\R-3.1.2\bin
+SET R_PATH=C:\Program Files\R\R-4.1.0\bin
 
 :: Number of max model feedback iterations and assignment iterations
 SET MAX_ITER=3
@@ -67,7 +67,9 @@ MKDIR outputs
 
 :: Date and time of the model start
 ECHO STARTED MODEL RUN  %DATE% %TIME%
+SET ERRORLEVEL=0
 Rscript programs/pt/createTazDataFiles.R
+IF NOT ERRORLEVEL 0 GOTO DONE
 
 :: -----------------------------------------------------------------------------
 ::
@@ -76,11 +78,15 @@ Rscript programs/pt/createTazDataFiles.R
 :: -----------------------------------------------------------------------------
 
 :: Run population synthesizer with new TAZ data
-IF %POPSYN%==TRUE (
+IF %POPSYN% == TRUE (
+  SET ERRORLEVEL=0
   ECHO RUN POPSYN  %DATE% %TIME%
   Rscript programs/popsyn/copySettingsFile.R
+  IF NOT ERRORLEVEL 0 GOTO DONE
   CALL programs/popsyn/runPopSynIII.bat
-  Rscript programs/popsyn/PopSynIII_to_PopSyn0_V3.R   
+  IF NOT ERRORLEVEL 0 GOTO DONE
+  Rscript programs/popsyn/PopSynIII_to_PopSyn0_V3.R
+  IF NOT ERRORLEVEL 0 GOTO DONE
 )
 
 :: -----------------------------------------------------------------------------
@@ -92,6 +98,7 @@ IF %POPSYN%==TRUE (
 :: Code link area type for capacity calculation
 :: Run offpeak highway skimming and copy for peak and assigned version
 runtpp programs/cube/link_area_type.s
+IF ERRORLEVEL 2 GOTO DONE
 runtpp programs/cube/offPeakSkims.s
 IF ERRORLEVEL 2 GOTO DONE
 
@@ -103,13 +110,14 @@ IF ERRORLEVEL 2 GOTO DONE
 
 :: Convert Cube skims to OMX
 programs\cube\cube2omx.exe  outputs\offpeakcur.mat
+IF ERRORLEVEL 2 GOTO DONE
 programs\cube\cube2omx.exe  outputs\peakcur.mat
+IF ERRORLEVEL 2 GOTO DONE
 
 :: Run the freight demand model
-Rscript programs/ct/RunCT.R 
-Rscript programs/ct/buildTripMatrices.R
-Rscript programs/ct/build_truck_matrices_omx.R
-programs\cube\cube2omx.exe  outputs\truck_trips.omx
+SET ERRORLEVEL=0
+Rscript programs/ct/run_idaho.R %MODEL_YEAR%
+IF NOT ERRORLEVEL 0 GOTO DONE
 
 :: -----------------------------------------------------------------------------
 ::
@@ -134,6 +142,7 @@ ECHO ****MODEL ITERATION %ITERATION%
 
 :: Method of Successive Average Network LOS Skims
 runtpp programs/cube/msaSkims.s
+IF ERRORLEVEL 2 GOTO DONE
 
 :: -----------------------------------------------------------------------------
 ::
@@ -151,11 +160,15 @@ IF EXIST "outputs/fileMonitor_event.log" DEL "outputs/fileMonitor_event.log"
 IF EXIST "outputs/node0_event.log" DEL "outputs/node0_event.log"
 IF EXIST "outputs/JavaLog.log" DEL "outputs/JavaLog.log"
 
+SET ERRORLEVEL=0
 Rscript programs/pt/copyPropertiesFile.R
+IF NOT ERRORLEVEL 0 GOTO DONE
 
 START "-Dnode = 0" java -cp "programs/pt/pt_idaho.jar;programs/pt" "-Dlog4j.configuration=info_log4j_fileMonitor.xml" -server com.pb.common.daf.admin.FileMonitor "programs/pt/commandFile.txt" "programs/pt/startnode0.properties"
 CMD /C "ping 127.0.0.1 -n 10 > NUL"
+IF ERRORLEVEL 2 GOTO DONE
 java -cp "programs/pt/pt_idaho.jar;programs/pt" -Xmx250m "-Dlog4j.configuration=info_log4j.xml" -server com.pb.idaho.ao.ModelEntry PT "property_file=outputs/pt.properties"
+IF ERRORLEVEL 2 GOTO DONE
 TASKKILL /IM "java.exe" /F
 
 :: -----------------------------------------------------------------------------
@@ -164,8 +177,11 @@ TASKKILL /IM "java.exe" /F
 ::
 :: -----------------------------------------------------------------------------
 
+SET ERRORLEVEL=0
 Rscript programs/pt/build_demand_matrices.R %NZONES% %PTSAMPLERATE%
+IF NOT ERRORLEVEL 0 GOTO DONE
 programs\cube\cube2omx.exe outputs/pt_trips.omx
+IF ERRORLEVEL 2 GOTO DONE
 
 :: -----------------------------------------------------------------------------
 ::
@@ -190,15 +206,32 @@ IF ERRORLEVEL 2 GOTO DONE
 
 :: -----------------------------------------------------------------------------
 ::
+:: Step 10:  Output a single network with all the time periods + LOS and copy to shapefile
+::
+:: -----------------------------------------------------------------------------
+
+:: Combine networks AM,MD,PM,NT into a single network
+:: Create a shapefile version of this single network
+runtpp programs/cube/netmerge.s
+IF ERRORLEVEL 2 GOTO DONE
+runtpp programs/cube/net2shp.s
+IF ERRORLEVEL 2 GOTO DONE
+
+:: -----------------------------------------------------------------------------
+::
 :: Done
 ::
 :: -----------------------------------------------------------------------------
 
 ECHO MODEL COMPLETE
+GOTO SUCCESS
 
 :: Complete target
 :DONE
+ECHO MODEL ERROR AND DID NOT FINISH SUCCESSFULLY > "model_error.txt"
 
+:SUCCESS
+ECHO MODEL FINISH SUCCESSFULLY > "model_success.txt"
 :: Reset the system PATH
 SET PATH=%OLD_PATH%
 

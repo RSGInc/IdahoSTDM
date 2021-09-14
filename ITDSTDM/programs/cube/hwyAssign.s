@@ -2,7 +2,6 @@
 ; Sujan Sikder, sikders@pbworld.com, 09/22/2014
 ; Ben Stabler, ben.stabler@rsginc.com, 02/24/15
 ; Revised 09/22/15 for four time periods
-; Revised 06/30/17 bts for select link for ii, ie, ei, ee summaries
 
 ; Step 1: Aggregate trip matrices by user class and time-of-day
 ; Step 2:(a) Tag links based on facility and area type
@@ -59,7 +58,7 @@ trkDmdOnly = 0 ;assign truck demand only
 GAPEND = 6000 ;end internal TAZ id
 trkPCU = 1.7 ; truck passenger car units
 gap = 0.0001 ; relative gap setting
-numthreads = 8 ; number of threads for assignment
+numthreads = 12 ; number of threads for assignment
 
 ; time period specific settings
 pkAuVot = 25 ; peak hour value of time - auto: $25/hr
@@ -76,9 +75,7 @@ amHourFactor = 1.42 ; AM two hour capacity factor
 mdHourFactor = 4.00 ; MD period capacity factor
 pmHourFactor = 1.42 ; PM two hour capacity factor
 ntHourFactor = 4.00 ; NT period capacity factor
-
-selectLink ='10776-10784' ; select link A-B node in quotes
-
+ 
 ;----------------------------------------------------------------------------------------------
 ; Aggregate trip matrices by mode and time-of-day
 
@@ -86,15 +83,15 @@ selectLink ='10776-10784' ; select link A-B node in quotes
 RUN PGM = MATRIX MSG = "Aggregate AM peak trip matrices by user class"
   
   MATI[1] = "outputs\pt_trips.mat"
-  MATI[2] = "outputs\truck_trips.mat"
+  FILEI MATI[2] = "outputs\exported_truck_trips.csv", PATTERN=IJM:V FIELDS=#1,2,0,4,3 SKIPRECS=1
   MATI[3] = "outputs\externals.mat"
   FILEO MATO[1]= "outputs\ampeaktrips.mat", MO=1-9, DEC=5*5, Name=SOVS,HOV2S,HOV3PS,SUT,MUT,EXT,SOVL,HOV2L,HOV3PL
 
   MW[1]=mi.1.SAMDA  
   MW[2]=mi.1.SAMSR2
   MW[3]=mi.1.SAMSR3P
-  MW[4]=mi.2.AMSUT
-  MW[5]=mi.2.AMMUT
+  MW[4]=mi.2.1    ;use first V field from matrix 2 (CT) which happens to be the forth field in the MATI[2] statement
+  MW[5]=mi.2.2    ;use second V field from matrix 2 (CT) which happens to be the fifth field in the MATI[2] statement
   MW[6]=mi.3.EXTERNALS * @amPeakExtFactor@
   MW[7]=mi.1.LAMDA 
   MW[8]=mi.1.LAMSR2 
@@ -117,15 +114,16 @@ ENDRUN
 RUN PGM = MATRIX MSG = "Aggregate MD trip matrices by user class"
   
   MATI[1] = "outputs\pt_trips.mat"
-  MATI[2] = "outputs\truck_trips.mat"
+  ;MATI[2] = "outputs\truck_trips.mat"
+  FILEI MATI[2] = "outputs\exported_truck_trips.csv", PATTERN=IJM:V FIELDS=#1,2,0,6,5 SKIPRECS=1
   MATI[3] = "outputs\externals.mat"
   FILEO MATO[1]= "outputs\mdpeaktrips.mat", MO=1-9, DEC=5*5, Name=SOVS,HOV2S,HOV3PS,SUT,MUT,EXT,SOVL,HOV2L,HOV3PL
 
   MW[1]=mi.1.SMDDA
   MW[2]=mi.1.SMDSR2
   MW[3]=mi.1.SMDSR3P
-  MW[4]=mi.2.MDSUT
-  MW[5]=mi.2.MDMUT
+  MW[4]=mi.2.1
+  MW[5]=mi.2.2
   MW[6]=mi.3.EXTERNALS * @mdPeakExtFactor@
   MW[7]=mi.1.LMDDA
   MW[8]=mi.1.LMDSR2
@@ -148,15 +146,16 @@ ENDRUN
 RUN PGM = MATRIX MSG = "Aggregate PM peak trip matrices by user class"
   
   MATI[1] = "outputs\pt_trips.mat"
-  MATI[2] = "outputs\truck_trips.mat"
+  ;MATI[2] = "outputs\truck_trips.mat"
+  FILEI MATI[2] = "outputs\exported_truck_trips.csv", PATTERN=IJM:V FIELDS=#1,2,0,10,9 SKIPRECS=1
   MATI[3] = "outputs\externals.mat"
   FILEO MATO[1]= "outputs\pmpeaktrips.mat", MO=1-9, DEC=5*5, Name=SOVS,HOV2S,HOV3PS,SUT,MUT,EXT,SOVL,HOV2L,HOV3PL
 
   MW[1]=mi.1.SPMDA  
   MW[2]=mi.1.SPMSR2
   MW[3]=mi.1.SPMSR3P
-  MW[4]=mi.2.PMSUT
-  MW[5]=mi.2.PMMUT
+  MW[4]=mi.2.1
+  MW[5]=mi.2.2
   MW[6]=mi.3.EXTERNALS * @pmPeakExtFactor@
   MW[7]=mi.1.LPMDA 
   MW[8]=mi.1.LPMSR2 
@@ -179,15 +178,16 @@ ENDRUN
 RUN PGM = MATRIX MSG = "Aggregate NT trip matrices by user class"
   
   MATI[1] = "outputs\pt_trips.mat"
-  MATI[2] = "outputs\truck_trips.mat"
+  ;MATI[2] = "outputs\truck_trips.mat"
+  FILEI MATI[2] = "outputs\exported_truck_trips.csv", PATTERN=IJM:V FIELDS=#1,2,0,8,7 SKIPRECS=1
   MATI[3] = "outputs\externals.mat"
   FILEO MATO[1]= "outputs\ntpeaktrips.mat", MO=1-9, DEC=5*5, Name=SOVS,HOV2S,HOV3PS,SUT,MUT,EXT,SOVL,HOV2L,HOV3PL
 
   MW[1]=mi.1.SNTDA 
   MW[2]=mi.1.SNTSR2 
   MW[3]=mi.1.SNTSR3P 
-  MW[4]=mi.2.NTSUT
-  MW[5]=mi.2.NTMUT
+  MW[4]=mi.2.1
+  MW[5]=mi.2.2
   MW[6]=mi.3.EXTERNALS * @ntPeakExtFactor@
   MW[7]=mi.1.LNTDA
   MW[8]=mi.1.LNTSR2  
@@ -307,10 +307,9 @@ RUN PGM=HIGHWAY MSG = "AM peak highway assignment"
    NETI = "outputs\itdcap.net"
    MATI = "outputs\ampeaktrips.mat"
    NETO = "outputs\itdamassign.net"
-   MATO = "outputs\selectlinkam.mat",MO=1-9,DEC=2
    ZONES=@nZones@
 
-   DistributeIntrastep processid='ITD', processlist=1-8
+   DistributeIntrastep processid='ITD', processlist=1-@numthreads@
 
   PHASE = LINKREAD
 
@@ -336,15 +335,15 @@ RUN PGM=HIGHWAY MSG = "AM peak highway assignment"
   ; Load Auto and Truck trips to their appropriate paths
 
   PHASE = ILOOP
-    PATHLOAD VOL[1] = MI.1.SOVS, PATH = LW.IMPEDA, MW[1] = MI.1.SOVS, SELECTLINK = (L=@selectLink@)
-    PATHLOAD VOL[2] = MI.1.HOV2S, PATH = LW.IMPEDA, MW[2] = MI.1.HOV2S, SELECTLINK = (L=@selectLink@)
-    PATHLOAD VOL[3] = MI.1.HOV3PS, PATH = LW.IMPEDA, MW[3] = MI.1.HOV3PS, SELECTLINK = (L=@selectLink@)
-    PATHLOAD VOL[4] = MI.1.SUT, PATH = LW.IMPEDT, MW[4] = MI.1.SUT, SELECTLINK = (L=@selectLink@)
-    PATHLOAD VOL[5] = MI.1.MUT, PATH = LW.IMPEDT, MW[5] = MI.1.MUT, SELECTLINK = (L=@selectLink@)
-    PATHLOAD VOL[6] = MI.1.EXT, PATH = LW.IMPEDA, MW[6] = MI.1.EXT, SELECTLINK = (L=@selectLink@)
-    PATHLOAD VOL[7] = MI.1.SOVL, PATH = LW.IMPEDA, MW[7] = MI.1.SOVL, SELECTLINK = (L=@selectLink@)
-    PATHLOAD VOL[8] = MI.1.HOV2L, PATH = LW.IMPEDA, MW[8] = MI.1.HOV2L, SELECTLINK = (L=@selectLink@)
-    PATHLOAD VOL[9] = MI.1.HOV3PL, PATH = LW.IMPEDA, MW[9] = MI.1.HOV3PL, SELECTLINK = (L=@selectLink@)
+    PATHLOAD VOL[1] = MI.1.SOVS, PATH = LW.IMPEDA
+    PATHLOAD VOL[2] = MI.1.HOV2S, PATH = LW.IMPEDA
+    PATHLOAD VOL[3] = MI.1.HOV3PS, PATH = LW.IMPEDA
+    PATHLOAD VOL[4] = MI.1.SUT, PATH = LW.IMPEDT
+    PATHLOAD VOL[5] = MI.1.MUT, PATH = LW.IMPEDT
+    PATHLOAD VOL[6] = MI.1.EXT, PATH = LW.IMPEDA
+    PATHLOAD VOL[7] = MI.1.SOVL, PATH = LW.IMPEDA
+    PATHLOAD VOL[8] = MI.1.HOV2L, PATH = LW.IMPEDA
+    PATHLOAD VOL[9] = MI.1.HOV3PL, PATH = LW.IMPEDA
     ; Bi-conjugate equilibrium assignment
     PARAMETERS ZONEMSG=100,  MAXITERS=@maxIterns@, COMBINE=EQUI, ENHANCE=2, GAP=@gap@
   ENDPHASE 
@@ -384,7 +383,6 @@ RUN PGM=HIGHWAY MSG = "MD offpeak highway assignment"
    NETI = "outputs\itdcap.net"
    MATI = "outputs\mdpeaktrips.mat"
    NETO = "outputs\itdmdassign.net"
-   MATO = "outputs\selectlinkmd.mat",MO=1-9,DEC=2
    ZONES=@nZones@
 
   PHASE = LINKREAD
@@ -411,15 +409,15 @@ RUN PGM=HIGHWAY MSG = "MD offpeak highway assignment"
   ENDPHASE
     
   PHASE = ILOOP
-    PATHLOAD VOL[1] = MI.1.SOVS, PATH = LW.IMPEDA, MW[1] = MI.1.SOVS, SELECTLINK = (L=@selectLink@)
-    PATHLOAD VOL[2] = MI.1.HOV2S, PATH = LW.IMPEDA, MW[2] = MI.1.HOV2S, SELECTLINK = (L=@selectLink@)
-    PATHLOAD VOL[3] = MI.1.HOV3PS, PATH = LW.IMPEDA, MW[3] = MI.1.HOV3PS, SELECTLINK = (L=@selectLink@)
-    PATHLOAD VOL[4] = MI.1.SUT, PATH = LW.IMPEDT, MW[4] = MI.1.SUT, SELECTLINK = (L=@selectLink@)
-    PATHLOAD VOL[5] = MI.1.MUT, PATH = LW.IMPEDT, MW[5] = MI.1.MUT, SELECTLINK = (L=@selectLink@)
-    PATHLOAD VOL[6] = MI.1.EXT, PATH = LW.IMPEDA, MW[6] = MI.1.EXT, SELECTLINK = (L=@selectLink@)
-    PATHLOAD VOL[7] = MI.1.SOVL, PATH = LW.IMPEDA, MW[7] = MI.1.SOVL, SELECTLINK = (L=@selectLink@)
-    PATHLOAD VOL[8] = MI.1.HOV2L, PATH = LW.IMPEDA, MW[8] = MI.1.HOV2L, SELECTLINK = (L=@selectLink@)
-    PATHLOAD VOL[9] = MI.1.HOV3PL, PATH = LW.IMPEDA, MW[9] = MI.1.HOV3PL, SELECTLINK = (L=@selectLink@)
+    PATHLOAD VOL[1] = MI.1.SOVS, PATH = LW.IMPEDA
+    PATHLOAD VOL[2] = MI.1.HOV2S, PATH = LW.IMPEDA
+    PATHLOAD VOL[3] = MI.1.HOV3PS, PATH = LW.IMPEDA
+    PATHLOAD VOL[4] = MI.1.SUT, PATH = LW.IMPEDT
+    PATHLOAD VOL[5] = MI.1.MUT, PATH = LW.IMPEDT
+    PATHLOAD VOL[6] = MI.1.EXT, PATH = LW.IMPEDA
+    PATHLOAD VOL[7] = MI.1.SOVL, PATH = LW.IMPEDA
+    PATHLOAD VOL[8] = MI.1.HOV2L, PATH = LW.IMPEDA
+    PATHLOAD VOL[9] = MI.1.HOV3PL, PATH = LW.IMPEDA
 	
     ; Bi-conjugate equilibrium assignment
     PARAMETERS ZONEMSG=100,  MAXITERS=@maxIterns@, COMBINE=EQUI, ENHANCE=2, GAP= 0.0001
@@ -460,10 +458,9 @@ RUN PGM=HIGHWAY MSG = "PM peak highway assignment"
    NETI = "outputs\itdcap.net"
    MATI = "outputs\pmpeaktrips.mat"
    NETO = "outputs\itdpmassign.net"
-   MATO = "outputs\selectlinkpm.mat",MO=1-9,DEC=2
    ZONES=@nZones@
 
-   DistributeIntrastep processid='ITD', processlist=1-8
+   DistributeIntrastep processid='ITD', processlist=1-@numthreads@
 
   PHASE = LINKREAD
 
@@ -489,15 +486,15 @@ RUN PGM=HIGHWAY MSG = "PM peak highway assignment"
   ; Load Auto and Truck trips to their appropriate paths
 
   PHASE = ILOOP
-    PATHLOAD VOL[1] = MI.1.SOVS, PATH = LW.IMPEDA, MW[1] = MI.1.SOVS, SELECTLINK = (L=@selectLink@)
-    PATHLOAD VOL[2] = MI.1.HOV2S, PATH = LW.IMPEDA, MW[2] = MI.1.HOV2S, SELECTLINK = (L=@selectLink@)
-    PATHLOAD VOL[3] = MI.1.HOV3PS, PATH = LW.IMPEDA, MW[3] = MI.1.HOV3PS, SELECTLINK = (L=@selectLink@)
-    PATHLOAD VOL[4] = MI.1.SUT, PATH = LW.IMPEDT, MW[4] = MI.1.SUT, SELECTLINK = (L=@selectLink@)
-    PATHLOAD VOL[5] = MI.1.MUT, PATH = LW.IMPEDT, MW[5] = MI.1.MUT, SELECTLINK = (L=@selectLink@)
-    PATHLOAD VOL[6] = MI.1.EXT, PATH = LW.IMPEDA, MW[6] = MI.1.EXT, SELECTLINK = (L=@selectLink@)
-    PATHLOAD VOL[7] = MI.1.SOVL, PATH = LW.IMPEDA, MW[7] = MI.1.SOVL, SELECTLINK = (L=@selectLink@)
-    PATHLOAD VOL[8] = MI.1.HOV2L, PATH = LW.IMPEDA, MW[8] = MI.1.HOV2L, SELECTLINK = (L=@selectLink@)
-    PATHLOAD VOL[9] = MI.1.HOV3PL, PATH = LW.IMPEDA, MW[9] = MI.1.HOV3PL, SELECTLINK = (L=@selectLink@)
+    PATHLOAD VOL[1] = MI.1.SOVS, PATH = LW.IMPEDA
+    PATHLOAD VOL[2] = MI.1.HOV2S, PATH = LW.IMPEDA
+    PATHLOAD VOL[3] = MI.1.HOV3PS, PATH = LW.IMPEDA
+    PATHLOAD VOL[4] = MI.1.SUT, PATH = LW.IMPEDT
+    PATHLOAD VOL[5] = MI.1.MUT, PATH = LW.IMPEDT
+    PATHLOAD VOL[6] = MI.1.EXT, PATH = LW.IMPEDA
+    PATHLOAD VOL[7] = MI.1.SOVL, PATH = LW.IMPEDA
+    PATHLOAD VOL[8] = MI.1.HOV2L, PATH = LW.IMPEDA
+    PATHLOAD VOL[9] = MI.1.HOV3PL, PATH = LW.IMPEDA
     ; Bi-conjugate equilibrium assignment
     PARAMETERS ZONEMSG=100,  MAXITERS=@maxIterns@, COMBINE=EQUI, ENHANCE=2, GAP=@gap@
   ENDPHASE 
@@ -537,7 +534,6 @@ RUN PGM=HIGHWAY MSG = "NT offpeak highway assignment"
    NETI = "outputs\itdcap.net"
    MATI = "outputs\ntpeaktrips.mat"
    NETO = "outputs\itdntassign.net"
-   MATO = "outputs\selectlinknt.mat",MO=1-9,DEC=2
    ZONES=@nZones@
 
   PHASE = LINKREAD
@@ -564,15 +560,15 @@ RUN PGM=HIGHWAY MSG = "NT offpeak highway assignment"
   ENDPHASE
     
   PHASE = ILOOP
-    PATHLOAD VOL[1] = MI.1.SOVS, PATH = LW.IMPEDA, MW[1] = MI.1.SOVS, SELECTLINK = (L=@selectLink@)
-    PATHLOAD VOL[2] = MI.1.HOV2S, PATH = LW.IMPEDA, MW[2] = MI.1.HOV2S, SELECTLINK = (L=@selectLink@)
-    PATHLOAD VOL[3] = MI.1.HOV3PS, PATH = LW.IMPEDA, MW[3] = MI.1.HOV3PS, SELECTLINK = (L=@selectLink@)
-    PATHLOAD VOL[4] = MI.1.SUT, PATH = LW.IMPEDT, MW[4] = MI.1.SUT, SELECTLINK = (L=@selectLink@)
-    PATHLOAD VOL[5] = MI.1.MUT, PATH = LW.IMPEDT, MW[5] = MI.1.MUT, SELECTLINK = (L=@selectLink@)
-    PATHLOAD VOL[6] = MI.1.EXT, PATH = LW.IMPEDA, MW[6] = MI.1.EXT, SELECTLINK = (L=@selectLink@)
-    PATHLOAD VOL[7] = MI.1.SOVL, PATH = LW.IMPEDA, MW[7] = MI.1.SOVL, SELECTLINK = (L=@selectLink@)
-    PATHLOAD VOL[8] = MI.1.HOV2L, PATH = LW.IMPEDA, MW[8] = MI.1.HOV2L, SELECTLINK = (L=@selectLink@)
-    PATHLOAD VOL[9] = MI.1.HOV3PL, PATH = LW.IMPEDA, MW[9] = MI.1.HOV3PL, SELECTLINK = (L=@selectLink@)
+    PATHLOAD VOL[1] = MI.1.SOVS, PATH = LW.IMPEDA
+    PATHLOAD VOL[2] = MI.1.HOV2S, PATH = LW.IMPEDA
+    PATHLOAD VOL[3] = MI.1.HOV3PS, PATH = LW.IMPEDA
+    PATHLOAD VOL[4] = MI.1.SUT, PATH = LW.IMPEDT
+    PATHLOAD VOL[5] = MI.1.MUT, PATH = LW.IMPEDT
+    PATHLOAD VOL[6] = MI.1.EXT, PATH = LW.IMPEDA
+    PATHLOAD VOL[7] = MI.1.SOVL, PATH = LW.IMPEDA
+    PATHLOAD VOL[8] = MI.1.HOV2L, PATH = LW.IMPEDA
+    PATHLOAD VOL[9] = MI.1.HOV3PL, PATH = LW.IMPEDA
 	
     ; Bi-conjugate equilibrium assignment
     PARAMETERS ZONEMSG=100,  MAXITERS=@maxIterns@, COMBINE=EQUI, ENHANCE=2, GAP= 0.0001
@@ -609,51 +605,6 @@ RUN PGM=HIGHWAY MSG = "NT offpeak highway assignment"
 ENDRUN 
 
 *Cluster.exe ITD 1-@numthreads@ close exit
-
-;----------------------------------------------------------------------------------------------
-; Merge select link matrices
-RUN PGM = MATRIX MSG = "Merge select link matrices by time period"
-  
-  MATI[1] = "outputs\selectlinkam.mat"
-  MATI[2] = "outputs\selectlinkmd.mat"
-  MATI[3] = "outputs\selectlinkpm.mat"
-  MATI[4] = "outputs\selectlinknt.mat"
-  FILEO MATO[1]= "outputs\selectlink.mat", MO=1, DEC=2, Name=ALL
-
-  MW[1]=mi.1.1 + mi.1.2 + mi.1.3 + mi.1.4 + mi.1.5 + mi.1.6 + mi.1.7 + mi.1.8 + mi.1.9 + 
-        mi.2.1 + mi.2.2 + mi.2.3 + mi.2.4 + mi.2.5 + mi.2.6 + mi.2.7 + mi.2.8 + mi.2.9 + 
-        mi.3.1 + mi.3.2 + mi.3.3 + mi.3.4 + mi.3.5 + mi.3.6 + mi.3.7 + mi.3.8 + mi.3.9 + 
-        mi.4.1 + mi.4.2 + mi.4.3 + mi.4.4 + mi.4.5 + mi.4.6 + mi.4.7 + mi.4.8 + mi.4.9
-       
-ENDRUN  
-
-;----------------------------------------------------------------------------------------------
-; Report select link results
-RUN PGM = MATRIX MSG = "Report select link results"
-  
-  MATI[1] = "outputs\selectlink.mat"
-  
-  JLOOP
-    
-      IF(I <= @GAPEND@ & J <= @GAPEND@) 
-        IISUM = IISUM + mi.1.1[J]
-      ENDIF
-      
-      IF(I <= @GAPEND@ & J > @GAPEND@) 
-        IESUM = IESUM + mi.1.1[J]
-      ENDIF
-      
-      IF(I > @GAPEND@ & J <= @GAPEND@) 
-        EISUM = EISUM + mi.1.1[J]
-      ENDIF
-      
-      IF(I > @GAPEND@ & J > @GAPEND@) 
-        EESUM = EESUM + mi.1.1[J]
-      ENDIF
-  
-  ENDJLOOP
-   
-ENDRUN  
 
 ;----------------------------------------------------------------------------------------------
 ; Calculate congested speed by time-of-day
