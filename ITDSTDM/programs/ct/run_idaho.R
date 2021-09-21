@@ -14,7 +14,7 @@ runtime_parameters <- "./inputs/ct/prelim_parameters.txt"
 RTP <<- pcvmodr::get_runtime_parameters(runtime_parameters)
 
 # Start the doParallel cluster
-myCluster <- parallel::makeCluster(min(parallel::detectCores(),5),
+myCluster <- parallel::makeCluster(min(parallel::detectCores(),as.integer(RTP[["ct_parallel_cores"]])),
   outfile = file.path(RTP[["scenario_folder"]], "myCluster.log"))
 doParallel::registerDoParallel(myCluster)
 print(paste("doParallel cluster instance started with", getDoParWorkers(),

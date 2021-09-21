@@ -10,4 +10,5 @@ generation_probabilities = "./inputs/ct/qrfm2_generation_rates.csv"
 temporal_distributions = "./inputs/ct/truck_temporal_distributions.csv"
 skim_matrices = "./outputs/offpeakcur.omx"
 trip_length_targets = "./inputs/ct/fitted_trip_length_distributions.csv"
-
+seed = 1984
+ct_parallel_cores = 2
