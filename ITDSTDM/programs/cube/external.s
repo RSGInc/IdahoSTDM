@@ -1037,7 +1037,7 @@ RUN PGM=MATRIX
 
 :Application
 
-*copy seed matrix from inputs to outputs folder
+;copy seed matrix from inputs to outputs folder
 IF (APPLY=1)
   *XCOPY inputs\seed.mat outputs\seed.mat* /Y
 ENDIF
