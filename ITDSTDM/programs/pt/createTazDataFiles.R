@@ -1,35 +1,39 @@
 
 #Create sub-model specific TAZ input files
 #Ben Stabler, ben.stabler@rsginc.com, 02/13/15
+#Updated for paths, Andrew Rohne, andrew.rohne@rsginc.com, 7/18/24
 ############################################################
 
-tazFileName = "inputs/tazs.csv"
+INPUT_FOLDER <- Sys.getenv("INPUT_FOLDER")
+OUTPUT_FOLDER <- Sys.getenv("OUTPUT_FOLDER")
+
+tazFileName = file.path(INPUT_FOLDER, "tazs.csv")
 
 popSynFields = c("STATEFPS","COUNTYFPS","CNTYIDFP00","ZONEID",
   "TOTPOP_T","TOTHH_T","HHSIZE1","HHSIZE2","HHSIZE3","HHSIZE4",
   "HHSIZE5","HHSIZE6","HHSIZE7","HHWORK0","HHWORK1","HHWORK2",
-  "HHWORK3","CATINC1","CATINC2","CATINC3","HHSIZE1_O","HHWORK0_O",
+  "HHWORK3","CATINC1","CATINC2","CATINC3",
   "HHINC1","HHINC2","HHINC3","HHINC4","HHINC5","HHINC6","HHINC7",
   "HHINC8","HHINC9","HHINC10","HHINC11","HHINC12","HHINC13",
   "HHINC14","HHINC15","HHINC16")
-popSynFileName = "outputs/zonalData.csv"
+popSynFileName = file.path(OUTPUT_FOLDER, "zonalData.csv")
 
 synpopSummaryFields = c("STDM_TAZ","TotalHHs")
-synpopSummaryFileName = "outputs/SynPop_Taz_Summary.csv"
+synpopSummaryFileName = file.path(OUTPUT_FOLDER, "SynPop_Taz_Summary.csv")
 
 ptTazFields = c("STDM_TAZ","State","County","COUNTYFPS","MPO",
   "IsMPO","ITDDist","Area","DayPark","HourPark","destinationChoiceDistrict")
-ptTazFileName = "outputs/Taz_Data.csv"
+ptTazFileName = file.path(OUTPUT_FOLDER, "Taz_Data.csv")
 
 ptEmploymentFields = c("STDM_TAZ","TotEmp","sdtRetail","sdtOtherServ","sdtHealth",
   "sdtTransportation","sdtK12Ed","sdtHigherEd","sdtOtherEd","sdtPublicAdmin",
   "sdtOther","ldtAgriMining","ldtConst","ldtManu","ldtTransportation",
   "ldtWholesale","ldtRetail","ldtOtherService","ldtHealth","ldtEducation",
   "ldtFinance","ldtPublicAdmin","ldtHotel","ldtOther")
-ptEmploymentFileName = "outputs/Employment.csv"
+ptEmploymentFileName = file.path(OUTPUT_FOLDER, "Employment.csv")
 
 ptShadowPriceFields = c("TAZ","ShadowPrice")
-ptShadowPriceFileName = "outputs/InitialShadowPriceByTaz.csv"
+ptShadowPriceFileName = file.path(OUTPUT_FOLDER, "InitialShadowPriceByTaz.csv")
 
 ############################################################
 

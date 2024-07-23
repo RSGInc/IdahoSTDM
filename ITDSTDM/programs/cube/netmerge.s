@@ -1,9 +1,9 @@
 RUN PGM=HWYNET
-  NETI[1]="outputs/itdamassignfinal.net"
-  NETI[2]="outputs/itdmdassignfinal.net"
-  NETI[3]="outputs/itdpmassignfinal.net"
-  NETI[4]="outputs/itdntassignfinal.net"
-  NETO="outputs/itdassignfinal.net"                  ; output network that shows volume differences 
+  NETI[1]="%OUTPUT_FOLDER%/itdamassignfinal.net"
+  NETI[2]="%OUTPUT_FOLDER%/itdmdassignfinal.net"
+  NETI[3]="%OUTPUT_FOLDER%/itdpmassignfinal.net"
+  NETI[4]="%OUTPUT_FOLDER%/itdntassignfinal.net"
+  NETO="%OUTPUT_FOLDER%/itdassignfinal.net"                  ; output network that shows volume differences 
 
   MERGE RECORD=F
 

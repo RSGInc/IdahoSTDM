@@ -5,16 +5,16 @@
 RUN PGM = MATRIX MSG = "Average network LOS matrices"
   
   ;current
-  MATI[1] = "outputs\peakcur.mat"
-  MATI[2] = "outputs\offpeakcur.mat"
+  MATI[1] = "%OUTPUT_FOLDER%\peakcur.mat"
+  MATI[2] = "%OUTPUT_FOLDER%\offpeakcur.mat"
   
   ;previous
-  MATI[3] = "outputs\peakprev.mat"
-  MATI[4] = "outputs\offpeakprev.mat"
+  MATI[3] = "%OUTPUT_FOLDER%\peakprev.mat"
+  MATI[4] = "%OUTPUT_FOLDER%\offpeakprev.mat"
   
   ;output
-  FILEO MATO[1]= "outputs\peakavg.mat", MO=1-3, DEC=5*5, Name=TIME,DISTANCE,ZEROS
-  FILEO MATO[2]= "outputs\offpeakavg.mat", MO=4-6, DEC=5*5, Name=TIME,DISTANCE,ZEROS
+  FILEO MATO[1]= "%OUTPUT_FOLDER%\peakavg.mat", MO=1-3, DEC=5*5, Name=TIME,DISTANCE,ZEROS
+  FILEO MATO[2]= "%OUTPUT_FOLDER%\offpeakavg.mat", MO=4-6, DEC=5*5, Name=TIME,DISTANCE,ZEROS
 
   IF(%ITERATION%==1) 
     MW[1]=mi.1.TIME * 0.0 + mi.3.TIME * 1.0
@@ -64,9 +64,9 @@ RUN PGM = MATRIX MSG = "Average network LOS matrices"
 ENDRUN 
 
 ;copy files
-*XCOPY outputs\peakcur.mat    outputs\peakprev.mat* /Y
-*XCOPY outputs\offpeakcur.mat outputs\offpeakprev.mat* /Y
-*XCOPY outputs\peakavg.mat     outputs\peakcur.mat* /Y
-*XCOPY outputs\offpeakavg.mat  outputs\offpeakcur.mat* /Y
-*XCOPY outputs\peakavg.mat     outputs\peakavg_%ITERATION%.mat* /Y
-*XCOPY outputs\offpeakavg.mat  outputs\offpeakavg_%ITERATION%.mat* /Y
+*XCOPY "%OUTPUT_FOLDER%\peakcur.mat"    "%OUTPUT_FOLDER%\peakprev.mat"* /Y
+*XCOPY "%OUTPUT_FOLDER%\offpeakcur.mat" "%OUTPUT_FOLDER%\offpeakprev.mat"* /Y
+*XCOPY "%OUTPUT_FOLDER%\peakavg.mat"     "%OUTPUT_FOLDER%\peakcur.mat"* /Y
+*XCOPY "%OUTPUT_FOLDER%\offpeakavg.mat"  "%OUTPUT_FOLDER%\offpeakcur.mat"* /Y
+*XCOPY "%OUTPUT_FOLDER%\peakavg.mat"     "%OUTPUT_FOLDER%\peakavg_%ITERATION%.mat"* /Y
+*XCOPY "%OUTPUT_FOLDER%\offpeakavg.mat"  "%OUTPUT_FOLDER%\offpeakavg_%ITERATION%.mat"* /Y

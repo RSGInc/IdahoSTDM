@@ -9,12 +9,14 @@ if(length(args)){
 	faf_year <- as.integer(args[1])
 }
 
+INPUT_FOLDER <- Sys.getenv("INPUT_FOLDER")
+
 # Read the runtime parameters
-runtime_parameters <- "./inputs/ct/prelim_parameters.txt"
+runtime_parameters <- paste("./", INPUT_FOLDER, "/ct/prelim_parameters.txt", sep = "")
 RTP <<- pcvmodr::get_runtime_parameters(runtime_parameters)
 
 # Start the doParallel cluster
-myCluster <- parallel::makeCluster(min(parallel::detectCores(),as.integer(RTP[["ct_parallel_cores"]])),
+myCluster <- parallel::makeCluster(min(parallel::detectCores(),5),
   outfile = file.path(RTP[["scenario_folder"]], "myCluster.log"))
 doParallel::registerDoParallel(myCluster)
 print(paste("doParallel cluster instance started with", getDoParWorkers(),

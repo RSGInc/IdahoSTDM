@@ -56,8 +56,8 @@ IF (APPLY=1) GOTO :Application
 
  RUN PGM=MATRIX
 
-    FILEI MATI[1]= inputs\Adjusted_Trips.mat
-    FILEO MATO[1]= outputs\total.mat,MO=1,Name = TOTAL
+    FILEI MATI[1]= "%INPUT_FOLDER%\Adjusted_Trips.mat"
+    FILEO MATO[1]= "%OUTPUT_FOLDER%\total.mat",MO=1,Name = TOTAL
 
     ;MW[1] = MI.1.1 + MI.1.2 + MI.1.3 + MI.1.4 + MI.1.5 ;auto(1-4)+truck(5)
     MW[1] = MI.1.4 ;visitor
@@ -70,10 +70,10 @@ IF (APPLY=1) GOTO :Application
  
  RUN PGM=HIGHWAY
 
-   MATI = outputs\total.mat
-   NETI = inputs\@HWYNET@
-   NETO = outputs\loaded.net
-   MATO = outputs\stationOne.mat,MO=1-36,dec=2 
+   MATI = "%OUTPUT_FOLDER%\total.mat"
+   NETI = "%INPUT_FOLDER%\@HWYNET@"
+   NETO = "%OUTPUT_FOLDER%\loaded.net"
+   MATO = "%OUTPUT_FOLDER%\stationOne.mat",MO=1-36,dec=2 
     
     ZONES=@NZONES@
     ;Set run PARAMETERS and Controls
@@ -208,8 +208,8 @@ IF (APPLY=1) GOTO :Application
  
 RUN PGM=MATRIX
 
-   MATI[1]=outputs\stationOne.mat
-   MATO =outputs\stationTwo.mat,MO=1-35,DEC=2,NAME=sta1,sta2,sta3,sta4,sta5,sta6,sta7,sta8,sta9,sta10,sta11,sta12,
+   MATI[1]="%OUTPUT_FOLDER%\stationOne.mat"
+   MATO = "%OUTPUT_FOLDER%\stationTwo.mat",MO=1-35,DEC=2,NAME=sta1,sta2,sta3,sta4,sta5,sta6,sta7,sta8,sta9,sta10,sta11,sta12,
                                                 sta13,sta14,sta15,sta16,sta17,sta18,sta19,sta20,sta21,sta22,sta23,sta24,
                                                 sta25,sta26,sta27,sta28,sta29,sta30,sta31,sta32,sta33,sta34,sta35
                                          
@@ -377,8 +377,8 @@ RUN PGM=MATRIX
 
  RUN PGM=MATRIX
   
-   FILEI MATI[1] = outputs\stationTwo.mat
-   MATO = outputs\stationThree.mat,MO=1-105
+   FILEI MATI[1] = "%OUTPUT_FOLDER%\stationTwo.mat"
+   MATO = "%OUTPUT_FOLDER%\stationThree.mat",MO=1-105
    
    MW[36] = 0
    MW[37] = 0
@@ -756,8 +756,8 @@ RUN PGM=MATRIX
  
  RUN PGM=MATRIX
   
-  FILEI MATI[1]= outputs\stationThree.mat
-  MATO=outputs\stationFour.mat,MO=36
+  FILEI MATI[1]= "%OUTPUT_FOLDER%\stationThree.mat"
+  MATO="%OUTPUT_FOLDER%\stationFour.mat",MO=36
  
   MW[1] = mi.1.1 + mi.1.36 + mi.1.37.T
   MW[2] = mi.1.2 + mi.1.38 + mi.1.39.T
@@ -808,8 +808,8 @@ RUN PGM=MATRIX
  
  RUN PGM=MATRIX
 
-    MATI[1]=outputs\stationFour.mat
-    MATO =outputs\stationFive.mat,MO=1,DEC=2,NAME=five           
+    MATI[1]="%OUTPUT_FOLDER%\stationFour.mat"
+    MATO ="%OUTPUT_FOLDER%\stationFive.mat",MO=1,DEC=2,NAME=five           
             
     MW[1] = MI.1.1       
         
@@ -1011,8 +1011,8 @@ RUN PGM=MATRIX
 
  RUN PGM=MATRIX
 
-    MATI[1]=outputs\stationFive.mat
-    MATO =outputs\seed.mat,MO=1,DEC=2,NAME=seed
+    MATI[1]="%OUTPUT_FOLDER%\stationFive.mat"
+    MATO ="%OUTPUT_FOLDER%\seed.mat",MO=1,DEC=2,NAME=seed
     
     ZONES = @NZONES@
       
@@ -1039,7 +1039,7 @@ RUN PGM=MATRIX
 
 ;copy seed matrix from inputs to outputs folder
 IF (APPLY=1)
-  *XCOPY inputs\seed.mat outputs\seed.mat* /Y
+  *XCOPY "%INPUT_FOLDER%\seed.mat" "%OUTPUT_FOLDER%\seed.mat"* /Y
 ENDIF
 
 
@@ -1050,7 +1050,7 @@ ENDIF
 
 RUN PGM=NETWORK
 
-   NODEI[1]="inputs\externals.csv",VAR=N,Vehicles,TAZ,GrowthRate,VISTPCT,Name
+   NODEI[1]="%INPUT_FOLDER%\externals.csv",VAR=N,Vehicles,TAZ,GrowthRate,VISTPCT,Name
   
    ;put data into arrays for later
    ARRAY _STA = @NEXTERNALS@ ;station
@@ -1072,7 +1072,7 @@ RUN PGM=NETWORK
        
        _FORECASTCNT[_i] = (_VEH[_i]*_VISTPCT[_i])*(1+(_GWR[_i]/100))^((@YEAR@)-2010)
        
-       PRINT FILE="outputs\futureCntOne.dbf",LIST=_STA[_i],_FORECASTCNT[_i]      
+       PRINT FILE="%OUTPUT_FOLDER%\futureCntOne.dbf",LIST=_STA[_i],_FORECASTCNT[_i]      
      ENDIF 
      
    ENDPHASE   
@@ -1088,7 +1088,7 @@ RUN PGM=NETWORK
  
 RUN PGM=MATRIX
 
-    MATI[1]=outputs\seed.mat
+    MATI[1]="%OUTPUT_FOLDER%\seed.mat"
     ZONES = @NZONES@
  
     SET VAL = 0, VARS = P,A
@@ -1100,7 +1100,7 @@ RUN PGM=MATRIX
     
       IF(J = @NZONES@)         
       
-       PRINT FILE="outputs\controlOne.dbf",LIST=(I)(16.0), P(16.2), A(16.2)
+       PRINT FILE="%OUTPUT_FOLDER%\controlOne.dbf",LIST=(I)(16.0), P(16.2), A(16.2)
        
       ENDIF
   
@@ -1113,8 +1113,8 @@ RUN PGM=MATRIX
  
  RUN PGM = MATRIX
       
-    FILEI DBI[1]="outputs\futureCntOne.dbf", STDM_TAZ = 1,FORECASTCN = 2,SORT = STDM_TAZ,FORECASTCN
-    FILEI DBI[2]="outputs\controlOne.dbf",I=1,P=2,A=3
+    FILEI DBI[1]="%OUTPUT_FOLDER%\futureCntOne.dbf", STDM_TAZ = 1,FORECASTCN = 2,SORT = STDM_TAZ,FORECASTCN
+    FILEI DBI[2]="%OUTPUT_FOLDER%\controlOne.dbf",I=1,P=2,A=3
              
     ZONES=1
              
@@ -1148,7 +1148,7 @@ RUN PGM=MATRIX
               
        ENDLOOP
                  
-     PRINT LIST=_I(5.0),_PCOUNT(8.0),_ACOUNT(8.0),FILE=outputs\futureCnt.prn                 
+     PRINT LIST=_I(5.0),_PCOUNT(8.0),_ACOUNT(8.0),FILE="%OUTPUT_FOLDER%\futureCnt.prn"               
      
     ENDLOOP 
     
@@ -1160,12 +1160,12 @@ RUN PGM=MATRIX
  
  RUN PGM=FRATAR
     
-	MATI=outputs\seed.mat
-  MATO=outputs\externals.mat,MO=1,NAME=EXTERNALS
+	MATI="%OUTPUT_FOLDER%\seed.mat"
+  MATO="%OUTPUT_FOLDER%\externals.mat",MO=1,NAME=EXTERNALS
     ZONES = @NZONES@,MAXRMSE=0.10,MAXITERS=100
     ZONEMSG=100
   
-    LOOKUP FILE=outputs\futureCnt.prn,NAME=CONT,
+    LOOKUP FILE="%OUTPUT_FOLDER%\futureCnt.prn",NAME=CONT,
     LOOKUP[1]=1, RESULT=2,
     LOOKUP[2]=1, RESULT=3
    
@@ -1181,7 +1181,7 @@ RUN PGM=MATRIX
 ;---------------------------------------------------------------------------------------------- 
  RUN PGM=MATRIX
  
-    MATI[1] = outputs\externals.mat
+    MATI[1] = "%OUTPUT_FOLDER%\externals.mat"
     
     ZONES = @NZONES@
     
@@ -1194,7 +1194,7 @@ RUN PGM=MATRIX
            T = P + A
       ENDJLOOP    
       
-      PRINT FILE = "outputs\externalTrips.csv" CSV=T, LIST = I, P, A, T ;external station, production, attraction, total trips           
+      PRINT FILE = "%OUTPUT_FOLDER%\externalTrips.csv" CSV=T, LIST = I, P, A, T ;external station, production, attraction, total trips           
     ENDIF
   
  ENDRUN

@@ -1,10 +1,14 @@
 
 #build OMX matrices from PT trip lists
 #Ben Stabler, ben.stabler@rsginc.com, 02/10/15
+#Updated for paths, Andrew Rohne, andrew.rohne@rsginc.com, 7/18/24
 #######################################################################
 
 #load open matrix library
 source("programs/pt/omx.R") 
+
+INPUT_FOLDER <- Sys.getenv("INPUT_FOLDER")
+OUTPUT_FOLDER <- Sys.getenv("OUTPUT_FOLDER")
 
 #########################################################################
 #functions
@@ -34,7 +38,7 @@ sampleRate = as.double(commandArgs()[7]) #PT sample rate
 print(paste("sample rate 1 in ", sampleRate))
 
 #omx file name
-omxFileName = "outputs/pt_trips.omx"
+omxFileName = file.path(OUTPUT_PATH, "pt_trips.omx")
 createFileOMX(omxFileName, length(tazs), length(tazs))
 
 #########################################################################
@@ -42,7 +46,7 @@ createFileOMX(omxFileName, length(tazs), length(tazs))
 #########################################################################
 
 #read and process trip file
-trips = read.csv("outputs/SDTPersonTrips.csv")
+trips = read.csv(file.path(OUTPUT_PATH, "SDTPersonTrips.csv"))
 
 #remove extra fields to save memory
 trips = trips[,c("origin","destination","tripStartTime","tripPurpose","tripMode")]
@@ -114,7 +118,7 @@ rm(trips)
 #########################################################################
 
 #Trips_LDTVehicle contains all the trips (Trips_LDTPerson does not)
-TripsLDT = read.csv("outputs/LDTVehicleTrips.csv")
+TripsLDT = read.csv(file.path(OUTPUT_PATH, "LDTVehicleTrips.csv"))
 
 TripsLDT$amVol = 0
 TripsLDT$mdVol = 0

@@ -1,4 +1,4 @@
 RUN PGM=NETWORK
-FILEI LINKI[1]="outputs/itdassignfinal.NET"
-FILEO LINKO="outputs/itdassignfinal.SHP" FORMAT=SHP ; INCLUDE=A,B,Distance,Capacity,Speed,Time
+FILEI LINKI[1]="%OUTPUT_FOLDER%/itdassignfinal.NET"
+FILEO LINKO="%OUTPUT_FOLDER%/itdassignfinal.SHP" FORMAT=SHP ; INCLUDE=A,B,Distance,Capacity,Speed,Time
 ENDRUN

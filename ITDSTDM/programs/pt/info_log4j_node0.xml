@@ -1,7 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
 <log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
-
     <appender name="CONSOLE" class="org.apache.log4j.ConsoleAppender">
         <layout class="org.apache.log4j.PatternLayout">
             <param name="ConversionPattern" value="%d{dd-MMM-yyyy HH:mm}, %p, %m%n"/>
@@ -9,7 +8,7 @@
     </appender>
 	
     <appender name="FILE" class="org.apache.log4j.RollingFileAppender">
-        <param name="File" value="outputs/node0_event.log"/>
+        <param name="File" value="outputs_2010/node0_event.log"/>
         <param name="Append" value="true"/>
         <param name="MaxFileSize" value="10MB"/>
         <param name="MaxBackupIndex" value="300"/>
@@ -17,7 +16,6 @@
             <param name="ConversionPattern" value="%d{dd-MMM-yyyy HH:mm}, %p, %m%n"/>
         </layout>
     </appender>
-
     <root>
         <level value="INFO"/>
         <appender-ref ref="CONSOLE"/>

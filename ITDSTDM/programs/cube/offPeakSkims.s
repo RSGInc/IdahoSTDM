@@ -9,8 +9,8 @@ GAPEND = 6000
 
 RUN PGM=HIGHWAY 
   
-  NETI="outputs/itd.net"
-  MATO[1]="outputs/preoffpeakprev.mat",MO=1-3,NAME=TIME,DISTANCE,ZEROS
+  NETI="%OUTPUT_FOLDER%/itd.net"
+  MATO[1]="%OUTPUT_FOLDER%/preoffpeakprev.mat",MO=1-3,NAME=TIME,DISTANCE,ZEROS
   
   ZONES=%NZONES%
   
@@ -27,7 +27,7 @@ RUN PGM=HIGHWAY
     
     ccmileI =  MW[2][I]
     
-    print, file="outputs\cc1.csv", CSV = T,LIST = I,CCMILEI(10.7)
+    print, file="%OUTPUT_FOLDER%\cc1.csv", CSV = T,LIST = I,CCMILEI(10.7)
     
   ENDPHASE
    
@@ -35,8 +35,8 @@ ENDRUN
 
 RUN PGM=NETWORK
 
-   nodei[1]="inputs\taz_area.csv" VAR=STDM_TAZ,Area,RENAME=STDM_TAZ-N
-   linki[1]="outputs\itd.net"
+   nodei[1]="%INPUT_FOLDER%\taz_area.csv" VAR=STDM_TAZ,Area,RENAME=STDM_TAZ-N
+   linki[1]="%OUTPUT_FOLDER%\itd.net"
   
    ;put data into arrays for later
    array _tazarea =@NZONES@ ;area
@@ -50,7 +50,7 @@ RUN PGM=NETWORK
          _tazarea[_K] = Area
          _ccmile[_K] = 0.9015*(SQRT((_tazarea[_K]*0.000000386)/3.141592653)) ;area = pi*r^2
        
-         PRINT FILE="outputs\cc2.csv",CSV = T,LIST = N,_ccmile[_K](10.7)
+         PRINT FILE="%OUTPUT_FOLDER%\cc2.csv",CSV = T,LIST = N,_ccmile[_K](10.7)
        
      ENDIF
     
@@ -60,7 +60,7 @@ RUN PGM=NETWORK
     
      IF(A<=%NZONES%)     
         ccspeed = LI.1.SPEED ;connector speed
-        PRINT FILE="outputs\cc3.csv", CSV = T, LIST = A, ccspeed         
+        PRINT FILE="%OUTPUT_FOLDER%\cc3.csv", CSV = T, LIST = A, ccspeed         
      ENDIF
       
 	 endphase
@@ -69,11 +69,11 @@ ENDRUN
 
 RUN PGM=NETWORK
    
-   NODEI[1] = "outputs\cc1.csv" VAR=N,CCMILEI
-   NODEI[2] = "outputs\cc2.csv" VAR=N,CCMILET 
-   NODEI[3] = "outputs\cc3.csv" VAR=N,CCSPEED 
+   NODEI[1] = "%OUTPUT_FOLDER%\cc1.csv" VAR=N,CCMILEI
+   NODEI[2] = "%OUTPUT_FOLDER%\cc2.csv" VAR=N,CCMILET 
+   NODEI[3] = "%OUTPUT_FOLDER%\cc3.csv" VAR=N,CCSPEED 
    
-   NODEO="outputs\cc.csv"
+   NODEO="%OUTPUT_FOLDER%\cc.csv"
    
    MERGE RECORD = FALSE
    
@@ -95,15 +95,15 @@ RUN PGM=NETWORK
        
     ENDPHASE
             
-  print,file="outputs\cc.csv",list=N,CCMILEI,CCMILET,CCSPEED,CCMILE,CCTIME,Z
+  print,file="%OUTPUT_FOLDER%\cc.csv",list=N,CCMILEI,CCMILET,CCSPEED,CCMILE,CCTIME,Z
   
 ENDRUN
 
 RUN PGM=MATRIX
 
-    MATI[1] = outputs\preoffpeakprev.mat  
-    FILEI ZDATI[1] = "outputs\cc.csv"
-    MATO[1]="outputs\offpeakprev.mat",MO=1-3,NAME=TIME,DISTANCE,ZEROS
+    MATI[1] = "%OUTPUT_FOLDER%\preoffpeakprev.mat"  
+    FILEI ZDATI[1] = "%OUTPUT_FOLDER%\cc.csv"
+    MATO[1]="%OUTPUT_FOLDER%\offpeakprev.mat",MO=1-3,NAME=TIME,DISTANCE,ZEROS
      
     ZONES=%NZONES%
     
@@ -122,17 +122,10 @@ RUN PGM=MATRIX
 ENDRUN
 
 ;create copies for first iteration of model run
-*XCOPY outputs\offpeakprev.mat outputs\offpeakcur.mat* /Y
-*XCOPY outputs\offpeakprev.mat outputs\peakprev.mat* /Y
-*XCOPY outputs\offpeakprev.mat outputs\peakcur.mat* /Y
+*XCOPY "%OUTPUT_FOLDER%\offpeakprev.mat" "%OUTPUT_FOLDER%\offpeakcur.mat"* /Y
+*XCOPY "%OUTPUT_FOLDER%\offpeakprev.mat" "%OUTPUT_FOLDER%\peakprev.mat"* /Y
+*XCOPY "%OUTPUT_FOLDER%\offpeakprev.mat" "%OUTPUT_FOLDER%\peakcur.mat"* /Y
 
-
-
-
- 
- 
-
-
-
- 
+CONVERTMAT FROM="%OUTPUT_FOLDER%\offpeakcur.mat" TO="%OUTPUT_FOLDER%\offpeakcur.OMX" COMPRESSION=4
+CONVERTMAT FROM="%OUTPUT_FOLDER%\peakcur.mat" TO="%OUTPUT_FOLDER%\peakcur.OMX" COMPRESSION=4
  

@@ -49,7 +49,7 @@
 ;----------------------------------------------------------------------------------------------
 ; Input files and parameters
 
-itdNet = "outputs/itd.net"
+itdNet = "%OUTPUT_FOLDER%/itd.net"
 auOpCost = 0.12 ; auto operating cost $0.12/mile
 trOpCost = 0.12 ; truck operating cost $0.12/mile 
 maxIterns = %ASSIGN_ITER% ; maximum number of iterations
@@ -58,7 +58,7 @@ trkDmdOnly = 0 ;assign truck demand only
 GAPEND = 6000 ;end internal TAZ id
 trkPCU = 1.7 ; truck passenger car units
 gap = 0.0001 ; relative gap setting
-numthreads = 12 ; number of threads for assignment
+numthreads = %assign_threads% ; number of threads for assignment
 
 ; time period specific settings
 pkAuVot = 25 ; peak hour value of time - auto: $25/hr
@@ -82,10 +82,10 @@ ntHourFactor = 4.00 ; NT period capacity factor
 ; AM Peak Period
 RUN PGM = MATRIX MSG = "Aggregate AM peak trip matrices by user class"
   
-  MATI[1] = "outputs\pt_trips.mat"
-  FILEI MATI[2] = "outputs\exported_truck_trips.csv", PATTERN=IJM:V FIELDS=#1,2,0,4,3 SKIPRECS=1
-  MATI[3] = "outputs\externals.mat"
-  FILEO MATO[1]= "outputs\ampeaktrips.mat", MO=1-9, DEC=5*5, Name=SOVS,HOV2S,HOV3PS,SUT,MUT,EXT,SOVL,HOV2L,HOV3PL
+  MATI[1] = "%OUTPUT_FOLDER%\pt_trips.mat"
+  FILEI MATI[2] = "%OUTPUT_FOLDER%\exported_truck_trips.csv", PATTERN=IJM:V FIELDS=#1,2,0,4,3 SKIPRECS=1
+  MATI[3] = "%OUTPUT_FOLDER%\externals.mat"
+  FILEO MATO[1]= "%OUTPUT_FOLDER%\ampeaktrips.mat", MO=1-9, DEC=5*5, Name=SOVS,HOV2S,HOV3PS,SUT,MUT,EXT,SOVL,HOV2L,HOV3PL
 
   MW[1]=mi.1.SAMDA  
   MW[2]=mi.1.SAMSR2
@@ -113,11 +113,11 @@ ENDRUN
 ; MD Off-peak Period
 RUN PGM = MATRIX MSG = "Aggregate MD trip matrices by user class"
   
-  MATI[1] = "outputs\pt_trips.mat"
-  ;MATI[2] = "outputs\truck_trips.mat"
-  FILEI MATI[2] = "outputs\exported_truck_trips.csv", PATTERN=IJM:V FIELDS=#1,2,0,6,5 SKIPRECS=1
-  MATI[3] = "outputs\externals.mat"
-  FILEO MATO[1]= "outputs\mdpeaktrips.mat", MO=1-9, DEC=5*5, Name=SOVS,HOV2S,HOV3PS,SUT,MUT,EXT,SOVL,HOV2L,HOV3PL
+  MATI[1] = "%OUTPUT_FOLDER%\pt_trips.mat"
+  ;MATI[2] = "%OUTPUT_FOLDER%\truck_trips.mat"
+  FILEI MATI[2] = "%OUTPUT_FOLDER%\exported_truck_trips.csv", PATTERN=IJM:V FIELDS=#1,2,0,6,5 SKIPRECS=1
+  MATI[3] = "%OUTPUT_FOLDER%\externals.mat"
+  FILEO MATO[1]= "%OUTPUT_FOLDER%\mdpeaktrips.mat", MO=1-9, DEC=5*5, Name=SOVS,HOV2S,HOV3PS,SUT,MUT,EXT,SOVL,HOV2L,HOV3PL
 
   MW[1]=mi.1.SMDDA
   MW[2]=mi.1.SMDSR2
@@ -145,11 +145,11 @@ ENDRUN
 ; PM Peak Period
 RUN PGM = MATRIX MSG = "Aggregate PM peak trip matrices by user class"
   
-  MATI[1] = "outputs\pt_trips.mat"
-  ;MATI[2] = "outputs\truck_trips.mat"
-  FILEI MATI[2] = "outputs\exported_truck_trips.csv", PATTERN=IJM:V FIELDS=#1,2,0,10,9 SKIPRECS=1
-  MATI[3] = "outputs\externals.mat"
-  FILEO MATO[1]= "outputs\pmpeaktrips.mat", MO=1-9, DEC=5*5, Name=SOVS,HOV2S,HOV3PS,SUT,MUT,EXT,SOVL,HOV2L,HOV3PL
+  MATI[1] = "%OUTPUT_FOLDER%\pt_trips.mat"
+  ;MATI[2] = "%OUTPUT_FOLDER%\truck_trips.mat"
+  FILEI MATI[2] = "%OUTPUT_FOLDER%\exported_truck_trips.csv", PATTERN=IJM:V FIELDS=#1,2,0,10,9 SKIPRECS=1
+  MATI[3] = "%OUTPUT_FOLDER%\externals.mat"
+  FILEO MATO[1]= "%OUTPUT_FOLDER%\pmpeaktrips.mat", MO=1-9, DEC=5*5, Name=SOVS,HOV2S,HOV3PS,SUT,MUT,EXT,SOVL,HOV2L,HOV3PL
 
   MW[1]=mi.1.SPMDA  
   MW[2]=mi.1.SPMSR2
@@ -177,11 +177,11 @@ ENDRUN
 ; NT Off-peak Period
 RUN PGM = MATRIX MSG = "Aggregate NT trip matrices by user class"
   
-  MATI[1] = "outputs\pt_trips.mat"
-  ;MATI[2] = "outputs\truck_trips.mat"
-  FILEI MATI[2] = "outputs\exported_truck_trips.csv", PATTERN=IJM:V FIELDS=#1,2,0,8,7 SKIPRECS=1
-  MATI[3] = "outputs\externals.mat"
-  FILEO MATO[1]= "outputs\ntpeaktrips.mat", MO=1-9, DEC=5*5, Name=SOVS,HOV2S,HOV3PS,SUT,MUT,EXT,SOVL,HOV2L,HOV3PL
+  MATI[1] = "%OUTPUT_FOLDER%\pt_trips.mat"
+  ;MATI[2] = "%OUTPUT_FOLDER%\truck_trips.mat"
+  FILEI MATI[2] = "%OUTPUT_FOLDER%\exported_truck_trips.csv", PATTERN=IJM:V FIELDS=#1,2,0,8,7 SKIPRECS=1
+  MATI[3] = "%OUTPUT_FOLDER%\externals.mat"
+  FILEO MATO[1]= "%OUTPUT_FOLDER%\ntpeaktrips.mat", MO=1-9, DEC=5*5, Name=SOVS,HOV2S,HOV3PS,SUT,MUT,EXT,SOVL,HOV2L,HOV3PL
 
   MW[1]=mi.1.SNTDA 
   MW[2]=mi.1.SNTSR2 
@@ -210,8 +210,8 @@ ENDRUN
 ; Tag links based on facility and area types
 RUN PGM=NETWORK MSG = "Tag links and assign hourly link capacity"
    
-   NETI = "outputs\itd.net"
-   NETO = "outputs\itdcap.net"
+   NETI = "%OUTPUT_FOLDER%\itd.net"
+   NETO = "%OUTPUT_FOLDER%\itdcap.net"
    
    ; Area types: 1 Rural, 2 Urban, 3 CBD
    ; Facility Types: Centroid, Local, Collector, Expressway, Freeway, Highway, 
@@ -304,9 +304,9 @@ ENDRUN
  
 RUN PGM=HIGHWAY MSG = "AM peak highway assignment"
 
-   NETI = "outputs\itdcap.net"
-   MATI = "outputs\ampeaktrips.mat"
-   NETO = "outputs\itdamassign.net"
+   NETI = "%OUTPUT_FOLDER%\itdcap.net"
+   MATI = "%OUTPUT_FOLDER%\ampeaktrips.mat"
+   NETO = "%OUTPUT_FOLDER%\itdamassign.net"
    ZONES=@nZones@
 
    DistributeIntrastep processid='ITD', processlist=1-@numthreads@
@@ -345,7 +345,7 @@ RUN PGM=HIGHWAY MSG = "AM peak highway assignment"
     PATHLOAD VOL[8] = MI.1.HOV2L, PATH = LW.IMPEDA
     PATHLOAD VOL[9] = MI.1.HOV3PL, PATH = LW.IMPEDA
     ; Bi-conjugate equilibrium assignment
-    PARAMETERS ZONEMSG=100,  MAXITERS=@maxIterns@, COMBINE=EQUI, ENHANCE=2, GAP=@gap@
+    PARAMETERS ZONEMSG=100,  MAXITERS=@maxIterns@, COMBINE=EQUI, ENHANCE=2, RELATIVEGAP=@gap@
   ENDPHASE 
   
   PHASE = ADJUST
@@ -380,9 +380,9 @@ ENDRUN
 
 RUN PGM=HIGHWAY MSG = "MD offpeak highway assignment"
 
-   NETI = "outputs\itdcap.net"
-   MATI = "outputs\mdpeaktrips.mat"
-   NETO = "outputs\itdmdassign.net"
+   NETI = "%OUTPUT_FOLDER%\itdcap.net"
+   MATI = "%OUTPUT_FOLDER%\mdpeaktrips.mat"
+   NETO = "%OUTPUT_FOLDER%\itdmdassign.net"
    ZONES=@nZones@
 
   PHASE = LINKREAD
@@ -420,7 +420,7 @@ RUN PGM=HIGHWAY MSG = "MD offpeak highway assignment"
     PATHLOAD VOL[9] = MI.1.HOV3PL, PATH = LW.IMPEDA
 	
     ; Bi-conjugate equilibrium assignment
-    PARAMETERS ZONEMSG=100,  MAXITERS=@maxIterns@, COMBINE=EQUI, ENHANCE=2, GAP= 0.0001
+    PARAMETERS ZONEMSG=100,  MAXITERS=@maxIterns@, COMBINE=EQUI, ENHANCE=2, RELATIVEGAP=@gap@
   ENDPHASE 
   
   PHASE = ADJUST
@@ -455,9 +455,9 @@ ENDRUN
 
 RUN PGM=HIGHWAY MSG = "PM peak highway assignment"
 
-   NETI = "outputs\itdcap.net"
-   MATI = "outputs\pmpeaktrips.mat"
-   NETO = "outputs\itdpmassign.net"
+   NETI = "%OUTPUT_FOLDER%\itdcap.net"
+   MATI = "%OUTPUT_FOLDER%\pmpeaktrips.mat"
+   NETO = "%OUTPUT_FOLDER%\itdpmassign.net"
    ZONES=@nZones@
 
    DistributeIntrastep processid='ITD', processlist=1-@numthreads@
@@ -496,7 +496,7 @@ RUN PGM=HIGHWAY MSG = "PM peak highway assignment"
     PATHLOAD VOL[8] = MI.1.HOV2L, PATH = LW.IMPEDA
     PATHLOAD VOL[9] = MI.1.HOV3PL, PATH = LW.IMPEDA
     ; Bi-conjugate equilibrium assignment
-    PARAMETERS ZONEMSG=100,  MAXITERS=@maxIterns@, COMBINE=EQUI, ENHANCE=2, GAP=@gap@
+    PARAMETERS ZONEMSG=100,  MAXITERS=@maxIterns@, COMBINE=EQUI, ENHANCE=2, RELATIVEGAP=@gap@
   ENDPHASE 
   
   PHASE = ADJUST
@@ -531,9 +531,9 @@ ENDRUN
 
 RUN PGM=HIGHWAY MSG = "NT offpeak highway assignment"
 
-   NETI = "outputs\itdcap.net"
-   MATI = "outputs\ntpeaktrips.mat"
-   NETO = "outputs\itdntassign.net"
+   NETI = "%OUTPUT_FOLDER%\itdcap.net"
+   MATI = "%OUTPUT_FOLDER%\ntpeaktrips.mat"
+   NETO = "%OUTPUT_FOLDER%\itdntassign.net"
    ZONES=@nZones@
 
   PHASE = LINKREAD
@@ -571,7 +571,7 @@ RUN PGM=HIGHWAY MSG = "NT offpeak highway assignment"
     PATHLOAD VOL[9] = MI.1.HOV3PL, PATH = LW.IMPEDA
 	
     ; Bi-conjugate equilibrium assignment
-    PARAMETERS ZONEMSG=100,  MAXITERS=@maxIterns@, COMBINE=EQUI, ENHANCE=2, GAP= 0.0001
+    PARAMETERS ZONEMSG=100,  MAXITERS=@maxIterns@, COMBINE=EQUI, ENHANCE=2, RELATIVEGAP=@gap@
   ENDPHASE 
   
   PHASE = ADJUST
@@ -611,8 +611,8 @@ ENDRUN
 
 RUN PGM = NETWORK MSG = "Calculate AM peak congested time and speed"
 
-  NETI[1]="outputs\itdamassign.net"
-  NETO="outputs\itdamassignfinal.net", exclude = V_1,VC_1,V1_1,V2_1,V3_1,V4_1,V5_1,V6_1,V7_1,V8_1,V9_1,VT_1,V1T_1,V2T_1,V3T_1,V4T_1,V5T_1,V6T_1,V7T_1,V8T_1,V9T_1,VOL,TIME_1
+  NETI[1]="%OUTPUT_FOLDER%\itdamassign.net"
+  NETO="%OUTPUT_FOLDER%\itdamassignfinal.net", exclude = V_1,VC_1,V1_1,V2_1,V3_1,V4_1,V5_1,V6_1,V7_1,V8_1,V9_1,VT_1,V1T_1,V2T_1,V3T_1,V4T_1,V5T_1,V6T_1,V7T_1,V8T_1,V9T_1,VOL,TIME_1
   
   SOVAMS = LI.1.V1_1
   HOV2AMS = LI.1.V2_1
@@ -639,8 +639,8 @@ ENDRUN
 
 RUN PGM = NETWORK MSG = "Calculate MD offpeak congested time and speed"
 
-  NETI = "outputs\itdmdassign.net"
-  NETO="outputs\itdmdassignfinal.net", exclude = V_1,VC_1,V1_1,V2_1,V3_1,V4_1,V5_1,V6_1,V7_1,V8_1,V9_1,VT_1,V1T_1,V2T_1,V3T_1,V4T_1,V5T_1,V6T_1,V7T_1,V8T_1,V9T_1,VOL,TIME_1
+  NETI = "%OUTPUT_FOLDER%\itdmdassign.net"
+  NETO="%OUTPUT_FOLDER%\itdmdassignfinal.net", exclude = V_1,VC_1,V1_1,V2_1,V3_1,V4_1,V5_1,V6_1,V7_1,V8_1,V9_1,VT_1,V1T_1,V2T_1,V3T_1,V4T_1,V5T_1,V6T_1,V7T_1,V8T_1,V9T_1,VOL,TIME_1
   
   SOVMDS  = LI.1.V1_1
   HOV2MDS = LI.1.V2_1
@@ -668,8 +668,8 @@ ENDRUN
 
 RUN PGM = NETWORK MSG = "Calculate PM peak congested time and speed"
 
-  NETI[1]="outputs\itdpmassign.net"
-  NETO="outputs\itdpmassignfinal.net", exclude = V_1,VC_1,V1_1,V2_1,V3_1,V4_1,V5_1,V6_1,V7_1,V8_1,V9_1,VT_1,V1T_1,V2T_1,V3T_1,V4T_1,V5T_1,V6T_1,V7T_1,V8T_1,V9T_1,VOL,TIME_1
+  NETI[1]="%OUTPUT_FOLDER%\itdpmassign.net"
+  NETO="%OUTPUT_FOLDER%\itdpmassignfinal.net", exclude = V_1,VC_1,V1_1,V2_1,V3_1,V4_1,V5_1,V6_1,V7_1,V8_1,V9_1,VT_1,V1T_1,V2T_1,V3T_1,V4T_1,V5T_1,V6T_1,V7T_1,V8T_1,V9T_1,VOL,TIME_1
   
   SOVPMS = LI.1.V1_1
   HOV2PMS = LI.1.V2_1
@@ -696,8 +696,8 @@ ENDRUN
 
 RUN PGM = NETWORK MSG = "Calculate NT offpeak congested time and speed"
 
-  NETI = "outputs\itdntassign.net"
-  NETO="outputs\itdntassignfinal.net", exclude = V_1,VC_1,V1_1,V2_1,V3_1,V4_1,V5_1,V6_1,V7_1,V8_1,V9_1,VT_1,V1T_1,V2T_1,V3T_1,V4T_1,V5T_1,V6T_1,V7T_1,V8T_1,V9T_1,VOL,TIME_1
+  NETI = "%OUTPUT_FOLDER%\itdntassign.net"
+  NETO="%OUTPUT_FOLDER%\itdntassignfinal.net", exclude = V_1,VC_1,V1_1,V2_1,V3_1,V4_1,V5_1,V6_1,V7_1,V8_1,V9_1,VT_1,V1T_1,V2T_1,V3T_1,V4T_1,V5T_1,V6T_1,V7T_1,V8T_1,V9T_1,VOL,TIME_1
   
   SOVNTS  = LI.1.V1_1
   HOV2NTS = LI.1.V2_1
@@ -727,8 +727,8 @@ ENDRUN
 
 RUN PGM = HIGHWAY MSG = "AM Peak highway skims"
 
-  NETI = "outputs\itdamassignfinal.net"
-  MATO = "outputs\prepeakcur.mat",MO=1-3,NAME=TIME,DISTANCE,ZEROS     
+  NETI = "%OUTPUT_FOLDER%\itdamassignfinal.net"
+  MATO = "%OUTPUT_FOLDER%\prepeakcur.mat",MO=1-3,NAME=TIME,DISTANCE,ZEROS     
   ZONES=@nZones@
   ZONEMSG=100
   
@@ -751,9 +751,9 @@ ENDRUN
 
 RUN PGM=MATRIX
 
-    MATI[1] = outputs\prepeakcur.mat  
-    FILEI ZDATI[1] = "outputs\cc.csv"
-    MATO[1]="outputs\peakcur.mat",MO=1-3,NAME=TIME,DISTANCE,ZEROS
+    MATI[1] = "%OUTPUT_FOLDER%\prepeakcur.mat"
+    FILEI ZDATI[1] = "%OUTPUT_FOLDER%\cc.csv"
+    MATO[1]="%OUTPUT_FOLDER%\peakcur.mat",MO=1-3,NAME=TIME,DISTANCE,ZEROS
      
     ZONES=@nZones@
     
@@ -773,8 +773,8 @@ ENDRUN
 
 RUN PGM = HIGHWAY MSG = "MD Offpeak highway skims"
 
-  NETI = "outputs\itdmdassignfinal.net"
-  MATO = "outputs\preoffpeakcur.mat",MO=1-3,NAME=TIME,DISTANCE,ZEROS     
+  NETI = "%OUTPUT_FOLDER%\itdmdassignfinal.net"
+  MATO = "%OUTPUT_FOLDER%\preoffpeakcur.mat",MO=1-3,NAME=TIME,DISTANCE,ZEROS     
   ZONES=@nZones@
   ZONEMSG=100
 
@@ -797,9 +797,9 @@ ENDRUN
 
 RUN PGM=MATRIX
 
-    MATI[1] = outputs\preoffpeakcur.mat  
-    FILEI ZDATI[1] = "outputs\cc.csv"
-    MATO[1]="outputs\offpeakcur.mat",MO=1-3,NAME=TIME,DISTANCE,ZEROS
+    MATI[1] = "%OUTPUT_FOLDER%\preoffpeakcur.mat"  
+    FILEI ZDATI[1] = "%OUTPUT_FOLDER%\cc.csv"
+    MATO[1]="%OUTPUT_FOLDER%\offpeakcur.mat",MO=1-3,NAME=TIME,DISTANCE,ZEROS
      
     ZONES=@nZones@
     

@@ -12,11 +12,11 @@ congestedVC = 0.75
 RUN PGM=NETWORK
     
   ;Input and Output Files
-  FILEI LINKI[1] = "outputs/itdamassignfinal.net"
-  FILEI LINKI[2] = "outputs/itdmdassignfinal.net"  
-  FILEI LINKI[3] = "outputs/itdpmassignfinal.net"
-  FILEI LINKI[4] = "outputs/itdntassignfinal.net"  
-  FILEO PRINTO[1]= "outputs/tredis_inputs.csv"
+  FILEI LINKI[1] = "%OUTPUT_FOLDER%/itdamassignfinal.net"
+  FILEI LINKI[2] = "%OUTPUT_FOLDER%/itdmdassignfinal.net"  
+  FILEI LINKI[3] = "%OUTPUT_FOLDER%/itdpmassignfinal.net"
+  FILEI LINKI[4] = "%OUTPUT_FOLDER%/itdntassignfinal.net"  
+  FILEO PRINTO[1]= "%OUTPUT_FOLDER%/tredis_inputs.csv"
   
   ;Loop across links
   PHASE=INPUT FILEI=li.1

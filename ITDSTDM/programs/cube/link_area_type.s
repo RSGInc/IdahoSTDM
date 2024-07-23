@@ -5,8 +5,8 @@ nZones = %NZONES%
 
 RUN PGM=NETWORK
 
-  nodei[1]="inputs/itd.net"
-  nodei[2]="inputs/tazs.csv" VAR=STDM_TAZ,State(C),County(C),MPO(C),IsMPO,ITDDist,
+  nodei[1]="%INPUT_FOLDER%/itd.net"
+  nodei[2]="%INPUT_FOLDER%/tazs.csv" VAR=STDM_TAZ,State(C),County(C),MPO(C),IsMPO,ITDDist,
     Area,DayPark,HourPark,AgforF,MiningF,UtilF,ConstrF,ManufF,WhlsaleF,RetailF,
     TrawhseF,InfoF,FininsF,EduK12,EduHigh,EduOthers,RealestF,ProftechF,MgmtF,
     WastadmnF,HealthF,ArtsentF,FoodlodgF,OtherF,PublicF,TotEmp,STATEFPS,
@@ -72,7 +72,7 @@ RUN PGM=NETWORK
   		ENDIF
   		
   		;taz, emp, hh, area, at, x, y
-  		print, form=8.0, file="outputs\taz_area_type.txt",list=N, X, Y, _emp, _hh, _area, _at
+  		print, form=8.0, file="%OUTPUT_FOLDER%\taz_area_type.txt",list=N, X, Y, _emp, _hh, _area, _at
   	
   	ENDIF
 		
@@ -83,8 +83,8 @@ ENDRUN
 
 RUN PGM=NETWORK
 
-  nodei[1]="inputs/itd.net"
-  nodei[2]="outputs/taz_area_type.txt",VAR=N,X,Y,EMP,HH,AREA,AT
+  nodei[1]="%INPUT_FOLDER%/itd.net"
+  nodei[2]="%OUTPUT_FOLDER%/taz_area_type.txt",VAR=N,X,Y,EMP,HH,AREA,AT
   
 	;put data into arrays for later
   array _tazn    =@nZones@ ;id
@@ -113,7 +113,7 @@ RUN PGM=NETWORK
 		ENDLOOP
 				
 		;node, area type
-		print, file="outputs\node_area_type.txt",list=N, _min_at
+		print, file="%OUTPUT_FOLDER%\node_area_type.txt",list=N, _min_at
 		
 	endphase
 	
@@ -121,9 +121,9 @@ ENDRUN
 
 RUN PGM=NETWORK
 
-  linki[1]="inputs/itd.net"
-  nodei[2]="outputs/node_area_type.txt",VAR=N, AT
-  neto="outputs/itd.net"
+  linki[1]="%INPUT_FOLDER%/itd.net"
+  nodei[2]="%OUTPUT_FOLDER%/node_area_type.txt",VAR=N, AT
+  neto="%OUTPUT_FOLDER%/itd.net"
     
   ;set link area type to max of node area types
   phase=linkmerge
