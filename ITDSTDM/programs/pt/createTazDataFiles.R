@@ -88,7 +88,9 @@ write.csv(ptEmploymentData, ptEmploymentFileName, row.names=F)
 # create pt shadow price file with all sequential zone numbers
 ptSPData = tazs[,ptShadowPriceFields]
 skippedTAZs = (1:max(ptSPData$TAZ))[!(1:max(ptSPData$TAZ) %in% ptSPData$TAZ)]
-extraRows = data.frame(TAZ=skippedTAZs,ShadowPrice=1)
-ptSPData = rbind(ptSPData, extraRows)
+if(!identical(skippedTAZs, integer(0))){
+	extraRows = data.frame(TAZ=skippedTAZs,ShadowPrice=1)
+	ptSPData = rbind(ptSPData, extraRows)
+}	
 ptSPData = ptSPData[order(ptSPData$TAZ),]
 write.csv(ptSPData, ptShadowPriceFileName, row.names=F)
