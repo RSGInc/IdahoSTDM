@@ -53,7 +53,7 @@ local_origins <- pcvmodr::qrfm2_truck_generation(synthetic_firms,
 trip_length_targets <- pcvmodr::read_file(RTP[["trip_length_targets"]])
 skim_distances <- RTP[["skim_matrices"]] %>%
   omxr::read_omx(., "DISTANCE") %>%
-  omxr::long_matrix()
+  omxr::gather_matrix()
 add_destinations <- pcvmodr::sample_local_destinations(local_origins,
   skim_distances, trip_length_targets)
 local_trips <- pcvmodr::trip_temporal_allocation(add_destinations,
@@ -67,3 +67,4 @@ pcvmodr::write_file(exported, filename)
 
 # When we're done shut down the doParallel cluster
 stopCluster(myCluster)
+print("Completed ct")
