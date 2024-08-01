@@ -1,3 +1,4 @@
+@ECHO OFF
 :: RunModel.bat
 :: DOS batch file to execute the ITD Statewide Travel Demand Model
 :: Ben Stabler, ben.stabler@rsginc.com 02/09/15
@@ -21,23 +22,31 @@
 :: 
 :: -----------------------------------------------------------------------------
 
+SET INPUT_FOLDER=inputs2020
+SET OUTPUT_FOLDER=outputs_2020
+
 :: Run PopSyn? TRUE or FALSE if FALSE, make sure you have the base or future person/hh info in the output file
 SET POPSYN=FALSE
 
 :: The model year for TREDIS and externals
-SET MODEL_YEAR=2010
+SET MODEL_YEAR=2020
 
 :: The number of tazs, FALSE!  It is the HIGHEST TAZ ID, not the number of them !!
-SET NZONES=6035
+SET NZONES=2862
 
 :: The location of 64-bit java, RunTpp (Cube), and R
 SET JAVA_PATH=C:\Program Files\Java\jre1.8.0_201\bin
 SET TPP_PATH=C:\Program Files (x86)\Citilabs\CubeVoyager
-SET R_PATH=C:\Program Files\R\R-4.1.0\bin
+SET R_PATH=C:\Program Files\R\R-4.4.1\bin
 
 :: Number of max model feedback iterations and assignment iterations
 SET MAX_ITER=3
 SET ASSIGN_ITER=100
+
+:: First Input Check - 
+REM call C:\Users\%USERNAME%\AppData\Local\anaconda3\Scripts\activate.bat py312
+REM python .\programs\python\input_checker.py
+REM conda deactivate
 
 :: Set PT household sample rate by iteration (every 1 in Nth)
 SET SAMPLERATE_ITERATION1=4
@@ -48,7 +57,7 @@ SET SAMPLERATE_ITERATION5=1
 
 :: PopSyn database settings
 SET SCENARIO=BaseYear
-SET SQLSERVER=ITD9HPLPC217218\SQLEXPRESS
+SET SQLSERVER=LOCALHOST\SQLEXPRESS
 SET DATABASE=ITDPopSyn
 
 :: Setup system path
@@ -57,7 +66,7 @@ SET OLD_PATH=%PATH%
 SET PATH=%JAVA_PATH%;%TPP_PATH%;%R_PATH%;%OLD_PATH%
 
 :: Create the output directory
-MKDIR outputs
+IF NOT EXIST %OUTPUT_FOLDER% MKDIR %OUTPUT_FOLDER%
 
 :: -----------------------------------------------------------------------------
 ::
@@ -118,7 +127,7 @@ IF ERRORLEVEL 2 GOTO DONE
 SET ERRORLEVEL=0
 Rscript programs/ct/run_idaho.R %MODEL_YEAR%
 IF NOT ERRORLEVEL 0 GOTO DONE
-
+PAUSE
 :: -----------------------------------------------------------------------------
 ::
 :: Step 5:  Run external model

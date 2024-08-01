@@ -1,0 +1,16 @@
+Test,Test_Group,Input_Table,Input_ID_Column,Severity,Type,Expression,Test_Vals,Report_Statistic,Test_Description
+Environ_vars,0,None,,Fatal,Test,test_val in __import__('os').environ,"MODEL_YEAR,INPUT_FOLDER,OUTPUT_FOLDER,MAX_ITER,ASSIGN_ITER",,Check if environment variables are set
+Model_Year_old,0,None,,Warning,Test,int(__import__('os').environ['MODEL_YEAR']) > 2010,,,Warning if model year too old (before 2000)
+Maximum_iters,0,None,,Fatal,Test,int(__import__('os').environ['MAX_ITER']) > 0,,,Maximum Iterations set to 0
+Assign_iters_zero,0,None,,Fatal,Test,int(__import__('os').environ['ASSIGN_ITER']) > 0,,,Maximum Iterations set to 0
+Assign_iters_low,0,None,,Warning,Test,int(__import__('os').environ['MAX_ITER']) >= 100,,,Maximum Iterations set low (below 100)
+
+PERSON_Fields_Availability,-1,persons,PERS_ID,Fatal,Test,test_val in persons.columns,"HH_ID,PERS_ID,STDM_TAZ,SEX,AGE,SCHOOL,RLABOR,INDUSTRY,OCCUP,SW_UNSPLIT_IND,SW_OCCUP,SW_SPLIT_IND,WORK_OCC",,Check if person file contains all the required fields for ABM
+Household_Fields_Availability,-1,households,HH_ID,Fatal,Test,test_val in households.columns,"HH_ID,PERSONS,STDM_TAZ,UNITS1,AUTOS,RHHINC,Azone",,
+HH_persons_valueCheck,-1,households,HH_ID,Fatal,Test,"persons.groupby('HH_ID').agg(np = ('HH_ID', 'count')).join((households.set_index('HH_ID'))['PERSONS']).query('np == PERSONS').shape[0] > 0",,,Check if HH persons disagrees with number of persons by HH
+
+#Household_Auto_Valid,-1,households,HH_ID,Fatal,Test,,,,
+#HH_hinccat1_valueCheck_agg,-1,households,HH_ID,Warning,Test,"set(households.RHHINC)=={1,2,3,4,5}",,,"Check if Household data matches the pre-defined hinccat1 categories [1 = <$30k, 2 = $30-60k, 3 = $60-100k, 4 = $100-150k, 5 = $150+]"
+#HH_hinccat1_valueCheck_dis,-1,households,HH_ID,Warning,Test,"households.RHHINC.apply(lambda x: True if x in [1,2,3,4,5] else False)",,,"Check if Household data matches the pre-defined hinccat1 categories [1 = <$30k, 2 = $30-60k, 3 = $60-100k, 4 = $100-150k, 5 = $150+]"
+#HH.STDM_TAZ in TAZ file,-1,,,,,,,,
+#HH.AUTOS == {0,-1,1,2,3, 4},,,,
