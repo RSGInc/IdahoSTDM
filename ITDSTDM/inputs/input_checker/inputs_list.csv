@@ -1,3 +1,5 @@
 Input_Table,Property_Token,Fields,Column_Map,Input_Description
 persons,spg2.synpopP,All,,Synthetic population person file
 households,spg2.synpopH,All,,Synthetic population household file
+input_net,net.input_net,All,,Unloaded Input Network
+taz_in,taz.input_taz,All,,TAZ Data File

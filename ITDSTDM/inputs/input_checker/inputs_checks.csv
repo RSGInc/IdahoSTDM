@@ -1,14 +1,51 @@
 Test,Test_Group,Input_Table,Input_ID_Column,Severity,Type,Expression,Test_Vals,Report_Statistic,Test_Description
-Environ_vars,0,None,,Fatal,Test,test_val in __import__('os').environ,"MODEL_YEAR,INPUT_FOLDER,OUTPUT_FOLDER,MAX_ITER,ASSIGN_ITER",,Check if environment variables are set
-Model_Year_old,0,None,,Warning,Test,int(__import__('os').environ['MODEL_YEAR']) > 2010,,,Warning if model year too old (before 2000)
-Maximum_iters,0,None,,Fatal,Test,int(__import__('os').environ['MAX_ITER']) > 0,,,Maximum Iterations set to 0
-Assign_iters_zero,0,None,,Fatal,Test,int(__import__('os').environ['ASSIGN_ITER']) > 0,,,Maximum Iterations set to 0
-Assign_iters_low,0,None,,Warning,Test,int(__import__('os').environ['MAX_ITER']) >= 100,,,Maximum Iterations set low (below 100)
+# Group 1: Model Setup Checks,,,,,,,,,
+Environ_vars,1,None,,Fatal,Test,test_val in __import__('os').environ,"MODEL_YEAR,INPUT_FOLDER,OUTPUT_FOLDER,MAX_ITER,ASSIGN_ITER",,Check if environment variables are set
+Model_Year_old,1,None,,Warning,Test,int(__import__('os').environ['MODEL_YEAR']) > 2010,,,Warning if model year too old (before 2000)
+Maximum_iters,1,None,,Fatal,Test,int(__import__('os').environ['MAX_ITER']) > 0,,,Maximum Iterations set to 0
+Assign_iters_zero,1,None,,Fatal,Test,int(__import__('os').environ['ASSIGN_ITER']) > 0,,,Maximum Iterations set to 0
+Assign_iters_low,1,None,,Warning,Test,int(__import__('os').environ['MAX_ITER']) >= 100,,,Maximum Iterations set low (below 100)
+# Group 2: Pre-Populationsim Checks,,,,,,,,,
+#All TAZs in net are in TAZ input file
+TAZ_HH_by_size,2,taz_in,,Logical,Test,"all(taz_in['TOTHH_T'] == taz_in[['HHSIZE1', 'HHSIZE2', 'HHSIZE3', 'HHSIZE4', 'HHSIZE5', 'HHSIZE6', 'HHSIZE7']].sum(1))",,,Total HHs = HH by size
+TAZ_HH_by_worker,2,taz_in,,Logical,Test,"all(taz_in['TOTHH_T'] == taz_in[['HHWORK0', 'HHWORK1', 'HHWORK2', 'HHWORK3']].sum(1))",,,Total HHs = HH by workers
+TAZ_HH_wrk1_share,2,taz_in,,Logical,Test,"all((taz_in['HHWORK1'] / taz_in['TOTHH_T']).fillna(0) <= (taz_in[['HHSIZE1', 'HHSIZE2', 'HHSIZE3', 'HHSIZE4', 'HHSIZE5', 'HHSIZE6', 'HHSIZE7']].sum(1) / taz_in['TOTHH_T']).fillna(0))",,,Share of 1-worker HHs compared to share of HHs by size
+TAZ_HH_wrk2_share,2,taz_in,,Logical,Test,"all((taz_in['HHWORK2'] / taz_in['TOTHH_T']).fillna(0) <= (taz_in[['HHSIZE2', 'HHSIZE3', 'HHSIZE4', 'HHSIZE5', 'HHSIZE6', 'HHSIZE7']].sum(1) / taz_in['TOTHH_T']).fillna(0))",,,Share of 2-worker HHs compared to share of HHs by size
+TAZ_HH_wrk3_share,2,taz_in,,Logical,Test,"all((taz_in['HHWORK3'] / taz_in['TOTHH_T']).fillna(0) <= (taz_in[['HHSIZE3', 'HHSIZE4', 'HHSIZE5', 'HHSIZE6', 'HHSIZE7']].sum(1) / taz_in['TOTHH_T']).fillna(0))",,,Share of 3p-worker HHs compared to share of HHs by size
+TAZ_HH_by_size,2,taz_in,,Logical,Test,"all(taz_in['TOTHH_T'] == taz_in[['CATINC1', 'CATINC2', 'CATINC3']].sum(1))",,,Total HHs = HH by Income
+TAZ_Emp_cat,2,taz_in,,Logical,Test,"all(taz_in[['AgforF', 'MiningF', 'UtilF', 'ConstrF', 'ManufF', 'WhlsaleF', 'RetailF', 'TrawhseF', 'InfoF', 'FininsF', 'EduK12', 'EduHigh', 'EduOthers', 'RealestF', 'ProftechF', 'MgmtF', 'WastadmnF', 'HealthF', 'ArtsentF', 'FoodlodgF', 'OtherF', 'PublicF']].sum(1) == taz_in['TotEmp'])",,,Employment by type same as total employment
 
-PERSON_Fields_Availability,-1,persons,PERS_ID,Fatal,Test,test_val in persons.columns,"HH_ID,PERS_ID,STDM_TAZ,SEX,AGE,SCHOOL,RLABOR,INDUSTRY,OCCUP,SW_UNSPLIT_IND,SW_OCCUP,SW_SPLIT_IND,WORK_OCC",,Check if person file contains all the required fields for ABM
-Household_Fields_Availability,-1,households,HH_ID,Fatal,Test,test_val in households.columns,"HH_ID,PERSONS,STDM_TAZ,UNITS1,AUTOS,RHHINC,Azone",,
-HH_persons_valueCheck,-1,households,HH_ID,Fatal,Test,"persons.groupby('HH_ID').agg(np = ('HH_ID', 'count')).join((households.set_index('HH_ID'))['PERSONS']).query('np == PERSONS').shape[0] > 0",,,Check if HH persons disagrees with number of persons by HH
-
+#Zonal data Employment by category is equal to Total Employment
+#Total employment is +/- 10% compared to implied number of workers (households * workers per household) at a statewide level
+#County data County Population is equal to County Population by age group 
+#Sum of households * household size is +/- 10% of population at county level
+# Group 3: Post-Populationsim Checks (population),,,,,,,,,
+PERSON_Fields_Availability,3,persons,PERS_ID,Fatal,Test,test_val in persons.columns,"HH_ID,PERS_ID,STDM_TAZ,SEX,AGE,SCHOOL,RLABOR,INDUSTRY,OCCUP,SW_UNSPLIT_IND,SW_OCCUP,SW_SPLIT_IND,WORK_OCC",,Check if person file contains all the required fields for ABM
+Household_Fields_Availability,3,households,HH_ID,Fatal,Test,test_val in households.columns,"HH_ID,PERSONS,STDM_TAZ,UNITS1,AUTOS,RHHINC,Azone",,
+HH_persons_valueCheck,3,households,HH_ID,Fatal,Test,"persons.groupby('HH_ID').agg(np = ('HH_ID', 'count')).join((households.set_index('HH_ID'))['PERSONS']).query('np == PERSONS').shape[0] > 0",,,Check if HH persons disagrees with number of persons by HH
+#Households have at least one person
+#Number of households in synthetic population matches TAZ summary file total households field
+#Number of people in synthetic population +/- 10% of TAZ summary file total persons field
+#Sex of persons must be either 1 or 2
+#Persons age = 0
+#Person school code must be 1, 2, 3, or -9
+#Person employment status (RLABOR) must be 0-6
+#Person RLABOR and WORK_OCC must agree:
+#IF RLABOR = [1, 2, 4] then WORK_OCC must be >0
+#ELSE WORK_OCC must be 0
+#Person industry code must be either 0 or two digits
+#Person employment status and employment code agreement (non-workers do not have an industry, workers have an industry)
+#Household number of autos at least 0
+#Household number of autos valid (1-7)
+#Consistency between network zones and input TAZ input file - (All zones in the network are represented in the TAZ input file and vice-versa)
+#Consistency between the synthetic households and TAZ input file - (All household zones are represented in the TAZ input file)
+# Group 3: Post-Populationsim Checks (network),,,,,,,,,
+Skim check
+All zones included in TAZ input file are connected to the network as both origin and destination
+Network_FFSpeed,3,input_net,,Fatal,Test,"all(input_net.SPEED >= 15)",,,Ensure FF Speed is valid
+Network_Lanes,3,input_net,,Fatal,Test,"all(input_net.LANES > 0)",,,Ensure all links have lanes
+Network_Types,3,input_net,,Fatal,Test,"all(input_net.TYP.isin(['Expressway', 'Highway', 'Freeway', 'Principal Arterial', 'Minor Arterial', 'Collector', 'Local', 'Ramp', 'Centroid']))",,,Ensure all links have a valid type code
+# Trash can
 #Household_Auto_Valid,-1,households,HH_ID,Fatal,Test,,,,
 #HH_hinccat1_valueCheck_agg,-1,households,HH_ID,Warning,Test,"set(households.RHHINC)=={1,2,3,4,5}",,,"Check if Household data matches the pre-defined hinccat1 categories [1 = <$30k, 2 = $30-60k, 3 = $60-100k, 4 = $100-150k, 5 = $150+]"
 #HH_hinccat1_valueCheck_dis,-1,households,HH_ID,Warning,Test,"households.RHHINC.apply(lambda x: True if x in [1,2,3,4,5] else False)",,,"Check if Household data matches the pre-defined hinccat1 categories [1 = <$30k, 2 = $30-60k, 3 = $60-100k, 4 = $100-150k, 5 = $150+]"
