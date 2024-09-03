@@ -30,7 +30,7 @@ IF EXISTS (SELECT *
 	AND TABLE_NAME = 'synpop_hh'
 	AND TABLE_SCHEMA ='dbo')
 		ALTER TABLE [dbo].[synpop_hh] 
-			DROP CONSTRAINT [CK dbo.synpop_hh finalweight 1-2500]
+			DROP CONSTRAINT [CK dbo.synpop_hh finalweight 1-3500]
 	
 IF EXISTS (SELECT * 
 	FROM INFORMATION_SCHEMA.TABLE_CONSTRAINTS
@@ -46,7 +46,7 @@ IF EXISTS (SELECT *
 	AND TABLE_NAME = 'synpop_person'
 	AND TABLE_SCHEMA ='dbo')
 		ALTER TABLE [dbo].[synpop_person] 
-			DROP CONSTRAINT [CK dbo.synpop_person finalweight 1-2500]
+			DROP CONSTRAINT [CK dbo.synpop_person finalweight 1-3500]
 
 ------------------------------------------------------------------------------------
 --Creating an auxiliary table of numbers for inner join
@@ -80,8 +80,8 @@ ALTER TABLE dbo.synpop_hh
 	PRIMARY KEY (tempId)
 
 ALTER TABLE dbo.synpop_hh
-	ADD CONSTRAINT [CK dbo.synpop_hh finalweight 1-2500]
-	CHECK (finalweight BETWEEN 1 AND 2500)
+	ADD CONSTRAINT [CK dbo.synpop_hh finalweight 1-3500]
+	CHECK (finalweight BETWEEN 1 AND 3500)
 
 SELECT * INTO dbo.households
 FROM dbo.synpop_hh AS HH
@@ -105,8 +105,8 @@ ALTER TABLE dbo.synpop_person
 	GO
 
 ALTER TABLE dbo.synpop_person
-	ADD CONSTRAINT [CK dbo.synpop_person finalweight 1-2500]
-	CHECK (finalweight BETWEEN 1 AND 2500)
+	ADD CONSTRAINT [CK dbo.synpop_person finalweight 1-3500]
+	CHECK (finalweight BETWEEN 1 AND 3500)
 	GO
 
 SELECT * INTO dbo.persons

@@ -40,8 +40,8 @@ SET @swOccup_File = (SELECT filename FROM csv_filenames WHERE dsc = 'swOccup_Fil
 --									SETTING UP PUMS DATABASE
 /*###################################################################################################*/
 CREATE TABLE [dbo].[psam_h11](
-	[RT] VARCHAR(5) NULL,
-	[SERIALNO] BIGINT NOT NULL,
+	[RT] NVARCHAR(5) NULL,
+	[SERIALNO] NVARCHAR(60) NOT NULL,
 	[DIVISION] INT NULL,
 	[PUMAOLD] INT NULL, 
 	[PUMA] INT NULL,
@@ -242,8 +242,8 @@ EXEC(@query);
 
 
 CREATE TABLE [dbo].[psam_p11](
-	[RT] VARCHAR(1) NULL,
-	[SERIALNO] BIGINT NOT NULL,
+	[RT] NVARCHAR(5) NULL,
+	[SERIALNO] NVARCHAR(60) NOT NULL,
 	[SPORDER] INT NOT NULL,
 	[PUMAOLD] INT NOT NULL,
 	[PUMA] INT NULL,

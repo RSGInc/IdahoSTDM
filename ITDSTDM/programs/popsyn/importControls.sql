@@ -337,6 +337,6 @@ JOIN dbo.control_totals_taz AS B
     ON T.COUNTYGEOID = B.COUNTYGEOID
 OPTION (LOOP JOIN);
 
-SELECT * FROM control_totals_taz
-SELECT * FROM control_totals_county
-SELECT * FROM control_totals_state
+--SELECT * FROM control_totals_taz
+--SELECT * FROM control_totals_county
+--SELECT * FROM control_totals_state

@@ -32,7 +32,6 @@ SQLCMD -S %SQLSERVER% -d %DATABASE% -E -Q "INSERT INTO csv_filenames(dsc, filena
 SQLCMD -S %SQLSERVER% -d %DATABASE% -E -Q "INSERT INTO csv_filenames(dsc, filename) VALUES ('geographicCWalk_File', %geographicCWalk_File%);" >> "%MY_PATH%\%OUTPUT_FOLDER%\serverLog"
 SQLCMD -S %SQLSERVER% -d %DATABASE% -E -i "%MY_PATH%\programs\popsyn\PUMS Table creation.sql" >> "%MY_PATH%\%OUTPUT_FOLDER%\serverLog"
 SQLCMD -S %SQLSERVER% -d %DATABASE% -E -i "%MY_PATH%\programs\popsyn\importControls.sql" >> "%MY_PATH%\%OUTPUT_FOLDER%\serverLog"
-
 REM ###########################################################################
 
 ECHO %startTime%%Time%
@@ -57,7 +56,7 @@ SQLCMD -S %SQLSERVER% -d %DATABASE% -E -Q "IF OBJECT_ID('%SCENARIO%.persons') IS
 SQLCMD -S %SQLSERVER% -d %DATABASE% -E -Q "IF EXISTS (SELECT * FROM sys.schemas WHERE name = '%SCENARIO%') DROP SCHEMA %SCENARIO%;" >> "%MY_PATH%\%OUTPUT_FOLDER%\serverLog"
 SQLCMD -S %SQLSERVER% -d %DATABASE% -E -Q "CREATE SCHEMA %SCENARIO%;" >> "%MY_PATH%\%OUTPUT_FOLDER%\serverLog"
 SQLCMD -S %SQLSERVER% -d %DATABASE% -E -i "%MY_PATH%\programs\popsyn\outputs.sql" >> "%MY_PATH%\%OUTPUT_FOLDER%\serverLog"
-
+REM ###
 SQLCMD -S %SQLSERVER% -d %DATABASE% -E -Q "SELECT * INTO %SCENARIO%.control_totals_taz FROM dbo.control_totals_taz;" >> "%MY_PATH%\%OUTPUT_FOLDER%\serverLog"
 SQLCMD -S %SQLSERVER% -d %DATABASE% -E -Q "SELECT * INTO %SCENARIO%.control_totals_county FROM dbo.control_totals_county;" >> "%MY_PATH%\%OUTPUT_FOLDER%\serverLog"
 SQLCMD -S %SQLSERVER% -d %DATABASE% -E -Q "SELECT * INTO %SCENARIO%.control_totals_state FROM dbo.control_totals_state;" >> "%MY_PATH%\%OUTPUT_FOLDER%\serverLog"
@@ -66,7 +65,9 @@ SQLCMD -S %SQLSERVER% -d %DATABASE% -E -Q "SELECT * INTO %SCENARIO%.households F
 
 REM # remove row with ----- in SQL tables
 SQLCMD -S %SQLSERVER% -d %DATABASE% -E -s, -W -Q "SET NOCOUNT ON; SELECT * FROM dbo.persons" >  "%MY_PATH%\%OUTPUT_FOLDER%\persons.tmp"
+PAUSE
 TYPE %ABS_PATH%\%OUTPUT_FOLDER%\persons.tmp | findstr /r /v ^\-[,\-]*$ > %ABS_PATH%\%OUTPUT_FOLDER%\persons2.tmp 
+PAUSE
 REM # Replace NULL with -9 and N.A. with -8
 @ECHO OFF
 SETLOCAL EnableExtensions EnableDelayedExpansion
@@ -96,6 +97,6 @@ DEL %ABS_PATH%\%OUTPUT_FOLDER%\households.tmp
 DEL %ABS_PATH%\%OUTPUT_FOLDER%\households2.tmp
 
 REM # Creating a cross walk between Census GEOIDs and PopSyn geographies
-SQLCMD -S %SQLSERVER% -d %DATABASE% -E -s, -W -Q "SET NOCOUNT ON; SELECT STATEFPS, COUNTYFPS, COUNTYGEOID, ZONEGEOID, MAZ, TAZ, ZONEID FROM dbo.control_totals_taz" >  "%MY_PATH%\outputs\CW_CensusID.tmp"
+SQLCMD -S %SQLSERVER% -d %DATABASE% -E -s, -W -Q "SET NOCOUNT ON; SELECT STATEFPS, COUNTYFPS, COUNTYGEOID, ZONEGEOID, MAZ, TAZ, ZONEID FROM dbo.control_totals_taz" >  "%MY_PATH%\%OUTPUT_FOLDER%\CW_CensusID.tmp"
 TYPE %ABS_PATH%\%OUTPUT_FOLDER%\CW_CensusID.tmp | findstr /r /v ^\-[,\-]*$ > %ABS_PATH%\%OUTPUT_FOLDER%\CW_CensusID.csv 
 DEL %ABS_PATH%\%OUTPUT_FOLDER%\CW_CensusID.tmp

@@ -27,22 +27,25 @@
 # 1) PopSyn0_HH.csv: PopSyn0 household file 
 # 2) PopSyn0_Per.csv: PopSyn0 person file 
 
+INPUT_FOLDER <- Sys.getenv("INPUT_FOLDER")
+OUTPUT_FOLDER <- Sys.getenv("OUTPUT_FOLDER")
+
 #--------------------------------------------------------------------------------------------------------
 #Step 1: Read and review the input data
 #--------------------------------------------------------------------------------------------------------
-households <- read.csv("outputs/households.csv",header = T)
+households <- read.csv(file.path(OUTPUT_FOLDER, "households.csv"),header = T)
 names(households)
 
-persons <- read.csv("outputs/persons.csv",header = T)
+persons <- read.csv(file.path(OUTPUT_FOLDER, "persons.csv"),header = T)
 names(persons)
 
-crossWalk <- read.csv("outputs/CW_CensusID.csv",header = T)
+crossWalk <- read.csv(file.path(OUTPUT_FOLDER, "CW_CensusID.csv"),header = T)
 names(crossWalk)
 
-indCode <- read.csv("inputs/popsyn/Industry_Code.csv",header=T)
+indCode <- read.csv(file.path(INPUT_FOLDER, "popsyn/Industry_Code.csv"),header=T)
 names(indCode)
 
-occupCode <- read.csv("inputs/popsyn/Work_Occupation_Code.csv",header=T)
+occupCode <- read.csv(file.path(INPUT_FOLDER, "popsyn/Work_Occupation_Code_upd.csv"),header=T)
 names(occupCode)
 
 #--------------------------------------------------------------------------------------------------------
@@ -151,8 +154,8 @@ persons <- persons[,c("HH_ID","PERS_ID","STDM_TAZ","SEX","AGE","SCHOOL","RLABOR"
 #--------------------------------------------------------------------------------------------------------
 #Step 6: Write out to csv files 
 #--------------------------------------------------------------------------------------------------------
-write.csv(households,file = "outputs/PopSyn0_HH.csv",row.names = F, quote=F)
-write.csv(persons,file = "outputs/PopSyn0_Per.csv",row.names = F, quote=F)
+write.csv(households,file = file.path(OUTPUT_FOLDER, "PopSyn0_HH.csv"),row.names = F, quote=F)
+write.csv(persons,file = file.path(OUTPUT_FOLDER, "PopSyn0_Per.csv"),row.names = F, quote=F)
 
 
 
