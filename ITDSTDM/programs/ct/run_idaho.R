@@ -10,10 +10,17 @@ if(length(args)){
 }
 
 INPUT_FOLDER <- Sys.getenv("INPUT_FOLDER")
+OUTPUT_FOLDER <- Sys.getenv("OUTPUT_FOLDER")
 
 # Read the runtime parameters
 runtime_parameters <- paste("./", INPUT_FOLDER, "/ct/prelim_parameters.txt", sep = "")
 RTP <<- pcvmodr::get_runtime_parameters(runtime_parameters)
+
+for(x in names(RTP)){
+	y = gsub("%INPUT_FOLDER%",INPUT_FOLDER, RTP[[x]], fixed=T)
+	y = gsub("%OUTPUT_FOLDER%",OUTPUT_FOLDER, y, fixed=T)
+	RTP[[x]] = y
+}
 
 # Start the doParallel cluster
 myCluster <- parallel::makeCluster(min(parallel::detectCores(),5),
