@@ -26,13 +26,13 @@ SET INPUT_FOLDER=inputs2020
 SET OUTPUT_FOLDER=outputs_2020
 
 :: Run PopSyn? TRUE or FALSE if FALSE, make sure you have the base or future person/hh info in the output file
-SET POPSYN=FALSE
+SET POPSYN=TRUE
 
 :: The model year for TREDIS and externals
 SET MODEL_YEAR=2020
 
 :: The number of tazs, FALSE!  It is the HIGHEST TAZ ID, not the number of them !!
-SET NZONES=2862
+SET NZONES=6035
 
 :: The location of 64-bit java, RunTpp (Cube), and R
 SET JAVA_PATH=C:\Program Files\Java\jre1.8.0_201\bin
@@ -42,11 +42,8 @@ SET R_PATH=C:\Program Files\R\R-4.4.1\bin
 :: Number of max model feedback iterations and assignment iterations
 SET MAX_ITER=3
 SET ASSIGN_ITER=100
+SET assign_threads=20
 
-:: First Input Check - 
-REM call C:\Users\%USERNAME%\AppData\Local\anaconda3\Scripts\activate.bat py312
-REM python .\programs\python\input_checker.py
-REM conda deactivate
 
 :: Set PT household sample rate by iteration (every 1 in Nth)
 SET SAMPLERATE_ITERATION1=4
@@ -57,8 +54,8 @@ SET SAMPLERATE_ITERATION5=1
 
 :: PopSyn database settings
 SET SCENARIO=BaseYear
-SET SQLSERVER=LOCALHOST\SQLEXPRESS
-SET DATABASE=ITDPopSyn
+SET SQLSERVER=localhost\SQLEXPRESS
+SET DATABASE=ITDPopSynIII
 
 :: Setup system path
 SET WORKDIR=%CD%
@@ -68,12 +65,22 @@ SET PATH=%JAVA_PATH%;%TPP_PATH%;%R_PATH%;%OLD_PATH%
 :: Create the output directory
 IF NOT EXIST %OUTPUT_FOLDER% MKDIR %OUTPUT_FOLDER%
 
+:: First Input Check - 
+ 
+call C:\Users\%USERNAME%\AppData\Local\anaconda3\Scripts\activate.bat py312
+python .\programs\python\input_checker.py --group=1
+IF NOT ERRORLEVEL 0 GOTO DONE
+conda deactivate
+
+runtpp programs\cube\unbuild_net.s
+GOTO DONE
+
 :: -----------------------------------------------------------------------------
 ::
 :: Step 1:  Build Properties Files and Process Files
 ::
 :: -----------------------------------------------------------------------------
-
+GOTO starthere
 :: Date and time of the model start
 ECHO STARTED MODEL RUN  %DATE% %TIME%
 SET ERRORLEVEL=0
@@ -90,9 +97,9 @@ IF NOT ERRORLEVEL 0 GOTO DONE
 IF %POPSYN% == TRUE (
   SET ERRORLEVEL=0
   ECHO RUN POPSYN  %DATE% %TIME%
-  Rscript programs/popsyn/copySettingsFile.R
+  REM Rscript programs/popsyn/copySettingsFile.R
   IF NOT ERRORLEVEL 0 GOTO DONE
-  CALL programs/popsyn/runPopSynIII.bat
+  REM CALL programs/popsyn/runPopSynIII.bat
   IF NOT ERRORLEVEL 0 GOTO DONE
   Rscript programs/popsyn/PopSynIII_to_PopSyn0_V3.R
   IF NOT ERRORLEVEL 0 GOTO DONE
@@ -118,16 +125,31 @@ IF ERRORLEVEL 2 GOTO DONE
 :: -----------------------------------------------------------------------------
 
 :: Convert Cube skims to OMX
-programs\cube\cube2omx.exe  outputs\offpeakcur.mat
+programs\cube\cube2omx.exe  %OUTPUT_FOLDER%\offpeakcur.mat
 IF ERRORLEVEL 2 GOTO DONE
-programs\cube\cube2omx.exe  outputs\peakcur.mat
+programs\cube\cube2omx.exe  %OUTPUT_FOLDER%\peakcur.mat
 IF ERRORLEVEL 2 GOTO DONE
 
 :: Run the freight demand model
+:: Write the parameters (to allow for different input and output folders)
+ECHO scenario_folder = "./%OUTPUT_FOLDER%" > "%INPUT_FOLDER%\CT\prelim_parameters.txt"
+ECHO synthetic_firms = "./%INPUT_FOLDER%/ct/idaho_pseudo_firms.csv" >> "%INPUT_FOLDER%\CT\prelim_parameters.txt"
+ECHO faf_regional_database = "./%INPUT_FOLDER%/ct/FAF4.4.1.zip" >> "%INPUT_FOLDER%\CT\prelim_parameters.txt"
+ECHO faf_outer_regions = "./%INPUT_FOLDER%/ct/idaho_outer_states.csv" >> "%INPUT_FOLDER%\CT\prelim_parameters.txt"
+ECHO faf_region_equivalencies = "./%INPUT_FOLDER%/ct/faf44_zonal_equivalencies.csv" >> "%INPUT_FOLDER%\CT\prelim_parameters.txt"
+ECHO truck_allocation_factors = "./%INPUT_FOLDER%/ct/faf35_truck_allocation_factors.csv" >> "%INPUT_FOLDER%\CT\prelim_parameters.txt"
+ECHO truck_equivalency_factors = "./%INPUT_FOLDER%/ct/faf35_truck_equivalency_factors.csv" >> "%INPUT_FOLDER%\CT\prelim_parameters.txt"
+ECHO empty_truck_factors = "./%INPUT_FOLDER%/ct/faf35_empty_truck_factors.csv" >> "%INPUT_FOLDER%\CT\prelim_parameters.txt"
+ECHO generation_probabilities = "./%INPUT_FOLDER%/ct/qrfm2_generation_rates.csv" >> "%INPUT_FOLDER%\CT\prelim_parameters.txt"
+ECHO temporal_distributions = "./%INPUT_FOLDER%/ct/truck_temporal_distributions.csv" >> "%INPUT_FOLDER%\CT\prelim_parameters.txt"
+ECHO skim_matrices = "./%OUTPUT_FOLDER%/offpeakcur.omx" >> "%INPUT_FOLDER%\CT\prelim_parameters.txt"
+ECHO trip_length_targets = "./%INPUT_FOLDER%/ct/fitted_trip_length_distributions.csv" >> "%INPUT_FOLDER%\CT\prelim_parameters.txt"
+
+:: Run the freight demand model
 SET ERRORLEVEL=0
-Rscript programs/ct/run_idaho.R %MODEL_YEAR%
+REM Rscript programs/ct/run_idaho.R %MODEL_YEAR%
 IF NOT ERRORLEVEL 0 GOTO DONE
-PAUSE
+
 :: -----------------------------------------------------------------------------
 ::
 :: Step 5:  Run external model
@@ -165,9 +187,9 @@ IF %ITERATION% EQU 3 SET PTSAMPLERATE=%SAMPLERATE_ITERATION3%
 IF %ITERATION% EQU 4 SET PTSAMPLERATE=%SAMPLERATE_ITERATION4%
 IF %ITERATION% EQU 5 SET PTSAMPLERATE=%SAMPLERATE_ITERATION5%
 
-IF EXIST "outputs/fileMonitor_event.log" DEL "outputs/fileMonitor_event.log"
-IF EXIST "outputs/node0_event.log" DEL "outputs/node0_event.log"
-IF EXIST "outputs/JavaLog.log" DEL "outputs/JavaLog.log"
+IF EXIST "%OUTPUT_FOLDER%/fileMonitor_event.log" DEL "%OUTPUT_FOLDER%/fileMonitor_event.log"
+IF EXIST "%OUTPUT_FOLDER%/node0_event.log" DEL "%OUTPUT_FOLDER%/node0_event.log"
+IF EXIST "%OUTPUT_FOLDER%/JavaLog.log" DEL "%OUTPUT_FOLDER%/JavaLog.log"
 
 SET ERRORLEVEL=0
 Rscript programs/pt/copyPropertiesFile.R
@@ -176,10 +198,12 @@ IF NOT ERRORLEVEL 0 GOTO DONE
 START "-Dnode = 0" java -cp "programs/pt/pt_idaho.jar;programs/pt" "-Dlog4j.configuration=info_log4j_fileMonitor.xml" -server com.pb.common.daf.admin.FileMonitor "programs/pt/commandFile.txt" "programs/pt/startnode0.properties"
 CMD /C "ping 127.0.0.1 -n 10 > NUL"
 IF ERRORLEVEL 2 GOTO DONE
-java -cp "programs/pt/pt_idaho.jar;programs/pt" -Xmx250m "-Dlog4j.configuration=info_log4j.xml" -server com.pb.idaho.ao.ModelEntry PT "property_file=outputs/pt.properties"
+java -cp "programs/pt/pt_idaho.jar;programs/pt" -Xmx250m "-Dlog4j.configuration=info_log4j.xml" -server com.pb.idaho.ao.ModelEntry PT "property_file=%OUTPUT_FOLDER%/pt.properties"
 IF ERRORLEVEL 2 GOTO DONE
 TASKKILL /IM "java.exe" /F
 
+::DEBUG
+:starthere
 :: -----------------------------------------------------------------------------
 ::
 :: Step 7:  Build demand matrices
@@ -189,7 +213,7 @@ TASKKILL /IM "java.exe" /F
 SET ERRORLEVEL=0
 Rscript programs/pt/build_demand_matrices.R %NZONES% %PTSAMPLERATE%
 IF NOT ERRORLEVEL 0 GOTO DONE
-programs\cube\cube2omx.exe outputs/pt_trips.omx
+programs\cube\cube2omx.exe "%OUTPUT_FOLDER%/pt_trips.omx"
 IF ERRORLEVEL 2 GOTO DONE
 
 :: -----------------------------------------------------------------------------
