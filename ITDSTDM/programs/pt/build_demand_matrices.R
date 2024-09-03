@@ -38,7 +38,7 @@ sampleRate = as.double(commandArgs()[7]) #PT sample rate
 print(paste("sample rate 1 in ", sampleRate))
 
 #omx file name
-omxFileName = file.path(OUTPUT_PATH, "pt_trips.omx")
+omxFileName = file.path(OUTPUT_FOLDER, "pt_trips.omx")
 createFileOMX(omxFileName, length(tazs), length(tazs))
 
 #########################################################################
@@ -46,7 +46,7 @@ createFileOMX(omxFileName, length(tazs), length(tazs))
 #########################################################################
 
 #read and process trip file
-trips = read.csv(file.path(OUTPUT_PATH, "SDTPersonTrips.csv"))
+trips = read.csv(file.path(OUTPUT_FOLDER, "SDTPersonTrips.csv"))
 
 #remove extra fields to save memory
 trips = trips[,c("origin","destination","tripStartTime","tripPurpose","tripMode")]
@@ -118,7 +118,7 @@ rm(trips)
 #########################################################################
 
 #Trips_LDTVehicle contains all the trips (Trips_LDTPerson does not)
-TripsLDT = read.csv(file.path(OUTPUT_PATH, "LDTVehicleTrips.csv"))
+TripsLDT = read.csv(file.path(OUTPUT_FOLDER, "LDTVehicleTrips.csv"))
 
 TripsLDT$amVol = 0
 TripsLDT$mdVol = 0
