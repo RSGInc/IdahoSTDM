@@ -65,9 +65,8 @@ SQLCMD -S %SQLSERVER% -d %DATABASE% -E -Q "SELECT * INTO %SCENARIO%.households F
 
 REM # remove row with ----- in SQL tables
 SQLCMD -S %SQLSERVER% -d %DATABASE% -E -s, -W -Q "SET NOCOUNT ON; SELECT * FROM dbo.persons" >  "%MY_PATH%\%OUTPUT_FOLDER%\persons.tmp"
-PAUSE
 TYPE %ABS_PATH%\%OUTPUT_FOLDER%\persons.tmp | findstr /r /v ^\-[,\-]*$ > %ABS_PATH%\%OUTPUT_FOLDER%\persons2.tmp 
-PAUSE
+
 REM # Replace NULL with -9 and N.A. with -8
 @ECHO OFF
 SETLOCAL EnableExtensions EnableDelayedExpansion
