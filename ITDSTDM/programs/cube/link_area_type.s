@@ -124,7 +124,10 @@ RUN PGM=NETWORK
   linki[1]="%INPUT_FOLDER%/itd.net"
   nodei[2]="%OUTPUT_FOLDER%/node_area_type.txt",VAR=N, AT
   neto="%OUTPUT_FOLDER%/itd.net"
-    
+  
+  PHASE=NODEMERGE
+	AT=NI.2.AT
+  ENDPHASE
   ;set link area type to max of node area types
   phase=linkmerge
     IF(A.AT<=B.AT)
