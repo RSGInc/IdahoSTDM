@@ -3,3 +3,5 @@ persons,spg2.synpopP,All,,Synthetic population person file
 households,spg2.synpopH,All,,Synthetic population household file
 input_net,net.input_net,All,,Unloaded Input Network
 taz_in,taz.input_taz,All,,TAZ Data File
+county_in,taz.county_taz,All,,County Control File
+check_skim,net.check_skim,All,,Check Skim
