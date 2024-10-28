@@ -95,7 +95,7 @@ class input_checker():
 		# remove all commented inputs from the inputs list
 		self.inputs_list = self.inputs_list.loc[[not i for i in (self.inputs_list['Input_Table'].str.startswith('#'))]]
 		self.inputs_list = self.inputs_list.loc[self.inputs_list['Input_Table'].isin(self.inputs_checks.Input_Table)]
-		# obtain file paths from the sandag_abm.properties
+		# obtain file paths from the abm.properties
 		self.prop_file_paths()
 
 		for item, row in self.inputs_list.iterrows():
@@ -233,10 +233,17 @@ class input_checker():
 
 			else:
 				# perform calculation
-				print ('Performing Calculation: ' + row['Test'])
-				calc_expr = test + ' = ' + expr
-				exec(calc_expr, {}, calc_dict)
-				print (' - Calculation Complete')
+				try:
+					print ('Performing Calculation: ' + row['Test'])
+					calc_expr = test + ' = ' + expr
+					exec(calc_expr, {}, calc_dict)
+					print (' - Calculation Complete')
+				except Exception as err:
+					print('There is an error in performing checks.')
+					print(f'test = {test}, expr = {expr}')
+					print(err)
+					sys.exit(2)
+
 
 	def prop_file_paths(self):
 		prop_files = self.inputs_list[['Input_Table','Property_Token']].dropna()
@@ -274,18 +281,18 @@ class input_checker():
 		# write out Header
 		f.write(seperator1 + seperator1 + "\r\n")
 		f.write(seperator1 + seperator1 + "\r\n\r\n")
-		f.write("\t SANDAG ABM Input Checker Log File \r\n")
+		f.write("\t IDT ABM Input Checker Log File \r\n")
 		f.write("\t ____________________________ \r\n\r\n\r\n")
 		f.write("\t Log created on: " + now.strftime("%Y-%m-%d %H:%M") + "\r\n\r\n")
 		f.write("\t Notes:-\r\n")
-		f.write("\t The SANDAG ABM Input Checker performs various QA/QC checks on SANDAG ABM inputs as specified by the user.\r\n")
+		f.write("\t The IDT ABM Input Checker performs various QA/QC checks on IDT ABM inputs as specified by the user.\r\n")
 		f.write("\t The Input Checker allows the user to specify three severity levels for each QA/QC check:\r\n\r\n")
 		f.write("\t 1) FATAL  2) LOGICAL  3) WARNING\r\n\r\n")
-		f.write("\t FATAL Checks:   The failure of these checks would result in a FATAL errors in the SANDAG ABM run.\r\n")
+		f.write("\t FATAL Checks:   The failure of these checks would result in a FATAL errors in the IDT ABM run.\r\n")
 		f.write("\t                 In case of FATAL failure, the Input Checker returns a return code of 1 to the\r\n")
-		f.write("\t                 main SANDAG ABM model, cauing the model run to halt.\r\n")
+		f.write("\t                 main IDT ABM model, cauing the model run to halt.\r\n")
 		f.write("\t LOGICAL Checks: The failure of these checks indicate logical inconsistencies in the inputs.\r\n")
-		f.write("\t                 With logical errors in inputs, the SANDAG ABM outputs may not be meaningful.\r\n")
+		f.write("\t                 With logical errors in inputs, the IDT ABM outputs may not be meaningful.\r\n")
 		f.write("\t WARNING Checks: The failure of Warning checks would indicate problems in data that would not.\r\n")
 		f.write("\t                 halt the run or affect model outputs but might indicate an issue with inputs.\r\n\r\n\r\n")
 		f.write("\t The results of all the checks are organized as follows: \r\n\r\n")
@@ -415,14 +422,7 @@ class input_checker():
 		# write out log for each check
 		for item, row in passed_checks.iterrows():
 			write_check_log(self, f, row)
-
-		#FIXME: remove before flight
-		# f.write('\r\n')
-		# f.write('\t' + 'LIST OF ENVIRONMENT VARIABLES \r\n')
-		# f.write('\t' + '----------------------------- \r\n')
-		# for ev in os.environ:
-		# 	f.write(f'\t{ev} =  {os.environ[ev]} \r\n')
-			
+		
 		f.close()
 		# write out a summary of results from input checker for main model
 		f = open(_join(self.input_checker_path,'logs', ('inputCheckerSummary' + '.txt')), 'w')
@@ -437,8 +437,8 @@ class input_checker():
 	def check_num_fatal(self):
 		# return code to the main model based on input checks and results
 		if self.num_fatal > 0:
-			# _m.logbook_write('At least one fatal error in the inputs.')
-			# _m.logbook_write('Input Checker Failed')
+			print('At least one fatal error in the inputs.')
+			print('Input Checker Failed')
 			sys.exit(2)
 
 if __name__ == "__main__":
@@ -453,7 +453,6 @@ if __name__ == "__main__":
 	print(f"Group = {args.group}")  
 	print('Running IDT Input Checker v 0.0.1')
 	x = input_checker()
-	x.path = r'C:\projects\IdahoSTDM\ITD_STDM\IdahoSTDM\ITDSTDM'
 	if args.group is None:
 		x.group = 0
 	else:
