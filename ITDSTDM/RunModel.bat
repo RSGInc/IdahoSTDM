@@ -21,12 +21,12 @@
 :: Step 0:  File and Folder Setup
 :: 
 :: -----------------------------------------------------------------------------
-
+echo start,%date%,%time% > model_time_log.txt
 SET INPUT_FOLDER=inputs2020
-SET OUTPUT_FOLDER=outputs_2020
+SET OUTPUT_FOLDER=outputs2020
 
 :: Run PopSyn? TRUE or FALSE if FALSE, make sure you have the base or future person/hh info in the output file
-SET POPSYN=TRUE
+SET POPSYN=FALSE
 
 :: The model year for TREDIS and externals
 SET MODEL_YEAR=2020
@@ -61,56 +61,69 @@ SET DATABASE=ITDPopSynIII
 SET WORKDIR=%CD%
 SET OLD_PATH=%PATH%
 SET PATH=%JAVA_PATH%;%TPP_PATH%;%R_PATH%;%OLD_PATH%
-
+set ERRORLEVEL=
 :: Create the output directory
 IF NOT EXIST %OUTPUT_FOLDER% MKDIR %OUTPUT_FOLDER%
 
-:: First Input Check - 
- 
+echo input_ck_1,%date%,%time% >> model_time_log.txt
+:: Input checker
+runtpp programs\cube\unbuild_net.s 
+IF %ERRORLEVEL% NEQ 0 GOTO DONE
 call C:\Users\%USERNAME%\AppData\Local\anaconda3\Scripts\activate.bat py312
-python .\programs\python\input_checker.py --group=1
-IF NOT ERRORLEVEL 0 GOTO DONE
-conda deactivate
 
-runtpp programs\cube\unbuild_net.s
-GOTO DONE
+python .\programs\python\input_checker.py --group=1
+IF %ERRORLEVEL% NEQ 0 GOTO DONE
+call conda deactivate
 
 :: -----------------------------------------------------------------------------
 ::
 :: Step 1:  Build Properties Files and Process Files
 ::
 :: -----------------------------------------------------------------------------
-GOTO starthere
+echo step_1,%date%,%time% >> model_time_log.txt
 :: Date and time of the model start
 ECHO STARTED MODEL RUN  %DATE% %TIME%
 SET ERRORLEVEL=0
 Rscript programs/pt/createTazDataFiles.R
-IF NOT ERRORLEVEL 0 GOTO DONE
+IF %ERRORLEVEL% NEQ 0 GOTO DONE
 
 :: -----------------------------------------------------------------------------
 ::
 :: Step 2:  Run PopSyn if needed
 ::
 :: -----------------------------------------------------------------------------
-
+echo step_2,%date%,%time% >> model_time_log.txt
+:: Input checker
+call C:\Users\%USERNAME%\AppData\Local\anaconda3\Scripts\activate.bat py312
+set ERRORLEVEL=
+python .\programs\python\input_checker.py --group=2
+IF %ERRORLEVEL% NEQ 0 GOTO DONE
+call conda deactivate
+echo popsyn,%date%,%time% >> model_time_log.txt
 :: Run population synthesizer with new TAZ data
 IF %POPSYN% == TRUE (
   SET ERRORLEVEL=0
   ECHO RUN POPSYN  %DATE% %TIME%
-  REM Rscript programs/popsyn/copySettingsFile.R
+  Rscript programs/popsyn/copySettingsFile.R
   IF NOT ERRORLEVEL 0 GOTO DONE
-  REM CALL programs/popsyn/runPopSynIII.bat
+  CALL programs/popsyn/runPopSynIII.bat
   IF NOT ERRORLEVEL 0 GOTO DONE
   Rscript programs/popsyn/PopSynIII_to_PopSyn0_V3.R
   IF NOT ERRORLEVEL 0 GOTO DONE
 )
+:: Input checker - post-PopSyn checks
+call C:\Users\%USERNAME%\AppData\Local\anaconda3\Scripts\activate.bat py312
+SET ERRORLEVEL=
+python .\programs\python\input_checker.py --group=3
+IF %ERRORLEVEL% NEQ 0 GOTO DONE
+call conda deactivate
 
 :: -----------------------------------------------------------------------------
 ::
 :: Step 3:  Generate initial hwy skims
 ::
 :: -----------------------------------------------------------------------------
-
+echo step_3,%date%,%time% >> model_time_log.txt
 :: Code link area type for capacity calculation
 :: Run offpeak highway skimming and copy for peak and assigned version
 runtpp programs/cube/link_area_type.s
@@ -123,7 +136,7 @@ IF ERRORLEVEL 2 GOTO DONE
 :: Step 4:  Run freight demand model
 ::
 :: -----------------------------------------------------------------------------
-
+echo step_4,%date%,%time% >> model_time_log.txt
 :: Convert Cube skims to OMX
 programs\cube\cube2omx.exe  %OUTPUT_FOLDER%\offpeakcur.mat
 IF ERRORLEVEL 2 GOTO DONE
@@ -144,10 +157,10 @@ ECHO generation_probabilities = "./%INPUT_FOLDER%/ct/qrfm2_generation_rates.csv"
 ECHO temporal_distributions = "./%INPUT_FOLDER%/ct/truck_temporal_distributions.csv" >> "%INPUT_FOLDER%\CT\prelim_parameters.txt"
 ECHO skim_matrices = "./%OUTPUT_FOLDER%/offpeakcur.omx" >> "%INPUT_FOLDER%\CT\prelim_parameters.txt"
 ECHO trip_length_targets = "./%INPUT_FOLDER%/ct/fitted_trip_length_distributions.csv" >> "%INPUT_FOLDER%\CT\prelim_parameters.txt"
-
+echo step_4_freight,%date%,%time% >> model_time_log.txt
 :: Run the freight demand model
 SET ERRORLEVEL=0
-REM Rscript programs/ct/run_idaho.R %MODEL_YEAR%
+Rscript programs/ct/run_idaho.R %MODEL_YEAR%
 IF NOT ERRORLEVEL 0 GOTO DONE
 
 :: -----------------------------------------------------------------------------
@@ -155,7 +168,7 @@ IF NOT ERRORLEVEL 0 GOTO DONE
 :: Step 5:  Run external model
 ::
 :: -----------------------------------------------------------------------------
-
+echo step_5,%date%,%time% >> model_time_log.txt
 :: Build external travel demand
 runtpp programs/cube/external.s
 IF ERRORLEVEL 2 GOTO DONE
@@ -170,7 +183,7 @@ SET /A ITERATION=0
 :ITER_START
 SET /A ITERATION+=1
 ECHO ****MODEL ITERATION %ITERATION%
-
+echo iteration_%ITERATION%,%date%,%time% >> model_time_log.txt
 :: Method of Successive Average Network LOS Skims
 runtpp programs/cube/msaSkims.s
 IF ERRORLEVEL 2 GOTO DONE
@@ -194,7 +207,7 @@ IF EXIST "%OUTPUT_FOLDER%/JavaLog.log" DEL "%OUTPUT_FOLDER%/JavaLog.log"
 SET ERRORLEVEL=0
 Rscript programs/pt/copyPropertiesFile.R
 IF NOT ERRORLEVEL 0 GOTO DONE
-
+echo PT_%ITERATION%,%date%,%time% >> model_time_log.txt
 START "-Dnode = 0" java -cp "programs/pt/pt_idaho.jar;programs/pt" "-Dlog4j.configuration=info_log4j_fileMonitor.xml" -server com.pb.common.daf.admin.FileMonitor "programs/pt/commandFile.txt" "programs/pt/startnode0.properties"
 CMD /C "ping 127.0.0.1 -n 10 > NUL"
 IF ERRORLEVEL 2 GOTO DONE
@@ -203,13 +216,13 @@ IF ERRORLEVEL 2 GOTO DONE
 TASKKILL /IM "java.exe" /F
 
 ::DEBUG
-:starthere
+
 :: -----------------------------------------------------------------------------
 ::
 :: Step 7:  Build demand matrices
 ::
 :: -----------------------------------------------------------------------------
-
+echo step_7_%ITERATION%,%date%,%time% >> model_time_log.txt
 SET ERRORLEVEL=0
 Rscript programs/pt/build_demand_matrices.R %NZONES% %PTSAMPLERATE%
 IF NOT ERRORLEVEL 0 GOTO DONE
@@ -221,10 +234,10 @@ IF ERRORLEVEL 2 GOTO DONE
 :: Step 8:  Run hwy assignment
 ::
 :: -----------------------------------------------------------------------------
-
+echo assign_%ITERATION%,%date%,%time% >> model_time_log.txt
 runtpp programs/cube/hwyAssign.s
 IF ERRORLEVEL 2 GOTO DONE
-
+echo end_assign_%ITERATION%,%date%,%time% >> model_time_log.txt
 IF %ITERATION% LSS %MAX_ITER% GOTO ITER_START
 
 :: -----------------------------------------------------------------------------
@@ -261,10 +274,12 @@ GOTO SUCCESS
 
 :: Complete target
 :DONE
+ECHO MODEL ERROR AND DID NOT FINISH SUCCESSFULLY
 ECHO MODEL ERROR AND DID NOT FINISH SUCCESSFULLY > "model_error.txt"
-
+echo model_error,%date%,%time% >> model_time_log.txt
 :SUCCESS
 ECHO MODEL FINISH SUCCESSFULLY > "model_success.txt"
+echo model_complete,%date%,%time% >> model_time_log.txt
 :: Reset the system PATH
 SET PATH=%OLD_PATH%
 
