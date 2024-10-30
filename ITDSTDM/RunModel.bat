@@ -39,6 +39,16 @@ SET JAVA_PATH=C:\Program Files\Java\jre1.8.0_201\bin
 SET TPP_PATH=C:\Program Files (x86)\Citilabs\CubeVoyager
 SET R_PATH=C:\Program Files\R\R-4.4.1\bin
 
+:: Python - Set PY_ENV to true and fill out the rest IF using an 
+:: environment manager (e.g. Anaconda, Mamba, Miniconda)
+::
+:: If using the system's Python, set PY_ENV to FALSE and ignore 
+:: the rest of this section
+SET PY_ENV=TRUE
+SET PY_ACTIVATE="C:\Users\%USERNAME%\AppData\Local\anaconda3\Scripts\activate.bat"
+SET PY_ENV_NAME=py312
+SET PY_DEACTIVATE=conda deactivate
+
 :: Number of max model feedback iterations and assignment iterations
 SET MAX_ITER=3
 SET ASSIGN_ITER=100
@@ -65,16 +75,26 @@ set ERRORLEVEL=
 :: Create the output directory
 IF NOT EXIST %OUTPUT_FOLDER% MKDIR %OUTPUT_FOLDER%
 
+:: -----------------------------------------------------------------------------
+::
+:: Step 0: File Check + Initial Input Checker
+::
+:: -----------------------------------------------------------------------------
 echo input_ck_1,%date%,%time% >> model_time_log.txt
-:: Input checker
+IF %POPSYN% == FALSE (
+	IF NOT EXIST "%OUTPUT_FOLDER%\PopSyn0_Per.csv" (
+		ECHO Not set to run population synthesis and PopSyn0_Per.csv does not exist in the output folder
+		GOTO DONE )
+	IF NOT EXIST "%OUTPUT_FOLDER%\PopSyn0_HH.csv" (
+		ECHO Not set to run population synthesis and PopSyn0_HH.csv does not exist in the output folder
+		GOTO DONE ) )
+		
 runtpp programs\cube\unbuild_net.s 
 IF %ERRORLEVEL% NEQ 0 GOTO DONE
-call C:\Users\%USERNAME%\AppData\Local\anaconda3\Scripts\activate.bat py312
-
+IF %PY_ENV% EQU TRUE call %PY_ACTIVATE% %PY_ENV_NAME% 
 python .\programs\python\input_checker.py --group=1
 IF %ERRORLEVEL% NEQ 0 GOTO DONE
-call conda deactivate
-
+IF %PY_ENV% EQU TRUE call %PY_DEACTIVATE%
 :: -----------------------------------------------------------------------------
 ::
 :: Step 1:  Build Properties Files and Process Files
@@ -94,11 +114,12 @@ IF %ERRORLEVEL% NEQ 0 GOTO DONE
 :: -----------------------------------------------------------------------------
 echo step_2,%date%,%time% >> model_time_log.txt
 :: Input checker
-call C:\Users\%USERNAME%\AppData\Local\anaconda3\Scripts\activate.bat py312
+IF %PY_ENV% EQU TRUE call %PY_ACTIVATE% %PY_ENV_NAME% 
 set ERRORLEVEL=
 python .\programs\python\input_checker.py --group=2
 IF %ERRORLEVEL% NEQ 0 GOTO DONE
-call conda deactivate
+IF %PY_ENV% EQU TRUE call %PY_DEACTIVATE%
+
 echo popsyn,%date%,%time% >> model_time_log.txt
 :: Run population synthesizer with new TAZ data
 IF %POPSYN% == TRUE (
@@ -112,11 +133,11 @@ IF %POPSYN% == TRUE (
   IF NOT ERRORLEVEL 0 GOTO DONE
 )
 :: Input checker - post-PopSyn checks
-call C:\Users\%USERNAME%\AppData\Local\anaconda3\Scripts\activate.bat py312
+IF %PY_ENV% EQU TRUE call %PY_ACTIVATE% %PY_ENV_NAME%  
 SET ERRORLEVEL=
 python .\programs\python\input_checker.py --group=3
 IF %ERRORLEVEL% NEQ 0 GOTO DONE
-call conda deactivate
+IF %PY_ENV% EQU TRUE call %PY_DEACTIVATE%
 
 :: -----------------------------------------------------------------------------
 ::
