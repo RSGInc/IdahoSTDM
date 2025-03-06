@@ -4,8 +4,8 @@
 ;Input file: itd.net,taz_area.csv
 ;Output file: offpeakprev.mat TIME, DISTANCE, ZEROS; cc.csv  
   
-NZONES = 6035 
-GAPEND = 6000 
+NZONES = %NZONES% 
+GAPEND = %FEXT%
 
 RUN PGM=HIGHWAY 
   
@@ -20,7 +20,9 @@ RUN PGM=HIGHWAY
   ENDPHASE
      
   PHASE=ILOOP
-    PATHLOAD PATH=COST,MW[1]=pathtrace(LW.IMPEDA),MW[2]=pathtrace(LI.MILES)
+    PATHLOAD PATH=COST,
+		MW[1]=pathtrace(LW.IMPEDA), NOACCESS = 0,
+		MW[2]=pathtrace(LI.MILES), NOACCESS = 0
     COMP MW[1][I]= 0.5 * lowest(1,3,0.001,9999,I)/max(1,lowcnt)
     COMP MW[2][I]= 0.5 * lowest(2,3,0.001,9999,I)/max(1,lowcnt)
     COMP MW[3][I]= 0
