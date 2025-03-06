@@ -521,6 +521,8 @@ UPDATE #tempHH SET nwrkrs_esr = 0 WHERE nwrkrs_esr IS NULL
 
 --Adjusting the household income to 2000 inflation adjusted dollars
 -- 2000$s = (Reported income)*(Rolling reference factor for 2010)*(Inflation adjustment for 2010)/Inflation adjustment for 2000
+-- DANGER HERE BE DRAGONS. This should NOT be coded this way.
+
 UPDATE #tempHH
 	SET hhincAdj = (CASE
 						WHEN ADJINC=1102938 THEN (((hincp/1.0)*1.016787*1.05156)/1.266113)
@@ -528,6 +530,13 @@ UPDATE #tempHH
 						WHEN ADJINC=1048026 THEN (((hincp/1.0)*0.999480*1.01651)/1.266113)
 						WHEN ADJINC=1039407 THEN (((hincp/1.0)*1.007624*1.00000)/1.266113)
 						WHEN ADJINC=1018237 THEN (((hincp/1.0)*1.018237*0.96942)/1.266113)
+						--2020 updates...2016..2020, ADJINC adjusts to 2020, then adj back down to 2000
+						WHEN ADJINC=1086849 THEN (((hincp/1.0)*1.086849)/(258.8/172.2))
+						WHEN ADJINC=1067771 THEN (((hincp/1.0)*1.067771)/(258.8/172.2))
+						WHEN ADJINC=1044328 THEN (((hincp/1.0)*1.044328)/(258.8/172.2))
+						WHEN ADJINC=1022755 THEN (((hincp/1.0)*1.022755)/(258.8/172.2))
+						WHEN ADJINC=1006149 THEN (((hincp/1.0)*1.006149)/(258.8/172.2))
+						
 						ELSE 999
 					END)
 					
