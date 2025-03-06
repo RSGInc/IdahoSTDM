@@ -29,17 +29,23 @@
 ;----------------------------------------------------------------------------------------------
 ;Parameters
 ;----------------------------------------------------------------------------------------------
- 
- NZONES = %NZONES% ;no. of zones
- MAXITERANS = 1 ;no. of iterations in the assignment proecedure 
- HWYNET = 'itd.net' ;itd network file
- NEXTERNALS = 35 ;no. of external stations 
- FEXT = 6001 ;first external station
- LEXT = %NZONES% ;last external station 
- YEAR = %MODEL_YEAR% ;forecast year
+ ;no. of zones
+ NZONES = %NZONES% 
+ ;no. of iterations in the assignment proecedure 
+ MAXITERANS = 1 
+ ;itd network file
+ HWYNET = 'itd.net' 
+ ;no. of external stations 
+ NEXTERNALS = %NEXTERNALS% 
+ ;first external station
+ FEXT = %FEXT% 
+ ;last external station 
+ LEXT = %NZONES% 
+ ;forecast year
+ YEAR = %MODEL_YEAR% 
  
  COMP dummy = '4344,5586,5600,5621,5631,5640,5654-5659,5661-5665,5668,5670,5671';dummy external taz
- COMP externals = '6001-%NZONES%';external stations
+ COMP externals = '%FEXT%-%NZONES%';external stations
 
  APPLY = 1 ;run in application mode so use input seed.mat instead of creating it
 
