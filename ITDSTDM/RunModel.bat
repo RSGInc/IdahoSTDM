@@ -10,10 +10,10 @@
 :: 3) Generate initial hwy skims
 :: 4) Run freight demand model
 :: 5) Run external model
-:: Loop up to MAX_ITER
-::   6) Run person demand model
-::   7) Build demand matrices
-::   8) Run hwy assignment
+:: Loop 6-8 up to MAX_ITER
+:: 6) Run person demand model
+:: 7) Build demand matrices
+:: 8) Run hwy assignment
 :: 9) TREDIS output report
 
 :: -----------------------------------------------------------------------------
@@ -28,16 +28,27 @@ SET OUTPUT_FOLDER=outputs2020
 :: Run PopSyn? TRUE or FALSE if FALSE, make sure you have the base or future person/hh info in the output file
 SET POPSYN=FALSE
 
-:: The model year for TREDIS and externals
+:: The model year and the base year for TREDIS and externals
+SET BASE_YEAR=2020
 SET MODEL_YEAR=2020
 
-:: The number of tazs, FALSE!  It is the HIGHEST TAZ ID, not the number of them !!
+:: Highest sequential zone number in tazs.csv
 SET NZONES=6035
 
+:: Count of external gates in externals.csv
+SET NEXTERNALS=35
+
+:: First external station
+SET FEXT=6001
+
 :: The location of 64-bit java, RunTpp (Cube), and R
-SET JAVA_PATH=C:\Program Files\Java\jre1.8.0_201\bin
+SET JAVA_PATH=C:\Program Files\Java\jre-1.8\bin
+:: CUBE 6.5.1
 SET TPP_PATH=C:\Program Files (x86)\Citilabs\CubeVoyager
-SET R_PATH=C:\Program Files\R\R-4.4.1\bin
+:: Define the path to the CubeConvert executable in the new CUBE June 2026
+SET "CUBE_CONVERT=C:\Program Files\Bentley\OpenPaths\CUBE 25.00.01\CubeConvert.exe"
+:: Local R Installation with all required packages (travels with the model files)
+SET R_PATH=E:\E-Data\Projects\Clients\ITD\IdahoSTDM\Software\R-4.1.0\bin
 
 :: Python - Set PY_ENV to true and fill out the rest IF using an 
 :: environment manager (e.g. Anaconda, Mamba, Miniconda)
@@ -45,7 +56,7 @@ SET R_PATH=C:\Program Files\R\R-4.4.1\bin
 :: If using the system's Python, set PY_ENV to FALSE and ignore 
 :: the rest of this section
 SET PY_ENV=TRUE
-SET PY_ACTIVATE="C:\Users\%USERNAME%\AppData\Local\anaconda3\Scripts\activate.bat"
+SET PY_ACTIVATE="C:\ProgramData\anaconda3\Scripts\activate.bat"
 SET PY_ENV_NAME=py312
 SET PY_DEACTIVATE=conda deactivate
 
@@ -53,7 +64,6 @@ SET PY_DEACTIVATE=conda deactivate
 SET MAX_ITER=3
 SET ASSIGN_ITER=100
 SET assign_threads=20
-
 
 :: Set PT household sample rate by iteration (every 1 in Nth)
 SET SAMPLERATE_ITERATION1=4
@@ -92,7 +102,7 @@ IF %POPSYN% == FALSE (
 runtpp programs\cube\unbuild_net.s 
 IF %ERRORLEVEL% NEQ 0 GOTO DONE
 IF %PY_ENV% EQU TRUE call %PY_ACTIVATE% %PY_ENV_NAME% 
-python .\programs\python\input_checker.py --group=1
+python .\programs\python\input_checker\input_checker.py --group=1
 IF %ERRORLEVEL% NEQ 0 GOTO DONE
 IF %PY_ENV% EQU TRUE call %PY_DEACTIVATE%
 :: -----------------------------------------------------------------------------
@@ -116,7 +126,7 @@ echo step_2,%date%,%time% >> model_time_log.txt
 :: Input checker
 IF %PY_ENV% EQU TRUE call %PY_ACTIVATE% %PY_ENV_NAME% 
 set ERRORLEVEL=
-python .\programs\python\input_checker.py --group=2
+python .\programs\python\input_checker\input_checker.py --group=2
 IF %ERRORLEVEL% NEQ 0 GOTO DONE
 IF %PY_ENV% EQU TRUE call %PY_DEACTIVATE%
 
@@ -135,7 +145,7 @@ IF %POPSYN% == TRUE (
 :: Input checker - post-PopSyn checks
 IF %PY_ENV% EQU TRUE call %PY_ACTIVATE% %PY_ENV_NAME%  
 SET ERRORLEVEL=
-python .\programs\python\input_checker.py --group=3
+python .\programs\python\input_checker\input_checker.py --group=3
 IF %ERRORLEVEL% NEQ 0 GOTO DONE
 IF %PY_ENV% EQU TRUE call %PY_DEACTIVATE%
 
@@ -146,9 +156,9 @@ IF %PY_ENV% EQU TRUE call %PY_DEACTIVATE%
 :: -----------------------------------------------------------------------------
 echo step_3,%date%,%time% >> model_time_log.txt
 :: Code link area type for capacity calculation
-:: Run offpeak highway skimming and copy for peak and assigned version
 runtpp programs/cube/link_area_type.s
 IF ERRORLEVEL 2 GOTO DONE
+:: Run offpeak highway skimming and copy to OMX for peak and assigned version
 runtpp programs/cube/offPeakSkims.s
 IF ERRORLEVEL 2 GOTO DONE
 
@@ -158,13 +168,9 @@ IF ERRORLEVEL 2 GOTO DONE
 ::
 :: -----------------------------------------------------------------------------
 echo step_4,%date%,%time% >> model_time_log.txt
-:: Convert Cube skims to OMX
-programs\cube\cube2omx.exe  %OUTPUT_FOLDER%\offpeakcur.mat
-IF ERRORLEVEL 2 GOTO DONE
-programs\cube\cube2omx.exe  %OUTPUT_FOLDER%\peakcur.mat
-IF ERRORLEVEL 2 GOTO DONE
 
-:: Run the freight demand model
+:: Removed the matrix conversion steps from here, not needed - June 2026
+
 :: Write the parameters (to allow for different input and output folders)
 ECHO scenario_folder = "./%OUTPUT_FOLDER%" > "%INPUT_FOLDER%\CT\prelim_parameters.txt"
 ECHO synthetic_firms = "./%INPUT_FOLDER%/ct/idaho_pseudo_firms.csv" >> "%INPUT_FOLDER%\CT\prelim_parameters.txt"
@@ -221,9 +227,9 @@ IF %ITERATION% EQU 3 SET PTSAMPLERATE=%SAMPLERATE_ITERATION3%
 IF %ITERATION% EQU 4 SET PTSAMPLERATE=%SAMPLERATE_ITERATION4%
 IF %ITERATION% EQU 5 SET PTSAMPLERATE=%SAMPLERATE_ITERATION5%
 
-IF EXIST "%OUTPUT_FOLDER%/fileMonitor_event.log" DEL "%OUTPUT_FOLDER%/fileMonitor_event.log"
-IF EXIST "%OUTPUT_FOLDER%/node0_event.log" DEL "%OUTPUT_FOLDER%/node0_event.log"
-IF EXIST "%OUTPUT_FOLDER%/JavaLog.log" DEL "%OUTPUT_FOLDER%/JavaLog.log"
+IF EXIST "%OUTPUT_FOLDER%\fileMonitor_event.log" DEL "%OUTPUT_FOLDER%\fileMonitor_event.log"
+IF EXIST "%OUTPUT_FOLDER%\node0_event.log" DEL "%OUTPUT_FOLDER%\node0_event.log"
+IF EXIST "%OUTPUT_FOLDER%\JavaLog.log" DEL "%OUTPUT_FOLDER%\JavaLog.log"
 
 SET ERRORLEVEL=0
 Rscript programs/pt/copyPropertiesFile.R
@@ -247,6 +253,8 @@ echo step_7_%ITERATION%,%date%,%time% >> model_time_log.txt
 SET ERRORLEVEL=0
 Rscript programs/pt/build_demand_matrices.R %NZONES% %PTSAMPLERATE%
 IF NOT ERRORLEVEL 0 GOTO DONE
+:: Convert pt_trips.omx to CUBE format for assignment - June 2026
+:: "%CUBE_CONVERT%" -f omx-to6 -s "%OUTPUT_FOLDER%/pt_trips.omx" -d "%OUTPUT_FOLDER%/pt_trips.mat" 
 programs\cube\cube2omx.exe "%OUTPUT_FOLDER%/pt_trips.omx"
 IF ERRORLEVEL 2 GOTO DONE
 
