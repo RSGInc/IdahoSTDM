@@ -68,7 +68,7 @@ class input_checker():
 			raise
 
 	def __call__(self):
-		self.input_checker_path = _join(self.path, 'inputs', 'input_checker')
+		self.input_checker_path = _join(self.path, 'inputs2020', 'input_checker')
 		self.inputs_list_path = _join(self.input_checker_path, 'inputs_list.csv')
 		self.inputs_checks_path = _join(self.input_checker_path, 'inputs_checks.csv')
 
@@ -268,11 +268,11 @@ class input_checker():
 		now = datetime.datetime.now()
 
 		# create log directory if it doesn't already exist
-		log_path = _join(self.path,'logs')
+		log_path = _join(self.input_checker_path,'logs')
 		if not os.path.exists(log_path):
 			os.makedirs(log_path)
 		print(f"Log path writing to {log_path}")
-		f = open(_join(self.path,'logs', ('inputCheckerLog ' + now.strftime("[%Y-%m-%d]") + '_' + str(self.group) + '.LOG')), 'w')
+		f = open(_join(self.input_checker_path,'logs', ('inputCheckerLog ' + now.strftime("[%Y-%m-%d]") + '_' + str(self.group) + '.LOG')), 'w')
 		
 		# define re-usable elements
 		seperator1 = '###########################################################'
