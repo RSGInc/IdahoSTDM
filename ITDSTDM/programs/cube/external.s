@@ -1052,7 +1052,7 @@ BY = %BASE_YEAR%
 
 ;copy seed matrix from inputs to outputs folder
 IF (APPLY=1)
-  *XCOPY "%INPUT_FOLDER%\newseed.mat" "%OUTPUT_FOLDER%\seed.mat"* /Y
+  *XCOPY "%INPUT_FOLDER%\seed.mat" "%OUTPUT_FOLDER%\seed.mat"* /Y
 ENDIF
 
 
