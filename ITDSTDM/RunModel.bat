@@ -45,8 +45,6 @@ SET FEXT=6001
 SET JAVA_PATH=C:\Program Files\Java\jre-1.8\bin
 :: CUBE 6.5.1
 SET TPP_PATH=C:\Program Files (x86)\Citilabs\CubeVoyager
-:: Define the path to the CubeConvert executable in the new CUBE June 2026
-SET "CUBE_CONVERT=C:\Program Files\Bentley\OpenPaths\CUBE 25.00.01\CubeConvert.exe"
 :: Local R Installation with all required packages (travels with the model files)
 SET R_PATH=E:\E-Data\Projects\Clients\ITD\IdahoSTDM\Software\R-4.1.0\bin
 
@@ -254,7 +252,6 @@ SET ERRORLEVEL=0
 Rscript programs/pt/build_demand_matrices.R %NZONES% %PTSAMPLERATE%
 IF NOT ERRORLEVEL 0 GOTO DONE
 :: Convert pt_trips.omx to CUBE format for assignment - June 2026
-:: "%CUBE_CONVERT%" -f omx-to6 -s "%OUTPUT_FOLDER%/pt_trips.omx" -d "%OUTPUT_FOLDER%/pt_trips.mat" 
 programs\cube\cube2omx.exe "%OUTPUT_FOLDER%/pt_trips.omx"
 IF ERRORLEVEL 2 GOTO DONE
 
