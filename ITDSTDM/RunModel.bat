@@ -1,4 +1,18 @@
 @ECHO OFF
+SETLOCAL
+
+IF NOT DEFINED LOGGING (
+    SET LOGGING=1
+    SET LOGFILE=%~dp0RunModel_%DATE:~-4%%DATE:~4,2%%DATE:~7,2%_%TIME:~0,2%%TIME:~3,2%%TIME:~6,2%.log
+
+    ECHO Writing console output to:
+    ECHO %LOGFILE%
+    ECHO.
+
+    CALL "%~f0" %* 2^>^&1 | powershell -NoProfile -ExecutionPolicy Bypass -Command "$input | Tee-Object -FilePath '%~dp0RunModel_%DATE:~-4%%DATE:~4,2%%DATE:~7,2%_%TIME:~0,2%%TIME:~3,2%%TIME:~6,2%.log'"
+    EXIT /B %ERRORLEVEL%
+)
+
 :: RunModel.bat
 :: DOS batch file to execute the ITD Statewide Travel Demand Model
 :: Ben Stabler, ben.stabler@rsginc.com 02/09/15
@@ -310,3 +324,4 @@ echo model_complete,%date%,%time% >> model_time_log.txt
 SET PATH=%OLD_PATH%
 
 ECHO FINISHED
+SET LOGGING=0

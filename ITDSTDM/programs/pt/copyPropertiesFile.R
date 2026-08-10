@@ -8,24 +8,25 @@
 INPUT_FOLDER <- Sys.getenv("INPUT_FOLDER")
 OUTPUT_FOLDER <- Sys.getenv("OUTPUT_FOLDER")
 WORK_DIR <- Sys.getenv("WORKDIR")
+PTSAMPLERATE <- Sys.getenv("PTSAMPLERATE")
 
 file_names1 = c("pt.properties")
 file_names2 = c("info_log4j.xml", "info_log4j_fileMonitor.xml", "info_log4j_node0.xml", "RunParams.properties")
 
 for(f in file_names1){
-	fileName = file.path(INPUT_FOLDER, f)
+	fileName = file.path(INPUT_FOLDER, "PT", "configuration", f)
 	outFileName = file.path(OUTPUT_FOLDER, f)
 	pt = scan(fileName,what="", sep="\n")
 	pt = gsub("%WORKDIR%",WORK_DIR, pt, fixed=T)
 	pt = gsub("%INPUT_FOLDER%",INPUT_FOLDER, pt, fixed=T)
 	pt = gsub("%OUTPUT_FOLDER%",Sys.getenv("OUTPUT_FOLDER"), pt, fixed=T)
 
-	pt = gsub("%PTSAMPLERATE%",Sys.getenv("PTSAMPLERATE"), pt)
+	pt = gsub("%PTSAMPLERATE%",PTSAMPLERATE, pt)
 	writeLines(pt, outFileName)
 }
 
 for(f in file_names2){
-	fileName = file.path(INPUT_FOLDER, f)
+	fileName = file.path(INPUT_FOLDER, "PT", "configuration", f)
 	outFileName = file.path(WORK_DIR, "programs", "pt", f)
 	pt = scan(fileName,what="", sep="\n")
 	pt = gsub("%WORKDIR%",WORK_DIR, pt, fixed=T)
