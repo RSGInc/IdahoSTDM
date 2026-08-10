@@ -85,12 +85,14 @@ RUN PGM = MATRIX MSG = "Aggregate AM peak trip matrices by user class"
   MATI[1] = "%OUTPUT_FOLDER%\pt_trips.mat"
   FILEI MATI[2] = "%OUTPUT_FOLDER%\exported_truck_trips.csv", PATTERN=IJM:V FIELDS=#1,2,0,4,3 SKIPRECS=1
   MATI[3] = "%OUTPUT_FOLDER%\externals.mat"
-  FILEO MATO[1]= "%OUTPUT_FOLDER%\ampeaktrips.mat", MO=1-9, DEC=5*5, Name=SOVS,HOV2S,HOV3PS,SUT,MUT,EXT,SOVL,HOV2L,HOV3PL
+  FILEO MATO[1]= "%OUTPUT_FOLDER%\ampeaktrips.mat", MO=1-9, Name=SOVS,HOV2S,HOV3PS,SUT,MUT,EXT,SOVL,HOV2L,HOV3PL
+
+  ZONES=%NZONES%
 
   MW[1]=mi.1.SAMDA  
   MW[2]=mi.1.SAMSR2
   MW[3]=mi.1.SAMSR3P
-  MW[4]=mi.2.1    ;use first V field from matrix 2 (CT) which happens to be the forth field in the MATI[2] statement
+  MW[4]=mi.2.1    ;use first V field from matrix 2 (CT) which happens to be the fourth field in the MATI[2] statement
   MW[5]=mi.2.2    ;use second V field from matrix 2 (CT) which happens to be the fifth field in the MATI[2] statement
   MW[6]=mi.3.EXTERNALS * @amPeakExtFactor@
   MW[7]=mi.1.LAMDA 
@@ -117,7 +119,9 @@ RUN PGM = MATRIX MSG = "Aggregate MD trip matrices by user class"
   ;MATI[2] = "%OUTPUT_FOLDER%\truck_trips.mat"
   FILEI MATI[2] = "%OUTPUT_FOLDER%\exported_truck_trips.csv", PATTERN=IJM:V FIELDS=#1,2,0,6,5 SKIPRECS=1
   MATI[3] = "%OUTPUT_FOLDER%\externals.mat"
-  FILEO MATO[1]= "%OUTPUT_FOLDER%\mdpeaktrips.mat", MO=1-9, DEC=5*5, Name=SOVS,HOV2S,HOV3PS,SUT,MUT,EXT,SOVL,HOV2L,HOV3PL
+  FILEO MATO[1]= "%OUTPUT_FOLDER%\mdpeaktrips.mat", MO=1-9, Name=SOVS,HOV2S,HOV3PS,SUT,MUT,EXT,SOVL,HOV2L,HOV3PL
+
+  ZONES=%NZONES%
 
   MW[1]=mi.1.SMDDA
   MW[2]=mi.1.SMDSR2
@@ -149,7 +153,9 @@ RUN PGM = MATRIX MSG = "Aggregate PM peak trip matrices by user class"
   ;MATI[2] = "%OUTPUT_FOLDER%\truck_trips.mat"
   FILEI MATI[2] = "%OUTPUT_FOLDER%\exported_truck_trips.csv", PATTERN=IJM:V FIELDS=#1,2,0,10,9 SKIPRECS=1
   MATI[3] = "%OUTPUT_FOLDER%\externals.mat"
-  FILEO MATO[1]= "%OUTPUT_FOLDER%\pmpeaktrips.mat", MO=1-9, DEC=5*5, Name=SOVS,HOV2S,HOV3PS,SUT,MUT,EXT,SOVL,HOV2L,HOV3PL
+  FILEO MATO[1]= "%OUTPUT_FOLDER%\pmpeaktrips.mat", MO=1-9, Name=SOVS,HOV2S,HOV3PS,SUT,MUT,EXT,SOVL,HOV2L,HOV3PL
+
+  ZONES=%NZONES%
 
   MW[1]=mi.1.SPMDA  
   MW[2]=mi.1.SPMSR2
@@ -181,7 +187,9 @@ RUN PGM = MATRIX MSG = "Aggregate NT trip matrices by user class"
   ;MATI[2] = "%OUTPUT_FOLDER%\truck_trips.mat"
   FILEI MATI[2] = "%OUTPUT_FOLDER%\exported_truck_trips.csv", PATTERN=IJM:V FIELDS=#1,2,0,8,7 SKIPRECS=1
   MATI[3] = "%OUTPUT_FOLDER%\externals.mat"
-  FILEO MATO[1]= "%OUTPUT_FOLDER%\ntpeaktrips.mat", MO=1-9, DEC=5*5, Name=SOVS,HOV2S,HOV3PS,SUT,MUT,EXT,SOVL,HOV2L,HOV3PL
+  FILEO MATO[1]= "%OUTPUT_FOLDER%\ntpeaktrips.mat", MO=1-9, Name=SOVS,HOV2S,HOV3PS,SUT,MUT,EXT,SOVL,HOV2L,HOV3PL
+
+  ZONES=%NZONES%
 
   MW[1]=mi.1.SNTDA 
   MW[2]=mi.1.SNTSR2 
@@ -210,89 +218,92 @@ ENDRUN
 ; Tag links based on facility and area types
 RUN PGM=NETWORK MSG = "Tag links and assign hourly link capacity"
    
-   NETI = "%OUTPUT_FOLDER%\itd.net"
-   NETO = "%OUTPUT_FOLDER%\itdcap.net"
-   
-   ; Area types: 1 Rural, 2 Urban, 3 CBD
-   ; Facility Types: Centroid, Local, Collector, Expressway, Freeway, Highway, 
-   ;  Minor Arterial, Principal Arterial, Ramp
-    
- PHASE=LINKMERGE
-  
+  NETI = "%OUTPUT_FOLDER%\itd.net"
+  NETO = "%OUTPUT_FOLDER%\itdcap.net"
+
+  ZONES=%NZONES%
+
+  ; Area types: 1 Rural, 2 Urban, 3 CBD
+  ; Facility Types: Centroid, Local, Collector, Expressway, Freeway, Highway, 
+  ;  Minor Arterial, Principal Arterial, Ramp
+
+  PHASE=LINKMERGE
+
+    ZONES=%NZONES% 
     ; Combine expressway, highway, and freeway into freeway for now; expressway and highway 
     ;      are available only in SRTC network
       
-   IF (((TYP='Expressway')|(TYP='Highway')|(TYP='Freeway')) & ((AT = 2)|(AT = 3)))
-         LNKGRP = 1                
-         CAPACITY = 1900     
-   ELSE
-   IF ((TYP='Principal Arterial') & ((AT = 2)|(AT = 3)))
-         LNKGRP = 2                
-         CAPACITY = 900 
-   ELSE
-   IF ((TYP='Minor Arterial') & ((AT = 2)|(AT = 3)))
-         LNKGRP = 3                
-         CAPACITY = 700 
-   ELSE
-   IF ((TYP='Collector') & ((AT = 2)|(AT = 3)))
-         LNKGRP = 4                
-         CAPACITY = 525 
-   ELSE
-   IF ((TYP='Local') & ((AT = 2)|(AT = 3)))
-         LNKGRP = 5                
-         CAPACITY = 500 
-   ELSE
-   IF ((TYP='Ramp') & ((AT = 2)|(AT = 3)))
-         LNKGRP = 6                
-         CAPACITY = 850 
-   ELSE
-   IF ((TYP='Centroid') & ((AT = 2)|(AT = 3)))
-         LNKGRP = 7                
-         CAPACITY = 9999 
-   ELSE
-   IF (((TYP='Expressway')|(TYP='Highway')|(TYP='Freeway')) & (AT = 1))
-         LNKGRP = 8                
-         CAPACITY = 1900     
-   ELSE
-   IF ((TYP='Principal Arterial') & (AT = 1))
-         LNKGRP = 9                
-         CAPACITY = 1200
-   ELSE
-   IF ((TYP='Minor Arterial') & (AT = 1))
-         LNKGRP = 10                
-         CAPACITY = 1200 
-   ELSE
-   IF ((TYP='Collector') & (AT = 1))
-         LNKGRP = 11                
-         CAPACITY = 1000 
-   ELSE
-   IF ((TYP='Local') & (AT = 1))
-         LNKGRP = 12                
-         CAPACITY = 1000 
-   ELSE
-   IF ((TYP='Ramp') & (AT = 1))
-         LNKGRP = 13                
-         CAPACITY = 1000 
-   ELSE
-   IF ((TYP='Centroid') & (AT = 1))
-         LNKGRP = 14                
-         CAPACITY = 9999 
-   ENDIF
-   ENDIF
-   ENDIF
-   ENDIF
-   ENDIF
-   ENDIF
-   ENDIF
-   ENDIF
-   ENDIF
-   ENDIF
-   ENDIF
-   ENDIF
-   ENDIF
-   ENDIF
-    
- ENDPHASE
+    IF (((TYP='Expressway')|(TYP='Highway')|(TYP='Freeway')) & ((AT = 2)|(AT = 3)))
+          LNKGRP = 1                
+          CAPACITY = 1900     
+    ELSE
+    IF ((TYP='Principal Arterial') & ((AT = 2)|(AT = 3)))
+          LNKGRP = 2                
+          CAPACITY = 900 
+    ELSE
+    IF ((TYP='Minor Arterial') & ((AT = 2)|(AT = 3)))
+          LNKGRP = 3                
+          CAPACITY = 700 
+    ELSE
+    IF ((TYP='Collector') & ((AT = 2)|(AT = 3)))
+          LNKGRP = 4                
+          CAPACITY = 525 
+    ELSE
+    IF ((TYP='Local') & ((AT = 2)|(AT = 3)))
+          LNKGRP = 5                
+          CAPACITY = 500 
+    ELSE
+    IF ((TYP='Ramp') & ((AT = 2)|(AT = 3)))
+          LNKGRP = 6                
+          CAPACITY = 850 
+    ELSE
+    IF ((TYP='Centroid') & ((AT = 2)|(AT = 3)))
+          LNKGRP = 7                
+          CAPACITY = 9999 
+    ELSE
+    IF (((TYP='Expressway')|(TYP='Highway')|(TYP='Freeway')) & (AT = 1))
+          LNKGRP = 8                
+          CAPACITY = 1900     
+    ELSE
+    IF ((TYP='Principal Arterial') & (AT = 1))
+          LNKGRP = 9                
+          CAPACITY = 1200
+    ELSE
+    IF ((TYP='Minor Arterial') & (AT = 1))
+          LNKGRP = 10                
+          CAPACITY = 1200 
+    ELSE
+    IF ((TYP='Collector') & (AT = 1))
+          LNKGRP = 11                
+          CAPACITY = 1000 
+    ELSE
+    IF ((TYP='Local') & (AT = 1))
+          LNKGRP = 12                
+          CAPACITY = 1000 
+    ELSE
+    IF ((TYP='Ramp') & (AT = 1))
+          LNKGRP = 13                
+          CAPACITY = 1000 
+    ELSE
+    IF ((TYP='Centroid') & (AT = 1))
+          LNKGRP = 14                
+          CAPACITY = 9999 
+    ENDIF
+    ENDIF
+    ENDIF
+    ENDIF
+    ENDIF
+    ENDIF
+    ENDIF
+    ENDIF
+    ENDIF
+    ENDIF
+    ENDIF
+    ENDIF
+    ENDIF
+    ENDIF
+
+  ENDPHASE
    
 ENDRUN 
 
@@ -304,12 +315,13 @@ ENDRUN
  
 RUN PGM=HIGHWAY MSG = "AM peak highway assignment"
 
-   NETI = "%OUTPUT_FOLDER%\itdcap.net"
-   MATI = "%OUTPUT_FOLDER%\ampeaktrips.mat"
-   NETO = "%OUTPUT_FOLDER%\itdamassign.net"
-   ZONES=@nZones@
+  NETI = "%OUTPUT_FOLDER%\itdcap.net"
+  MATI = "%OUTPUT_FOLDER%\ampeaktrips.mat"
+  NETO = "%OUTPUT_FOLDER%\itdamassign.net"
 
-   DistributeIntrastep processid='ITD', processlist=1-@numthreads@
+  ZONES=%NZONES%
+
+  DistributeIntrastep processid='ITD', processlist=1-@numthreads@
 
   PHASE = LINKREAD
 
@@ -322,8 +334,8 @@ RUN PGM=HIGHWAY MSG = "AM peak highway assignment"
     C = LI.CAPACITY * @amHourFactor@ * LI.LANES
     DISTANCE = LI.MILES
     T0 = (LI.MILES/LI.SPEED)*60
-    ZONES=@nZones@
-    
+    ZONES=%NZONES%
+
     ; Compute pathbuilding impedance. Define it in terms of time. 
     ; Impedance = free flow time + value of time(min/$)*operating cost*distance
     ; No toll
@@ -335,6 +347,9 @@ RUN PGM=HIGHWAY MSG = "AM peak highway assignment"
   ; Load Auto and Truck trips to their appropriate paths
 
   PHASE = ILOOP
+
+    ZONES=%NZONES%
+
     PATHLOAD VOL[1] = MI.1.SOVS, PATH = LW.IMPEDA
     PATHLOAD VOL[2] = MI.1.HOV2S, PATH = LW.IMPEDA
     PATHLOAD VOL[3] = MI.1.HOV3PS, PATH = LW.IMPEDA
@@ -346,9 +361,12 @@ RUN PGM=HIGHWAY MSG = "AM peak highway assignment"
     PATHLOAD VOL[9] = MI.1.HOV3PL, PATH = LW.IMPEDA
     ; Bi-conjugate equilibrium assignment
     PARAMETERS ZONEMSG=100,  MAXITERS=@maxIterns@, COMBINE=EQUI, ENHANCE=2, RELATIVEGAP=@gap@
+
   ENDPHASE 
   
   PHASE = ADJUST
+
+    ZONES=%NZONES%
 
     ; Define volume to be used for V/C calculation
     FUNCTION V = VOL[1] + VOL[2] + VOL[3] + VOL[4]*@trkPCU@ + VOL[5]*@trkPCU@ + VOL[6] + VOL[7] + VOL[8] + VOL[9]
@@ -380,14 +398,14 @@ ENDRUN
 
 RUN PGM=HIGHWAY MSG = "MD offpeak highway assignment"
 
-   NETI = "%OUTPUT_FOLDER%\itdcap.net"
-   MATI = "%OUTPUT_FOLDER%\mdpeaktrips.mat"
-   NETO = "%OUTPUT_FOLDER%\itdmdassign.net"
-   ZONES=@nZones@
+  NETI = "%OUTPUT_FOLDER%\itdcap.net"
+  MATI = "%OUTPUT_FOLDER%\mdpeaktrips.mat"
+  NETO = "%OUTPUT_FOLDER%\itdmdassign.net"
+  ZONES=%NZONES%
 
   PHASE = LINKREAD
 
-     ; Set volume/speed curves by linkgroups.
+    ; Set volume/speed curves by linkgroups.
     LINKCLASS = LI.LNKGRP
       
     ; Coded link capacity represents 1 hour, but trips are for X hours.
@@ -396,10 +414,10 @@ RUN PGM=HIGHWAY MSG = "MD offpeak highway assignment"
     C = LI.CAPACITY * @mdHourFactor@ * LI.LANES
     DISTANCE = LI.MILES
     T0 = (LI.MILES/LI.SPEED)*60
-    ZONES=@nZones@
-     
+    ZONES=%NZONES%
+      
     DistributeIntrastep processid='ITD', processlist=1-@numthreads@
-   
+
     ; Compute pathbuilding impedance. Define it in terms of time. 
     ; Impedance = free flow time + value of time(min/$)*operating cost*distance
     ; No toll
@@ -409,6 +427,9 @@ RUN PGM=HIGHWAY MSG = "MD offpeak highway assignment"
   ENDPHASE
     
   PHASE = ILOOP
+
+    ZONES=%NZONES%
+
     PATHLOAD VOL[1] = MI.1.SOVS, PATH = LW.IMPEDA
     PATHLOAD VOL[2] = MI.1.HOV2S, PATH = LW.IMPEDA
     PATHLOAD VOL[3] = MI.1.HOV3PS, PATH = LW.IMPEDA
@@ -421,10 +442,12 @@ RUN PGM=HIGHWAY MSG = "MD offpeak highway assignment"
 	
     ; Bi-conjugate equilibrium assignment
     PARAMETERS ZONEMSG=100,  MAXITERS=@maxIterns@, COMBINE=EQUI, ENHANCE=2, RELATIVEGAP=@gap@
+
   ENDPHASE 
   
   PHASE = ADJUST
 
+    ZONES=%NZONES%
     ; Define volume to be used for V/C calculation
     FUNCTION V = VOL[1] + VOL[2] + VOL[3] + VOL[4]*@trkPCU@ + VOL[5]*@trkPCU@ + VOL[6] + VOL[7] + VOL[8] + VOL[9]
 
@@ -458,7 +481,7 @@ RUN PGM=HIGHWAY MSG = "PM peak highway assignment"
    NETI = "%OUTPUT_FOLDER%\itdcap.net"
    MATI = "%OUTPUT_FOLDER%\pmpeaktrips.mat"
    NETO = "%OUTPUT_FOLDER%\itdpmassign.net"
-   ZONES=@nZones@
+   ZONES=%NZONES%
 
    DistributeIntrastep processid='ITD', processlist=1-@numthreads@
 
@@ -473,7 +496,7 @@ RUN PGM=HIGHWAY MSG = "PM peak highway assignment"
     C = LI.CAPACITY * @pmHourFactor@ * LI.LANES
     DISTANCE = LI.MILES
     T0 = (LI.MILES/LI.SPEED)*60
-    ZONES=@nZones@
+    ZONES=%NZONES%
     
     ; Compute pathbuilding impedance. Define it in terms of time. 
     ; Impedance = free flow time + value of time(min/$)*operating cost*distance
@@ -486,6 +509,9 @@ RUN PGM=HIGHWAY MSG = "PM peak highway assignment"
   ; Load Auto and Truck trips to their appropriate paths
 
   PHASE = ILOOP
+
+    ZONES=%NZONES%
+
     PATHLOAD VOL[1] = MI.1.SOVS, PATH = LW.IMPEDA
     PATHLOAD VOL[2] = MI.1.HOV2S, PATH = LW.IMPEDA
     PATHLOAD VOL[3] = MI.1.HOV3PS, PATH = LW.IMPEDA
@@ -497,9 +523,12 @@ RUN PGM=HIGHWAY MSG = "PM peak highway assignment"
     PATHLOAD VOL[9] = MI.1.HOV3PL, PATH = LW.IMPEDA
     ; Bi-conjugate equilibrium assignment
     PARAMETERS ZONEMSG=100,  MAXITERS=@maxIterns@, COMBINE=EQUI, ENHANCE=2, RELATIVEGAP=@gap@
+
   ENDPHASE 
   
   PHASE = ADJUST
+
+    ZONES=%NZONES%
 
     ; Define volume to be used for V/C calculation
     FUNCTION V = VOL[1] + VOL[2] + VOL[3] + VOL[4]*@trkPCU@ + VOL[5]*@trkPCU@ + VOL[6] + VOL[7] + VOL[8] + VOL[9]
@@ -534,7 +563,7 @@ RUN PGM=HIGHWAY MSG = "NT offpeak highway assignment"
    NETI = "%OUTPUT_FOLDER%\itdcap.net"
    MATI = "%OUTPUT_FOLDER%\ntpeaktrips.mat"
    NETO = "%OUTPUT_FOLDER%\itdntassign.net"
-   ZONES=@nZones@
+   ZONES=%NZONES%
 
   PHASE = LINKREAD
 
@@ -547,7 +576,7 @@ RUN PGM=HIGHWAY MSG = "NT offpeak highway assignment"
     C = LI.CAPACITY * @ntHourFactor@ * LI.LANES
     DISTANCE = LI.MILES
     T0 = (LI.MILES/LI.SPEED)*60
-    ZONES=@nZones@
+    ZONES=%NZONES%
      
     DistributeIntrastep processid='ITD', processlist=1-@numthreads@
    
@@ -560,6 +589,9 @@ RUN PGM=HIGHWAY MSG = "NT offpeak highway assignment"
   ENDPHASE
     
   PHASE = ILOOP
+
+    ZONES=%NZONES%
+
     PATHLOAD VOL[1] = MI.1.SOVS, PATH = LW.IMPEDA
     PATHLOAD VOL[2] = MI.1.HOV2S, PATH = LW.IMPEDA
     PATHLOAD VOL[3] = MI.1.HOV3PS, PATH = LW.IMPEDA
@@ -572,9 +604,12 @@ RUN PGM=HIGHWAY MSG = "NT offpeak highway assignment"
 	
     ; Bi-conjugate equilibrium assignment
     PARAMETERS ZONEMSG=100,  MAXITERS=@maxIterns@, COMBINE=EQUI, ENHANCE=2, RELATIVEGAP=@gap@
+
   ENDPHASE 
   
   PHASE = ADJUST
+
+    ZONES=%NZONES%
 
     ; Define volume to be used for V/C calculation
     FUNCTION V = VOL[1] + VOL[2] + VOL[3] + VOL[4]*@trkPCU@ + VOL[5]*@trkPCU@ + VOL[6] + VOL[7] + VOL[8] + VOL[9]
@@ -613,6 +648,8 @@ RUN PGM = NETWORK MSG = "Calculate AM peak congested time and speed"
 
   NETI[1]="%OUTPUT_FOLDER%\itdamassign.net"
   NETO="%OUTPUT_FOLDER%\itdamassignfinal.net", exclude = V_1,VC_1,V1_1,V2_1,V3_1,V4_1,V5_1,V6_1,V7_1,V8_1,V9_1,VT_1,V1T_1,V2T_1,V3T_1,V4T_1,V5T_1,V6T_1,V7T_1,V8T_1,V9T_1,VOL,TIME_1
+
+  ZONES=%NZONES%
   
   SOVAMS = LI.1.V1_1
   HOV2AMS = LI.1.V2_1
@@ -641,6 +678,8 @@ RUN PGM = NETWORK MSG = "Calculate MD offpeak congested time and speed"
 
   NETI = "%OUTPUT_FOLDER%\itdmdassign.net"
   NETO="%OUTPUT_FOLDER%\itdmdassignfinal.net", exclude = V_1,VC_1,V1_1,V2_1,V3_1,V4_1,V5_1,V6_1,V7_1,V8_1,V9_1,VT_1,V1T_1,V2T_1,V3T_1,V4T_1,V5T_1,V6T_1,V7T_1,V8T_1,V9T_1,VOL,TIME_1
+
+  ZONES=%NZONES%
   
   SOVMDS  = LI.1.V1_1
   HOV2MDS = LI.1.V2_1
@@ -670,6 +709,8 @@ RUN PGM = NETWORK MSG = "Calculate PM peak congested time and speed"
 
   NETI[1]="%OUTPUT_FOLDER%\itdpmassign.net"
   NETO="%OUTPUT_FOLDER%\itdpmassignfinal.net", exclude = V_1,VC_1,V1_1,V2_1,V3_1,V4_1,V5_1,V6_1,V7_1,V8_1,V9_1,VT_1,V1T_1,V2T_1,V3T_1,V4T_1,V5T_1,V6T_1,V7T_1,V8T_1,V9T_1,VOL,TIME_1
+
+  ZONES=%NZONES%
   
   SOVPMS = LI.1.V1_1
   HOV2PMS = LI.1.V2_1
@@ -698,6 +739,8 @@ RUN PGM = NETWORK MSG = "Calculate NT offpeak congested time and speed"
 
   NETI = "%OUTPUT_FOLDER%\itdntassign.net"
   NETO="%OUTPUT_FOLDER%\itdntassignfinal.net", exclude = V_1,VC_1,V1_1,V2_1,V3_1,V4_1,V5_1,V6_1,V7_1,V8_1,V9_1,VT_1,V1T_1,V2T_1,V3T_1,V4T_1,V5T_1,V6T_1,V7T_1,V8T_1,V9T_1,VOL,TIME_1
+
+  ZONES=%NZONES%
   
   SOVNTS  = LI.1.V1_1
   HOV2NTS = LI.1.V2_1
@@ -729,10 +772,10 @@ RUN PGM = HIGHWAY MSG = "AM Peak highway skims"
 
   NETI = "%OUTPUT_FOLDER%\itdamassignfinal.net"
   MATO = "%OUTPUT_FOLDER%\prepeakcur.mat",MO=1-3,NAME=TIME,DISTANCE,ZEROS     
-  ZONES=@nZones@
-  ZONEMSG=100
+  ZONES=%NZONES%
   
   PHASE = LINKREAD
+    ZONES=%NZONES%
     ; Time using congested speed        
     DISTANCE = LI.MILES
     T0 = 60*LI.MILES/LI.CSPEEDAM
@@ -741,6 +784,7 @@ RUN PGM = HIGHWAY MSG = "AM Peak highway skims"
 
   ; Skim paths
   PHASE = ILOOP
+    ZONES=%NZONES%
     PATHLOAD PATH = LW.IMPEDA, MW[1] = PATHTRACE(TIME,1), MW[2] = PATHTRACE(LI.MILES)
     COMP MW[1][I]= 0.5 * LOWEST(1,3,0.001,9999,I)/MAX(1,LOWCNT) 
     COMP MW[2][I]= 0.5 * LOWEST(2,3,0.001,9999,I)/MAX(1,LOWCNT)
@@ -755,18 +799,18 @@ RUN PGM=MATRIX
     FILEI ZDATI[1] = "%OUTPUT_FOLDER%\cc.csv"
     MATO[1]="%OUTPUT_FOLDER%\peakcur.mat",MO=1-3,NAME=TIME,DISTANCE,ZEROS
      
-    ZONES=@nZones@
+    ZONES=%NZONES%
     
     MW[1] = MI.1.1 
     MW[2] = MI.1.2 
     MW[3] = MI.1.3 
     
     IF(I<@GAPEND@)
-       COMP MW[1][I]= zi.1.CCTIME 
-       COMP MW[2][I]= zi.1.CCMILE        
-     ELSE 
-        COMP MW[1][I]= MW[1][I]
-        COMP MW[2][I]= MW[2][I]
+      COMP MW[1][I]= zi.1.CCTIME 
+      COMP MW[2][I]= zi.1.CCMILE        
+    ELSE 
+      COMP MW[1][I]= MW[1][I]
+      COMP MW[2][I]= MW[2][I]
     ENDIF
     
 ENDRUN
@@ -775,10 +819,11 @@ RUN PGM = HIGHWAY MSG = "MD Offpeak highway skims"
 
   NETI = "%OUTPUT_FOLDER%\itdmdassignfinal.net"
   MATO = "%OUTPUT_FOLDER%\preoffpeakcur.mat",MO=1-3,NAME=TIME,DISTANCE,ZEROS     
-  ZONES=@nZones@
-  ZONEMSG=100
+  ZONES=%NZONES%
 
   PHASE = LINKREAD
+
+    ZONES=%NZONES%
     ; Time using congested speed        
     DISTANCE = LI.MILES
     T0 = 60*LI.MILES/LI.CSPEEDMD
@@ -787,6 +832,7 @@ RUN PGM = HIGHWAY MSG = "MD Offpeak highway skims"
 
   ; Skim paths
   PHASE = ILOOP
+    ZONES=%NZONES%
     PATHLOAD PATH = LW.IMPEDA, MW[1] = PATHTRACE(TIME,1), MW[2] = PATHTRACE(LI.MILES)
     COMP MW[1][I]= 0.5 * LOWEST(1,3,0.001,9999,I)/MAX(1,LOWCNT) 
     COMP MW[2][I]= 0.5 * LOWEST(2,3,0.001,9999,I)/MAX(1,LOWCNT)
@@ -801,18 +847,18 @@ RUN PGM=MATRIX
     FILEI ZDATI[1] = "%OUTPUT_FOLDER%\cc.csv"
     MATO[1]="%OUTPUT_FOLDER%\offpeakcur.mat",MO=1-3,NAME=TIME,DISTANCE,ZEROS
      
-    ZONES=@nZones@
+    ZONES=%NZONES%
     
     MW[1] = MI.1.1 
     MW[2] = MI.1.2 
     MW[3] = MI.1.3 
     
     IF(I<@GAPEND@)
-       COMP MW[1][I]= zi.1.CCTIME 
-       COMP MW[2][I]= zi.1.CCMILE        
-     ELSE 
-        COMP MW[1][I]= MW[1][I]
-        COMP MW[2][I]= MW[2][I]
+      COMP MW[1][I]= zi.1.CCTIME 
+      COMP MW[2][I]= zi.1.CCMILE        
+    ELSE 
+      COMP MW[1][I]= MW[1][I]
+      COMP MW[2][I]= MW[2][I]
     ENDIF
     
 ENDRUN
